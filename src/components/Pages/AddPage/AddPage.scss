@@ -1,0 +1,25 @@
+.addMenu{
+  width:928px;
+  height:92px;
+  border:1px solid #000000;
+  margin:auto;
+  margin-top:34px;
+  margin-bottom:13px;
+  .addTitle{
+    width:135px;height:19px;
+    background: #000000;
+    font:12px/19px "IBMPlexSans","sans-serif";
+    color:#ffffff;
+    text-align:center;
+  }
+  select{
+    display: block;
+    margin:auto;
+    margin-top:7px;
+    width:340px;
+    height:40px;
+    text-align: center;
+    border:1px solid #000000;
+    font:12px/40px "IBMPlexSans","sans-serif";
+  }
+}

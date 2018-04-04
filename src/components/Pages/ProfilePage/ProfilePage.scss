@@ -1,0 +1,112 @@
+.addProfileBtn{
+  width:928px;
+  height:92px;
+  margin:auto;
+  margin-top:64px;
+  background: #f7f7f7;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.5);
+  color:#777777;
+  text-align: center;
+  font:18px/92px "IBMPlexSans","sans-serif";
+  cursor:pointer;
+  span{
+    padding-left: 28px;
+    background: url('/assets/icon-plus-add_profile.svg') no-repeat 0 50%;
+  }
+}
+.addPanel.open{
+  display: block;
+}
+.addPanel{
+  display: none;
+  width:928px;
+  height:300px;
+  border:1px solid #000000;
+  margin:auto;
+  margin-top:34px;
+  margin-bottom:34px;
+  .profileTitle{
+    width:135px;height:19px;
+    background: #000000;
+    font:12px/19px "IBMPlexSans","sans-serif";
+    color:#ffffff;
+    text-align:center;
+  }
+  .profileLeft{
+    float:left;
+    width:200px;
+    height:200px;
+    border:1px solid #000000;
+    margin-top:35px;
+    margin-left:87px;
+    position: relative;
+    cursor: pointer;
+    background: url('/assets/icon-plus.svg') no-repeat 50% 50%;
+
+    input{
+      width: 100%;
+      display: block;
+      height: 100%;
+      font-size: 0;
+      border: 0 none;
+      background: 0;
+      opacity: 0;
+    }
+  }
+  .profileRight{
+    float:left;
+    margin-left:25px;
+    margin-top:35px;
+    .rightText{
+      .rightInput{
+        display: inline-block;
+        width:252px; height:40px;
+        border:1px solid #000000;
+        box-sizing: border-box;
+        text-align: center;
+        background:#f7f7f7;
+        input{
+          width:90%;
+          margin: 12px;
+          text-align: center;
+          background: none;
+          border: 0 none;
+          font:12px/15px "IBMPlexSans","sans-serif";
+        }
+      }
+      .rightInput.first{
+        margin-right:25px;
+      }
+    }
+    .textArea{
+      display: block;
+      margin-top:20px;
+      width:529px; height:80px;
+      border:1px solid #000000;
+      text-align: center;
+      background:#f7f7f7;
+      box-sizing: border-box;
+    }
+    textarea{
+      width:95%;
+      height: 54px;
+      font:14px/18px "IBMPlexSans","sans-serif";
+      margin: 10px;
+      text-align: center;
+      background: none;
+      border: 0 none;
+      resize:none;
+    }
+    button{
+      margin-top:20px;
+      display: block;
+      width:154px; height:40px;
+      text-align: center;
+      background:#000000;
+      border:0 none;
+      color:#ffffff;
+      cursor:pointer;
+      font:14px/40px "IBMPlexSans","sans-serif";
+    }
+  }
+}

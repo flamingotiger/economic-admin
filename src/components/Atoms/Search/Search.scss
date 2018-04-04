@@ -1,0 +1,17 @@
+.search{
+  display: block;
+  position: relative;
+  left: 650px;
+  width:252px; height:40px;
+  border:1px solid #000000;
+  box-sizing: border-box;
+  background:#f7f7f7;
+  margin-bottom:15px;
+  input{
+    width:90%;
+    margin: 9px;
+    background: none;
+    border: 0 none;
+    font:14px/18px "IBMPlexSans","sans-serif";
+  }
+}

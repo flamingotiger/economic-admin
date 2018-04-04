@@ -1,0 +1,37 @@
+.loginFrom{
+  width:678px;
+  height:606px;
+  margin:auto;
+  margin-top:104px;
+  margin-bottom:209px;
+  border:1px solid #d7d7d7;
+  form{
+    padding-top:205px;
+    width:300px;
+    margin:auto;
+    .loginInput{
+      input{
+        font:14px/18px "IBMPlexSans","sans-serif";
+        margin: 10px;
+        width: 90%;
+        background: none;
+        border:0 none;
+      }
+      height:40px;
+      border:1px solid #000000;
+      box-sizing: border-box;
+      margin-bottom: 20px;
+    }
+    button{
+      display: block;
+      width:154px;
+      height:40px;
+      margin-top:20px;
+      font:14px/40px "IBMPlexSans","sans-serif";
+      background: #000000;
+      color:#ffffff;
+      text-align: center;
+      margin:auto;
+    }
+  }
+}

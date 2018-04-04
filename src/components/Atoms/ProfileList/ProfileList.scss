@@ -1,0 +1,80 @@
+.profileList{
+  width:928px;
+  height:92px;
+  margin:auto;
+  margin-top:34px;
+  margin-bottom:34px;
+  background: #f7f7f7;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.5);
+  position:relative;
+  .closeBtn{
+    width:20.3px; height:20.3px;
+    color:#3b3a3a;
+    position:absolute;
+    right:8.8px;
+    top:8.8px;
+    cursor: pointer;
+  }
+  .profileEditWrapper{
+    float:left;
+    width:135px;
+    height:92px;
+    .profileUser{
+      width:135px;
+      height:19px;
+      background:#000000;
+      color:#ffffff;
+      text-align: center;
+      font:12px/19px "IBMPlexSans","sans-serif";
+    }
+    .profileEdit{
+      width:135px;
+      height:74px;
+      background:#ffbc00;
+      color:#ffffff;
+      text-align: center;
+      font:12px/74px "IBMPlexSans","sans-serif";
+    }
+  }
+  .profileForm{
+    float:left;
+    padding-top:48px;
+    padding-left:91px;
+    .profileCheckBox{
+      display: inline-block;
+      margin-right:41px;
+      label{
+        font:14px/18px "IBMPlexSans","sans-serif";
+        cursor:pointer;
+      }
+      input{
+        display: none;
+        background: none; border:0 none;
+        -webkit-transition: all .2s ease;
+        -moz-transition: all .2s ease;
+        -o-transition: all .2s ease;
+        -ms-transition: all .2s ease;
+        transition: all .2s ease;
+      }
+      span{
+        display: inline-block; margin-right:12px;
+        width:14px; height:14px; border:1px solid #000000;
+        background: none;
+        vertical-align: bottom;
+        -webkit-transition: all .2s ease;
+        -moz-transition: all .2s ease;
+        -o-transition: all .2s ease;
+        -ms-transition: all .2s ease;
+        transition: all .2s ease;
+      }
+      input:checked + span{
+        background: #000000;
+        -webkit-transition: all .2s ease;
+        -moz-transition: all .2s ease;
+        -o-transition: all .2s ease;
+        -ms-transition: all .2s ease;
+        transition: all .2s ease;
+      }
+    }
+  }
+}
