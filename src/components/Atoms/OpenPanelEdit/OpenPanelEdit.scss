@@ -44,15 +44,16 @@
     margin-left:87px;
     position: relative;
     cursor: pointer;
-    background: url('/assets/icon-plus.svg') no-repeat 50% 50%;
     input{
       width: 100%;
       display: block;
       height: 100%;
       font-size: 0;
       border: 0 none;
-      background: 0;
+      background: none;
+      position:absolute;
       opacity: 0;
+      z-index:2;
     }
     .img{
       top:0;

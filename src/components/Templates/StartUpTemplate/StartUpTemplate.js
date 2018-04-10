@@ -1,10 +1,10 @@
 import React,{Component} from 'react';
-import styles from './DiscussionTemplate.scss';
+import styles from './StartUpTemplate.scss';
 import classNames from 'classnames/bind';
 
 const cx = classNames.bind(styles);
 
-class DiscussionTemplate extends Component{
+class StartUpTemplate extends Component{
   constructor(props){
     super(props);
     this.state={
@@ -16,6 +16,7 @@ class DiscussionTemplate extends Component{
     this.fontSizeDown= this.fontSizeDown.bind(this);
     this.fontBold= this.fontBold.bind(this);
   }
+
   fontSizeUp(){
     if(this.state.fontsize < 30){
       this.setState((prevState) => ({fontsize: prevState.fontsize + 2, lineheight: prevState.lineheight + 2}));
@@ -38,6 +39,7 @@ class DiscussionTemplate extends Component{
       })
     }
   }
+
   render(){
     const textFontSize = {
       fontSize: this.state.fontsize,
@@ -61,9 +63,13 @@ class DiscussionTemplate extends Component{
                   <option value="1">1</option>
                   <option value="1">1</option>
               </select>
+              <button className={cx('chapter')} type="button">N.CHAPTERS</button>
           </div>
         </div>
-        <div className={cx('templateWrapper')}>
+        <div className={cx('chapterWrapper')}>
+          <span className={cx('chapterTitle')}>
+              {this.props.chaptertitle}
+          </span>
           <div className={cx('inputText')}><input type="text" placeholder="TITLE"></input></div>
           <div className={cx('textArea')}>
             <textarea placeholder="TEXT" style={textFontSize}></textarea>
@@ -74,7 +80,36 @@ class DiscussionTemplate extends Component{
                 <div className={cx('utilBold')} onClick={this.fontBold}>BOLD</div>
               </div>
           </div>
-          <div className={cx('sourceInput')}><input type="text" placeholder="SOURCE"></input></div>
+        </div>
+        <div className={cx('chapterWrapper')}>
+          <span className={cx('chapterTitle')}>
+              {this.props.chaptertitle}
+          </span>
+          <div className={cx('inputText')}><input type="text" placeholder="TITLE"></input></div>
+          <div className={cx('textArea')}>
+            <textarea placeholder="TEXT" style={textFontSize}></textarea>
+              <div className={cx('textUtil')}>
+                <div className={cx('utilImg')}><input type="file"/><span>IMAGE</span></div>
+                <div onClick={this.fontSizeUp}>A+</div>
+                <div onClick={this.fontSizeDown}>A-</div>
+                <div className={cx('utilBold')} onClick={this.fontBold}>BOLD</div>
+              </div>
+          </div>
+        </div>
+        <div className={cx('chapterWrapper')}>
+          <span className={cx('chapterTitle')}>
+              {this.props.chaptertitle}
+          </span>
+          <div className={cx('inputText')}><input type="text" placeholder="TITLE"></input></div>
+          <div className={cx('textArea')}>
+            <textarea placeholder="TEXT" style={textFontSize}></textarea>
+              <div className={cx('textUtil')}>
+                <div className={cx('utilImg')}><input type="file"/><span>IMAGE</span></div>
+                <div onClick={this.fontSizeUp}>A+</div>
+                <div onClick={this.fontSizeDown}>A-</div>
+                <div className={cx('utilBold')} onClick={this.fontBold}>BOLD</div>
+              </div>
+          </div>
         </div>
         <div className={cx('publish')}>
           <div className={cx('text')}>MODIFIÉ  3j</div>
@@ -85,5 +120,7 @@ class DiscussionTemplate extends Component{
     )
   }
 }
-
-export default DiscussionTemplate;
+StartUpTemplate.defaultProps={
+  chaptertitle:"CHAPTER1"
+}
+export default StartUpTemplate;

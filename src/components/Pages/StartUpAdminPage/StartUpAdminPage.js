@@ -2,12 +2,14 @@ import React,{Component} from 'react';
 import styles from './StartUpAdminPage.scss';
 import classNames from 'classnames/bind';
 import { AddListBtn, Navigate, Search, AdminList, ListUtil, BtnMenu } from '../../Atoms';
+
 const cx = classNames.bind(styles);
 
 class StartUpAdminPage extends Component{
   constructor(props){
     super(props);
     this.state={
+      keyword:'',
       openMenu:false,
       checkIdx:[],
       listContent:[
@@ -87,21 +89,44 @@ class StartUpAdminPage extends Component{
     })
     return listContent
   }
+  handleChange = (e) => {this.setState({keyword: e.target.value})}
   render(){
-    const { openMenu } = this.state;
+    const mapToComponents = (listContent) => {
+      //검색하지 않았을때 전부보이기
+      if(this.state.keyword === ''){
+        this.renderAdminList()
+      }
+       listContent = listContent.filter((contact) => {
+         return contact.subTitle.toLowerCase().indexOf(this.state.keyword) > -1
+       });
+       return listContent.map((content,i) => {
+            return <AdminList
+              key={i}
+              idx={content.idx}
+              img={content.img}
+              cate={content.cate}
+              publish={content.publish}
+              date={content.date}
+              subTitle={content.subTitle}
+              reporter={content.reporter}
+              openmenu={this.openBtnMenu}
+              menu={content.menu}
+              />
+        });
+    };
+    const { openMenu, listContent } = this.state;
     return (
       <div className={cx('startupAdminPage')}>
         <AddListBtn menu="startup"/>
         <Navigate />
           <div className={cx('startupWrapper')}>
-            <Search />
+            <Search handleChange={(e) => this.handleChange(e)}/>
             <ListUtil menuToggle={this.menuToggle}/>
-            {this.renderAdminList()}
+            {mapToComponents(listContent)}
             <BtnMenu openMenu={openMenu} closeBtnMenu={this.closeBtnMenu}/>
           </div>
       </div>
     )
   }
 }
-
 export default StartUpAdminPage;

@@ -18,18 +18,14 @@
     overflow: hidden;
     margin:auto;
     margin-top:35px;
-    .fileUpLoads{
-      float:left; overflow: hidden;}
       .fileUpLoad{
-        float:left;
-        width:150px;
-        height:150px;
-        border:1px solid #000000;
-        margin-right:30px;
-        position: relative;
+        float:left; width:524px; height:80px; border:1px solid #000000;
+        margin-right: 24px; box-sizing: border-box; position: relative;
+        color:#777777;
         cursor: pointer;
-        background: url('/assets/icon-plus.svg') no-repeat 50% 50%;
-        background-size:50px;
+        span{display: block; text-align: center; font:18px/80px "IBM Plex Sans","sans-serif"; background: url('/assets/icon-plus-add_profile.svg') no-repeat 36% 50%;}
+        background: url('/assets/icon-excel.svg') no-repeat 0 0;
+        background-size:119px 78px;
           input{
             width: 100%;
             display: block;
@@ -52,14 +48,24 @@
         width:252px; height:40px; font:14px/37px "IBM Plex Sans","sans-serif";
         text-align: center; cursor: pointer; background:#f7f7f7;
         color:#000000; box-sizing: border-box; letter-spacing: 3px;
-        word-spacing: 4px; border:1px solid #000000; margin-bottom:15px;
+        word-spacing: 4px; border:1px solid #000000;
         }
-        .selectList{ display: block;
-          width:252px; height:40px;
-          margin-bottom: 15px;
-          text-align: center; border:1px solid #000000;
-          font:12px/40px "IBM Plex Sans","sans-serif";
+        .addImg{
+          position: relative;
+          display: block; width:252px; height:40px; font:14px/38px "IBM Plex Sans","sans-serif"; text-align: center; cursor: pointer; background:#f7f7f7;
+          color:#000000; box-sizing: border-box; border:1px solid #000000;
+          letter-spacing: 3px; word-spacing: 4px;
+          -webkit-transition:all .2s ease;
+          -o-transition:all .2s ease;
+          -ms-transition:all .2s ease;
+          -moz-transition:all .2s ease;
+          transition:all .2s ease;
+          &:hover{ background: #ffb900;}
+          input{
+            width: 100%; display: block; height: 100%; font-size: 0; border: 0 none; background: 0;
+            opacity: 0; position: absolute; z-index: 1; cursor: pointer;
           }
+        }
       }
     }
   //공통 scss
@@ -69,23 +75,15 @@
     width:800px;
     margin:auto;
   }
-    .sourceInput{
-      margin-top:11px; width:800px; height:40px; border:1px solid #000000;
-      box-sizing: border-box; text-align: center; background:#f7f7f7;
-      input{
-        width: 783px; height: 24px; padding: 7px;
-        text-align: center; background: none; border: 0 none;
-        font:14px/24px "IBM Plex Sans","sans-serif";
-      }
-    }
     .inputText{
       margin-top:11px; width:800px; height:80px; border:1px solid #000000;
       box-sizing: border-box; text-align: center; background:#f7f7f7;
       input{
         display: block; margin: auto;
-        width:769px; height:50px; padding: 14px;
+        width:769px; height: 50px; padding: 14px;
         text-align: center; background: none; border: 0 none;
         font:14px/50px "IBM Plex Sans","sans-serif";
+        resize:none;
       }
     }
     .textArea{
@@ -94,7 +92,7 @@
       box-sizing: border-box; text-align: center; background:#f7f7f7;
       textarea{
         display: block; margin: auto;
-        width:773px; height: 282px; padding: 12px;
+        width:769px; height: 282px; padding: 12px;
         text-align: center; background: none; border: 0 none;
         font:14px/18px "IBM Plex Sans","sans-serif";
         resize:none;

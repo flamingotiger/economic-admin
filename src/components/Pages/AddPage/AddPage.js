@@ -2,7 +2,11 @@ import React,{Component} from 'react';
 import styles from './AddPage.scss';
 import classNames from 'classnames/bind';
 import { Navigate } from '../../Atoms';
-import { NewsTemplate, DiscussionTemplate } from '../../Templates';
+import { NewsTemplate,
+         DiscussionTemplate,
+         StartUpTemplate,
+         DataTemplate
+} from '../../Templates';
 
 const cx = classNames.bind(styles);
 
@@ -22,11 +26,19 @@ class AddPage extends Component{
   }
 
   renderTemplate(){
-    switch(this.state.addvalue){
+    //addvalue 는 AddListBtn에서 받아온 값
+    const {addvalue} = this.state;
+    switch(addvalue){
       case "news":
-        return <NewsTemplate addvalue={this.state.addvalue}/>
+        return <NewsTemplate addvalue={addvalue}/>
       case "discussion":
-        return <DiscussionTemplate addvalue={this.state.addvalue}/>
+        return <DiscussionTemplate addvalue={addvalue}/>
+      case "startup":
+        return <StartUpTemplate addvalue={addvalue}/>
+      case "data":
+        return <DataTemplate addvalue={addvalue}/>
+      default:
+        return null;
     }
   }
   render(){

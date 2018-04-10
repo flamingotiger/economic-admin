@@ -12,12 +12,14 @@ class BtnMenu extends Component{
           <img src="/assets/btn-cancle-box.svg" alt="cancleBox"/>
         </div>
         <div className={cx('btnMenuInner')}>
-          <select>
-              <option value="201712">2017-12</option>
-              <option value="201712">2017-12</option>
-              <option value="201712">2017-12</option>
-              <option value="201712">2017-12</option>
-          </select>
+          <div className={cx('select')}>
+            <select>
+                <option value="201712">2017-12</option>
+                <option value="201712">2017-12</option>
+                <option value="201712">2017-12</option>
+                <option value="201712">2017-12</option>
+            </select>
+          </div>
           <button className={cx('magazineBtn')}>MAIN ARTICLES</button>
           <button className={cx('removeBtn')} onClick={this.removeBtn}>REMOVE</button>
         </div>

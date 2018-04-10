@@ -3,25 +3,35 @@ import styles from './Navigate.scss';
 import classNames from 'classnames/bind';
 import { NavLink } from 'react-router-dom';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
 
 const cx = classNames.bind(styles);
 
 class Navigate extends Component{
+  constructor(props){
+    super(props);
+    this.state={
+      user : this.props.user.isLoggedIn
+    }
+  }
+
   render(){
-    const { adminUser, magazine, news, startup, discussion, data } = this.props;
+    const { magazine, news, startup, discussion, data } = this.props;
+    const { user } = this.state;
+    const redirect = "/admin"
     return (
       <nav className={cx('navigator')}>
         <h1 className={cx('navTitle')}>PAGE ADMIN</h1>
-        {adminUser ?
+        {user ?
           <div className={cx('navi')}><Link to="/admin/profile">MANAGER</Link></div>
           : null
         }
         <ul className={cx('navListWrapper')}>
-          <li className={magazine ? cx('navList','on') : cx('navList')}><NavLink to="/admin/magazine">MAGAZINE</NavLink></li>
-          <li className={news ? cx('navList','on') : cx('navList')}><NavLink to="/admin/news">NEWS</NavLink></li>
-          <li className={startup ? cx('navList','on') : cx('navList')}><NavLink to="/admin/startup">START-UP</NavLink></li>
-          <li className={discussion ? cx('navList','on') : cx('navList')}><NavLink to="/admin/discussion">DISCUSSION</NavLink></li>
-          <li className={data ? cx('navList','on') : cx('navList')}><NavLink to="/admin/data">DATA</NavLink></li>
+          <li className={magazine ? cx('navList','on') : cx('navList')}><NavLink to={user ? "/admin/magazine" : redirect}>MAGAZINE</NavLink></li>
+          <li className={news ? cx('navList','on') : cx('navList')}><NavLink to={user ? "/admin/news" : redirect}>NEWS</NavLink></li>
+          <li className={startup ? cx('navList','on') : cx('navList')}><NavLink to={user ? "/admin/startup" : redirect}>START-UP</NavLink></li>
+          <li className={discussion ? cx('navList','on') : cx('navList')}><NavLink to={user ? "/admin/discussion" : redirect}>DISCUSSION</NavLink></li>
+          <li className={data ? cx('navList','on') : cx('navList')}><NavLink to={user ? "/admin/data" : redirect}>DATA</NavLink></li>
         </ul>
       </nav>
     );
@@ -35,5 +45,7 @@ Navigate.defaultProps = {
   discussion: false,
   data: false
 }
-
-export default Navigate;
+const mapStateToProps = (state) => ({
+  user: state.login
+});
+export default connect(mapStateToProps)(Navigate);

@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 import styles from './ProfilePage.scss';
 import classNames from 'classnames/bind';
-import { Navigate } from '../../Atoms';
-import SetUserContainer from '../../../containers/SetUserContainer';
+import { Navigate, OpenPanel, OpenPanelEdit} from '../../Atoms';
+import { ProfileContainer } from '../../../containers';
 import * as actions from '../../../actions';
 import { connect } from 'react-redux';
 
@@ -13,43 +13,57 @@ class ProfilePage extends Component{
     super(props);
     this.state={
       openPanel:false,
+      openPanelEdit:false,
+      index:0,
+      img:'',
+      name:'',
+      firstname:'',
+      memo:'',
     }
-    this.addProfile = this.addProfile.bind(this);
+    this.profilePanel = this.profilePanel.bind(this);
+    this.handleSubmit =this.handleSubmit.bind(this);
+    this.handleEdit = this.handleEdit.bind(this);
   }
-  addProfile(){
+  profilePanel(){this.setState((prevState) => ({openPanel: !prevState.openPanel}))}
+  handleSubmit(e){
+    e.preventDefault();
+    //초기화
     this.setState({
-      openPanel: !this.state.openPanel
+      img:'',
+      name:'',
+      firstname:'',
+      memo:''
+    })
+  }
+  handleEdit(e){
+    this.setState({
+      index:Number(e.target.getAttribute("data-key")),
+      openPanelEdit:!this.state.openPanelEdit
     })
   }
   render(){
-    const {openPanel} = this.state;
-    const {onCreateUser} = this.props;
+    const uservalue = this.props.profile.userValue[this.state.index]
+    const { openPanel, openPanelEdit } = this.state;
     return (
-      <div className={cx('loginPage')}>
+      <div className={cx('profilePage')}>
         <Navigate />
-        <div className={cx('addProfileBtn')} onClick={this.addProfile}>
+        <div className={cx('addProfileBtn')} onClick={this.profilePanel}>
           <span>ADD PROFILE</span>
         </div>
-        <div className={openPanel ? cx('addPanel','open') : cx('addPanel')}>
-          <div className={cx('profileTitle')}>PROFILE</div>
-          <div className={cx('profileLeft')}><input type="file"/></div>
-          <div className={cx('profileRight')}>
-            <div className={cx('rightText')}>
-              <div className={cx('rightInput','first')}><input type="text" placeholder="NOM"></input></div>
-              <div className={cx('rightInput')}><input type="text" placeholder="PRENOM"></input></div>
-            </div>
-            <div className={cx('textArea')}><textarea placeholder="MEMO"></textarea></div>
-            <button type="button" onClick={() => onCreateUser(2)}>ADD</button>
-          </div>
-        </div>
-        <SetUserContainer/>
+        <OpenPanel onCreateUser={this.props.onCreateUser} openPanel={openPanel}/>
+        <ProfileContainer handleEdit={this.handleEdit}/>
+        <OpenPanelEdit onCreateUser={this.props.onCreateUser} uservalue={uservalue} openPanelEdit={openPanelEdit}/>
       </div>
     )
   }
 }
-
-const mapToDispatch = (dispatch) => ({
-    onCreateUser : (index) => dispatch(actions.createUser(index))
+const mapStateToProps = (state) => ({
+  profile:state.profile,
 });
 
-export default connect(null, mapToDispatch)(ProfilePage);
+const mapToDispatch = (dispatch) => ({
+    onCreateUser : ({index, img, name, firstname, memo}) =>
+    dispatch(actions.createUser({index, img, name, firstname, memo}))
+});
+
+export default connect(mapStateToProps, mapToDispatch)(ProfilePage);

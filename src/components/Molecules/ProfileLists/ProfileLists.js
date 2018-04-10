@@ -7,13 +7,14 @@ const cx = classNames.bind(styles);
 class ProfileLists extends React.Component{
 
   renderContent= () => {
-    const userAttr = this.props.setuser.userAttr
-    const profile = userAttr.map((content,i) => {
+    const userValue = this.props.profile.userValue
+    const profile = userValue.map((content,i) => {
       return <ProfileList
             key={i}
-            index={i}
-            {...userAttr}
+            index={content.index}
+            {...userValue}
             onRemoveUser={this.props.onRemoveUser}
+            handleEdit={this.props.handleEdit}
           />
       })
     return profile

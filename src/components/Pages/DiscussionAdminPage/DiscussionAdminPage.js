@@ -2,12 +2,14 @@ import React,{Component} from 'react';
 import styles from './DiscussionAdminPage.scss';
 import classNames from 'classnames/bind';
 import { AddListBtn, Navigate, Search, DiscussionList, ListUtil, BtnMenu } from '../../Atoms';
+
 const cx = classNames.bind(styles);
 
 class DiscussionAdminPage extends Component{
   constructor(props){
     super(props);
     this.state={
+      keyword:'',
       openMenu:false,
       checkIdx:[],
       listContent:[
@@ -61,16 +63,8 @@ class DiscussionAdminPage extends Component{
     this.removeBtn = this.removeBtn.bind(this);
     this.menuToggle = this.menuToggle.bind(this);
   }
-  closeBtnMenu(){
-    this.setState({
-      openMenu:false
-    })
-  }
-  menuToggle(){
-    this.setState({
-      openMenu:!this.state.openMenu
-    })
-  }
+  closeBtnMenu(){this.setState({ openMenu:false })}
+  menuToggle(){this.setState({ openMenu:!this.state.openMenu })}
   openBtnMenu(e){
     const check = Number(e.target.parentNode.parentNode.parentNode.getAttribute('id'))
     this.setState({
@@ -103,21 +97,47 @@ class DiscussionAdminPage extends Component{
     })
     return listContent
   }
+  handleChange = (e) => {this.setState({keyword: e.target.value})}
   render(){
-    const { openMenu } = this.state;
+    const mapToComponents = (listContent) => {
+      if(this.state.keyword === ''){
+          this.renderAdminList()
+      }
+       listContent = listContent.filter((contact) => {
+         return contact.title1.toLowerCase().indexOf(this.state.keyword) > -1
+       });
+       return listContent.map((content,i) => {
+            return <DiscussionList
+              key={i}
+              idx={content.idx}
+              img={content.img}
+              cate={content.cate}
+              year={content.year}
+              month={content.month}
+              title1={content.title1}
+              publish1={content.publish1}
+              reporter1={content.reporter1}
+              title2={content.title2}
+              publish2={content.publish2}
+              reporter2={content.reporter2}
+              openmenu={this.openBtnMenu}
+              menu={content.menu}
+              />
+        });
+    };
+    const { openMenu, listContent } = this.state;
     return (
       <div className={cx('startupAdminPage')}>
         <AddListBtn menu="discussion"/>
         <Navigate />
           <div className={cx('startupWrapper')}>
-            <Search />
+            <Search handleChange={(e) => this.handleChange(e)}/>
             <ListUtil menuToggle={this.menuToggle}/>
-            {this.renderAdminList()}
+            {mapToComponents(listContent)}
             <BtnMenu openMenu={openMenu} closeBtnMenu={this.closeBtnMenu}/>
           </div>
       </div>
     )
   }
 }
-
 export default DiscussionAdminPage;

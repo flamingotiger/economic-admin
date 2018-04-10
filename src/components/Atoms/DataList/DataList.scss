@@ -22,7 +22,8 @@
     margin-left:40px;
     .listTitle{
       margin-right:17px;
-      font:bold 18px/24px "IBMPlexSans","sans-serif";
+      font:18px/24px "IBM Plex Sans","sans-serif";
+      font-weight:600;
       color:#000000;
     }
     .listReport{
@@ -32,18 +33,19 @@
       .first{
         float:left;
         color:#000000;
-        font:10px/13px "IBMPlexSans","sans-serif";
+        font:10px/13px "IBM Plex Sans","sans-serif";
       }
       .last{
         float:right;
         color:#122491;
-        font:bold 14px/18px "IBMPlexSans","sans-serif";
+        font:14px/18px "IBM Plex Sans","sans-serif";
+        font-weight:600;
       }
     }
   }
 }
 label{
-  font:14px/18px "IBMPlexSans","sans-serif";
+  font:14px/18px "IBM Plex Sans","sans-serif";
   cursor:pointer;
   input{
     display: none;

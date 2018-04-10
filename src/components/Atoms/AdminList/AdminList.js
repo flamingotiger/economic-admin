@@ -7,33 +7,34 @@ const cx = classNames.bind(styles);
 
 class AdminList extends Component{
   render(){
+    const {idx, openmenu, menu, img, cate, date, subTitle, publish, reporter} = this.props;
     return (
-      <div className={cx('newsList')} id={this.props.idx}>
+      <div className={cx('newsList')} id={idx}>
         <div className={cx('listCheck')}>
-          <label htmlFor={`newsListCheck${this.props.idx}`}>
-            <input type="checkbox" id={`newsListCheck${this.props.idx}`} />
-            <span onClick={this.props.openmenu}></span>
+          <label htmlFor={`newsListCheck${idx}`}>
+            <input type="checkbox" id={`newsListCheck${idx}`} />
+            <span onClick={openmenu}></span>
           </label>
         </div>
-        <Link to={`/admin/add:${this.props.menu}`}>
+        <Link to={`/admin/add:${menu}`}>
           <div className={cx('listImg')}>
-            <img src={this.props.img} alt="img"/>
+            <img src={img} alt="img"/>
           </div>
           <div className={cx('listText')}>
             <dl>
               <dt>
                 <span className={cx('listTitle')}>
-                  {this.props.cate}
+                  {cate}
                 </span>
                 <span>
-                  {this.props.date}
+                  {date}
                 </span>
               </dt>
-              <dd>{this.props.subTitle}</dd>
+              <dd>{subTitle}</dd>
             </dl>
             <div className={cx('listReport')}>
-              <span className={cx('first')}>{this.props.publish}</span>
-              <span className={cx('last')}>{this.props.reporter}</span>
+              <span className={cx('first')}>{publish}</span>
+              <span className={cx('last')}>{reporter}</span>
             </div>
           </div>
         </Link>

@@ -25,15 +25,16 @@
       background:#000000;
       color:#ffffff;
       text-align: center;
-      font:12px/19px "IBMPlexSans","sans-serif";
+      font:12px/19px "IBM Plex Sans","sans-serif";
     }
     .profileEdit{
+      cursor: pointer;
       width:135px;
       height:74px;
       background:#ffbc00;
       color:#ffffff;
       text-align: center;
-      font:12px/74px "IBMPlexSans","sans-serif";
+      font:12px/74px "IBM Plex Sans","sans-serif";
     }
   }
   .profileForm{
@@ -44,7 +45,7 @@
       display: inline-block;
       margin-right:41px;
       label{
-        font:14px/18px "IBMPlexSans","sans-serif";
+        font:14px/18px "IBM Plex Sans","sans-serif";
         cursor:pointer;
       }
       input{

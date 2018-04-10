@@ -61,42 +61,58 @@
           font:12px/40px "IBM Plex Sans","sans-serif";
           }
       }
+      .chapter{
+        display: block; width:252px; height:40px; font:14px/18px "IBM Plex Sans","sans-serif"; text-align: center; cursor: pointer; background:#f7f7f7;
+        color:#000000; box-sizing: border-box; border:1px solid #000000;
+      }
     }
   //공통 scss
-  .templateWrapper{
+  .chapterWrapper{
     overflow: hidden;
     clear:both;
     width:800px;
     margin:auto;
+    margin-top:35px;
   }
-    .sourceInput{
+  .chapterTitle{
+    display: block;
+    position:relative;
+    font:18px/23px "IBM Plex Sans","sans-serif";
+    padding-left:27px;
+    margin:9px 0;
+    &::before{
+      content: '';
+      position:absolute;
+      left:0;
+      background: url('/assets/icon-box.svg');
+      top:4px;
+      width:12px;
+      height:12px;
+      left:0;
+    }
+  }
+    .inputText{
       margin-top:11px; width:800px; height:40px; border:1px solid #000000;
       box-sizing: border-box; text-align: center; background:#f7f7f7;
       input{
-        width: 783px; height: 24px; padding: 7px;
-        text-align: center; background: none; border: 0 none;
-        font:14px/24px "IBM Plex Sans","sans-serif";
-      }
-    }
-    .inputText{
-      margin-top:11px; width:800px; height:80px; border:1px solid #000000;
-      box-sizing: border-box; text-align: center; background:#f7f7f7;
-      input{
         display: block; margin: auto;
-        width:769px; height:50px; padding: 14px;
+        width: 773px; height: 14px; padding: 12px;
         text-align: center; background: none; border: 0 none;
-        font:14px/50px "IBM Plex Sans","sans-serif";
+        font:14px/14px "IBM Plex Sans","sans-serif";
+        resize:none;
       }
     }
     .textArea{
       position: relative;
-      margin-top:11px; width:800px; height:340px; border:1px solid #000000;
+      margin-top:11px; width:800px; height:180px; border:1px solid #000000;
       box-sizing: border-box; text-align: center; background:#f7f7f7;
       textarea{
         display: block; margin: auto;
-        width:773px; height: 282px; padding: 12px;
+        width: 769px; height: 118px; padding: 14px;
         text-align: center; background: none; border: 0 none;
-        font:14px/18px "IBM Plex Sans","sans-serif";
+        font-size:14px;
+        font-family:"IBM Plex Sans","sans-serif";
+        line-height:18px;
         resize:none;
       }
       .textUtil{position: relative; width:100%; height:32px; left:0; bottom:0; background:#a5a5a5;

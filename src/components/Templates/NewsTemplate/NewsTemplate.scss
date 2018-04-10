@@ -8,7 +8,7 @@
   .title{
     width:135px;height:19px;
     background: #000000;
-    font:12px/19px "IBMPlexSans","sans-serif";
+    font:12px/19px "IBM Plex Sans","sans-serif";
     color:#ffffff;
     text-align:center;
   }
@@ -49,7 +49,7 @@
         .englishBtn{float:left; margin-top:-2px; margin-left:-7px;  width:40px; height:40px; border-right:1px solid #000000;
           background: url("/assets/icon-plus-add_english.svg") no-repeat 8px 50%;
         }
-        width:252px; height:40px; font:14px/37px "IBMPlexSans","sans-serif";
+        width:252px; height:40px; font:14px/37px "IBM Plex Sans","sans-serif";
         text-align: center; cursor: pointer; background:#f7f7f7;
         color:#000000; box-sizing: border-box; letter-spacing: 3px;
         word-spacing: 4px; border:1px solid #000000; margin-bottom:15px;
@@ -58,12 +58,12 @@
           width:252px; height:40px;
           margin-bottom: 15px;
           text-align: center; border:1px solid #000000;
-          font:12px/40px "IBMPlexSans","sans-serif";
+          font:12px/40px "IBM Plex Sans","sans-serif";
           }
         .addDate{
-          width:252px; height:40px; font:14px/18px "IBMPlexSans","sans-serif"; text-align: center; cursor: pointer; background:#f7f7f7;
+          width:252px; height:40px; font:14px/18px "IBM Plex Sans","sans-serif"; text-align: center; cursor: pointer; background:#f7f7f7;
           color:#000000; box-sizing: border-box; border:1px solid #000000; margin-bottom:15px;
-          input{ width: 90%; height: 30px; margin-top:3px; text-align: center; background: none; border: 0 none; font: 14px/30px "IBMPlexSans","sans-serif"; resize: none; }
+          button{ width: 100%; display: block; height: 100%; text-align: center; background: none; border: 0 none; font: 14px/30px "IBM Plex Sans","sans-serif"; resize: none; }
         }
       }
     }
@@ -78,9 +78,9 @@
       margin-top:11px; width:800px; height:40px; border:1px solid #000000;
       box-sizing: border-box; text-align: center; background:#f7f7f7;
       input{
-        width:95%; height: 24px; margin: 6px;
+        width:783px; height:24px; padding: 7px;
         text-align: center; background: none; border: 0 none;
-        font:14px/24px "IBMPlexSans","sans-serif";
+        font:14px/24px "IBM Plex Sans","sans-serif";
         resize:none;
       }
     }
@@ -88,9 +88,9 @@
       margin-top:11px; width:800px; height:80px; border:1px solid #000000;
       box-sizing: border-box; text-align: center; background:#f7f7f7;
       input{
-        width:95%; height: 50px; margin: 12px;
+        width:769px; height: 50px; padding: 14px;
         text-align: center; background: none; border: 0 none;
-        font:14px/50px "IBMPlexSans","sans-serif";
+        font:14px/50px "IBM Plex Sans","sans-serif";
         resize:none;
       }
     }
@@ -98,30 +98,10 @@
       margin-top:11px; width:800px; height:340px; border:1px solid #000000;
       box-sizing: border-box; text-align: center; background:#f7f7f7;
       textarea{
-        width:95%; height: 310px; margin: 12px;
+        width:769px; height: 310px; padding: 14px;
         text-align: center; background: none; border: 0 none;
-        font:14px/18px "IBMPlexSans","sans-serif";
+        font:14px/18px "IBM Plex Sans","sans-serif";
         resize:none;
-      }
-    }
-    .selectBtn{
-      width:800px;
-      height:58px;
-      font:14px/18px "IBMPlexSans","sans-serif";
-      text-align: center;
-      cursor: pointer;
-      margin:auto;
-      background:#f7f7f7;
-      color:#000000;
-      box-sizing: border-box;
-      border:1px solid #000000;
-      &.one{border:2px solid #ff0000;}
-      &.two{
-        border:1px solid #000000; background: #ec0000;
-        span{
-          background: #ffffff;
-          padding:0 18px;
-        }
       }
     }
   }
@@ -133,7 +113,7 @@
     .text{
       position: absolute;
       left: 200px; bottom: 14px;
-      font:10px/13px "IBMPlexSans","sans-serif";
+      font:10px/13px "IBM Plex Sans","sans-serif";
     }
     .deleteBtn{position: absolute; right:0; top:0;
       width:40px;
@@ -149,6 +129,6 @@
       border:0 none;
       color:#ffffff;
       cursor:pointer;
-      font:14px/40px "IBMPlexSans","sans-serif";
+      font:14px/40px "IBM Plex Sans","sans-serif";
     }
 }

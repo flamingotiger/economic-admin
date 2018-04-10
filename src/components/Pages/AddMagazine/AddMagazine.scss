@@ -8,7 +8,7 @@
   .title{
     width:135px;height:19px;
     background: #000000;
-    font:12px/19px "IBMPlexSans","sans-serif";
+    font:12px/19px "IBM Plex Sans","sans-serif";
     color:#ffffff;
     text-align:center;
   }
@@ -48,7 +48,7 @@
           text-align: center;
           margin-top:59px;
           margin-bottom:81px;
-          font:18px/23px "IBMPlexSans","sans-serif";
+          font:18px/23px "IBM Plex Sans","sans-serif";
         }
         .inputText{
           width:388px; height:40px;
@@ -57,12 +57,12 @@
           text-align: center;
           background:#f7f7f7;
           input{
-            width:90%;
-            margin: 12px;
+            width: 361px;
+            padding: 12px;
             text-align: center;
             background: none;
             border: 0 none;
-            font:12px/15px "IBMPlexSans","sans-serif";
+            font:12px/15px "IBM Plex Sans","sans-serif";
           }
         }
       }
@@ -75,7 +75,7 @@
       .subTitleList{
         list-style: none;
         position:relative;
-        font:14px/16px "IBMPlexSans","sans-serif";
+        font:14px/16px "IBM Plex Sans","sans-serif";
         padding-left:27px;
         margin:4px 0;
         &::before{
@@ -134,20 +134,20 @@
       text-align: center;
       background:#f7f7f7;
       input{
-        width:90%;
+        width:769px;
         height: 50px;
-        margin: 12px;
+        padding: 14px;
         text-align: center;
         background: none;
         border: 0 none;
-        font:14px/50px "IBMPlexSans","sans-serif";
+        font:14px/50px "IBM Plex Sans","sans-serif";
         resize:none;
       }
     }
     .selectBtn{
       width:800px;
       height:58px;
-      font:14px/18px "IBMPlexSans","sans-serif";
+      font:14px/18px "IBM Plex Sans","sans-serif";
       text-align: center;
       cursor: pointer;
       margin:auto;
@@ -173,7 +173,7 @@
     .text{
       position: absolute;
       left: 200px; bottom: 14px;
-      font:10px/13px "IBMPlexSans","sans-serif";
+      font:10px/13px "IBM Plex Sans","sans-serif";
     }
     .deleteBtn{position: absolute; right:0; top:0;
       width:40px;
@@ -189,7 +189,7 @@
       border:0 none;
       color:#ffffff;
       cursor:pointer;
-      font:14px/40px "IBMPlexSans","sans-serif";
+      font:14px/40px "IBM Plex Sans","sans-serif";
     }
   }
 }

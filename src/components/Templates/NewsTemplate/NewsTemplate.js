@@ -23,7 +23,7 @@ class NewsTemplate extends Component{
                   <option value="1">1</option>
                   <option value="1">1</option>
               </select>
-            <div className={cx('addDate')}><input type="text" placeholder="DATE"></input></div>
+            <div className={cx('addDate')}><button>DATE</button></div>
           </div>
         </div>
         <div className={cx('templateWrapper')}>

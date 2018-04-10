@@ -8,7 +8,7 @@ class Search extends Component{
   render(){
     return (
       <div className={cx('search')}>
-        <input type="text" placeholder="SEARCH"/>
+        <input type="text" placeholder="SEARCH" onChange={this.props.handleChange}/>
       </div>
     );
   }

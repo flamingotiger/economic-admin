@@ -12,7 +12,6 @@ class MagazinePage extends Component{
         <AddListBtn menu="magazine"/>
         <Navigate />
         <div className={cx('magazineWrapper')}>
-          <Search />
           <MagazineThumb
             idx="next"
             year="2018"
@@ -57,5 +56,4 @@ class MagazinePage extends Component{
     )
   }
 }
-
 export default MagazinePage;

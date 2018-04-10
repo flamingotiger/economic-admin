@@ -1,10 +1,10 @@
 import React,{Component} from 'react';
-import styles from './DiscussionTemplate.scss';
+import styles from './DataTemplate.scss';
 import classNames from 'classnames/bind';
 
 const cx = classNames.bind(styles);
 
-class DiscussionTemplate extends Component{
+class DataTemplate extends Component{
   constructor(props){
     super(props);
     this.state={
@@ -49,18 +49,11 @@ class DiscussionTemplate extends Component{
         <div className={cx('title')}>{(this.props.addvalue).toUpperCase()}</div>
         <div className={cx('upLoadWrapper')}>
           <div className={cx('fileUpLoads')}>
-            <div className={cx('fileUpLoad')}><input type="file"/></div>
-            <div className={cx('fileUpLoad')}><input type="file"/></div>
-            <div className={cx('fileUpLoad')}><input type="file"/></div>
+            <div className={cx('fileUpLoad')}><input type="file"/><span>ADD EXCEL</span></div>
           </div>
           <div className={cx('utilSelect')}>
             <button className={cx('addEnglish')}><div className={cx('englishBtn')}></div><span>ADD ENGLISH</span></button>
-              <select className={cx('selectList')} defaultValue="SECTEUR">
-                  <option value="">SECTEUR</option>
-                  <option value="1">1</option>
-                  <option value="1">1</option>
-                  <option value="1">1</option>
-              </select>
+            <div className={cx('addImg')}><input type="file" accept="image/*"/>ADD IMAGE</div>
           </div>
         </div>
         <div className={cx('templateWrapper')}>
@@ -74,7 +67,6 @@ class DiscussionTemplate extends Component{
                 <div className={cx('utilBold')} onClick={this.fontBold}>BOLD</div>
               </div>
           </div>
-          <div className={cx('sourceInput')}><input type="text" placeholder="SOURCE"></input></div>
         </div>
         <div className={cx('publish')}>
           <div className={cx('text')}>MODIFIÉ  3j</div>
@@ -86,4 +78,4 @@ class DiscussionTemplate extends Component{
   }
 }
 
-export default DiscussionTemplate;
+export default DataTemplate;

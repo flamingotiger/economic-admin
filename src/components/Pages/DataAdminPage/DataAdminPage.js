@@ -2,12 +2,14 @@ import React,{Component} from 'react';
 import styles from './DataAdminPage.scss';
 import classNames from 'classnames/bind';
 import { AddListBtn, Navigate, Search, DataList, ListUtil, BtnMenu } from '../../Atoms';
+
 const cx = classNames.bind(styles);
 
 class DataAdminPage extends Component{
   constructor(props){
     super(props);
     this.state={
+      keyword:'',
       openMenu:false,
       checkIdx:[],
       listContent:[
@@ -84,21 +86,42 @@ class DataAdminPage extends Component{
     })
     return listContent
   }
+  handleChange = (e) => {this.setState({keyword: e.target.value})}
   render(){
-    const { openMenu } = this.state;
+    console.log(this.state.keyword)
+    const mapToComponents = (listContent) => {
+      //검색하지 않았을때 전부보이기
+      if(this.state.keyword === ''){
+        this.renderAdminList()
+      }
+       listContent = listContent.filter((contact) => {
+         return contact.subTitle.toLowerCase().indexOf(this.state.keyword) > -1
+       });
+       return listContent.map((content,i) => {
+            return <DataList
+              key={i}
+              idx={content.idx}
+              img={content.img}
+              publish={content.publish}
+              subTitle={content.subTitle}
+              openmenu={this.openBtnMenu}
+              menu={content.menu}
+              />
+        });
+    };
+    const { openMenu, listContent } = this.state;
     return (
       <div className={cx('startupAdminPage')}>
         <AddListBtn menu="data"/>
         <Navigate />
           <div className={cx('startupWrapper')}>
-            <Search />
+            <Search handleChange={(e) => this.handleChange(e)}/>
             <ListUtil menuToggle={this.menuToggle}/>
-            {this.renderAdminList()}
+            {mapToComponents(listContent)}
             <BtnMenu openMenu={openMenu} closeBtnMenu={this.closeBtnMenu}/>
           </div>
       </div>
     )
   }
 }
-
 export default DataAdminPage;

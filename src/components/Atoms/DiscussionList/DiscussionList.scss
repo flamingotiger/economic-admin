@@ -29,10 +29,10 @@
       span{display: block; text-align: center; color:#ffffff;}
       .year{
         margin-top:4px;
-        font:14px/18px "IBMPlexSans","sans-serif";
+        font:14px/18px "IBM Plex Sans","sans-serif";
       }
       .month{
-        font:18px/23px "IBMPlexSans","sans-serif";
+        font:18px/23px "IBM Plex Sans","sans-serif";
       }
     }
   }
@@ -54,7 +54,7 @@
       .last{color:#122491;}
     }
   }
-    .listTitle{font:bold 18px/24px "IBMPlexSans","sans-serif";}
+    .listTitle{font:18px/24px "IBM Plex Sans","sans-serif"; font-weight:600;}
     .listReport{
       clear: both;
       width:350px;
@@ -62,19 +62,19 @@
       .first{
         float:left;
         color:#000000;
-        font:10px/18px "IBMPlexSans","sans-serif";
+        font:10px/18px "IBM Plex Sans","sans-serif";
       }
       .last{
         float:right;
         color:#122491;
-        font:bold 14px/18px "IBMPlexSans","sans-serif";
+        font:14px/18px "IBM Plex Sans","sans-serif"; font-weight:600;
       }
     }
   }
 
 }
 label{
-  font:14px/18px "IBMPlexSans","sans-serif";
+  font:14px/18px "IBM Plex Sans","sans-serif";
   cursor:pointer;
   input{
     display: none;

@@ -1,5 +1,5 @@
 .btnMenuInner{
-  width:488px;
+  width:500px;
   margin:auto;
   height:42px;
   margin-top:33px;
@@ -33,12 +33,24 @@
     height:20px;
     cursor: pointer;
   }
-  select{
-    width:154px;
-    height:40px;
-    text-align: center;
+  .select{
+    display: inline-block;
+    width:154px; height:40px;
     border:1px solid #000000;
-    font:14px/40px "IBMPlexSans","sans-serif";
+    background: #ffffff;
+    select{
+      cursor: pointer;
+      display: block;
+      margin: auto;
+      padding: 0 46px;
+      text-align: center;
+      font:14px/40px "IBM Plex Sans","sans-serif";
+      -webkit-appearance: none;
+      -moz-appearance: none; appearance: none;
+      border-radius: 0px;
+      border:0 none;
+      background:none;
+    }
   }
   button{
     width:154px;
@@ -46,14 +58,16 @@
     text-align: center;
     border:1px solid #000000;
     box-sizing: border-box;
-    font:14px/40px "IBMPlexSans","sans-serif";
+    font:14px/40px "IBM Plex Sans","sans-serif";
   }
   .magazineBtn{
+    cursor: pointer;
     margin-left:13px;
     background:#000000;
     color:#ffffff;
   }
   .removeBtn{
+    cursor: pointer;
     margin-left:13px;
     background:#f34a4a;
     color:#ffffff;
