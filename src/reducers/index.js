@@ -1,9 +1,9 @@
-import setuser from './setuser';
+import profile from './profile';
 import login from './login';
 import { combineReducers } from 'redux';
 
 const reducers = combineReducers ({
-  setuser,
+  profile,
   login
 })
 export default reducers;

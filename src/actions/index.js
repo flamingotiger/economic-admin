@@ -1,25 +1,24 @@
 import * as types from './ActionTypes';
 
-export const login = (id, password) => ({
-   type:types.LOGIN,
-   id,
-   password
-   //promise: {method:'post', url:'/admin/login', data: {id, password}}
+export const adminLogin = () => ({
+   type:types.ADMIN_LOGIN,
  })
-export const loginRequest = () => ({
-  type:types.LOGIN_REQUEST,
+export const adminSubLogin = () => ({
+  type:types.ADMIN_SUB_LOGIN,
 })
-export const loginSuccess = () => ({
-   type:types.LOGIN_SUCCESS,
- })
-export const loginFalure = () => ({
-  type:types.LOGIN_FAILURE,
+export const adminLogout = () => ({
+  type: types.ADMIN_LOGOUT,
 })
-export const createUser = (index) => ({
+export const createUser = ({index, name, firstname, memo}) => ({
   type:types.CREATE_USER,
-  index
+  index, name, firstname, memo
 })
 export const removeUser = (index) => ({
   type:types.REMOVE_USER,
   index
+})
+//보류
+export const checkUser = ({magazine, news, startup, discussion, data}) => ({
+  type: types.CHECK_USER,
+  magazine, news, startup, discussion, data
 })

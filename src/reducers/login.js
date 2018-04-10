@@ -2,29 +2,33 @@ import * as types from '../actions/ActionTypes';
 
 const initialState = {
   isLoggedIn: false,
-  fetchingUpdate:false,
+  admin:false,
   user:{}
 }
 
 function login(state = initialState, action){
   switch(action.type){
-    case types.LOGIN_REQUEST:
+    case types.ADMIN_LOGIN:
       return {
         ...state,
-        fetchingUpdate:true
-      };
-    case types.LOGIN_SUCCESS:
-      return {
-        ...state,
-        fetchingUpdate:false,
         isLoggedIn:true,
+        admin:true,
         user:action.result
       };
-    case types.LOGIN_FAILURE:
+    case types.ADMIN_SUB_LOGIN:
       return {
         ...state,
-        fetchingUpdate:false
+        isLoggedIn:true,
+        admin:false,
+        user:action.result
       };
+    case types.ADMIN_LOGOUT:
+      return {
+        ...state,
+        isLoggedIn:false,
+        admin:false,
+        user:action.result
+      }
     default:
       return state
   }
