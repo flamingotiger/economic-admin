@@ -1,6 +1,28 @@
 {
-  "imagePreviewUrl":"",
-      "title":"",
-      "text":"",
-      "source":""
+  "profile":[
+    {
+      "idx":0,
+      "img":"https://vignette.wikia.nocookie.net/marvelcinematicuniverse/images/b/bb/Tony_Stark_Promo.jpg/revision/latest?cb=20141129202546",
+      "name":"Tony",
+      "firstname":"Stark",
+      "memo":"hello! IronMan",
+      "magachk": false,
+      "newschk": false,
+      "startupchk": false,
+      "discussionchk": false,
+      "datachk": false
+    },
+    {
+      "idx":1,
+      "img":"http://cfile3.uf.tistory.com/image/256C344558DA25EB207D59",
+      "name":"Chris",
+      "firstname":"Evans",
+      "memo":"hello! Captain America",
+      "magachk": false,
+      "newschk": false,
+      "startupchk": false,
+      "discussionchk": false,
+      "datachk": false
+    }
+  ]
 }
