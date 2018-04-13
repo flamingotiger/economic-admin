@@ -113,7 +113,7 @@ class DataAdminPage extends Component{
     return (
       <div className={cx('startupAdminPage')}>
         <AddListBtn menu="data"/>
-        <Navigate />
+        <Navigate data="data"/>
           <div className={cx('startupWrapper')}>
             <Search handleChange={(e) => this.handleChange(e)}/>
             <ListUtil menuToggle={this.menuToggle}/>

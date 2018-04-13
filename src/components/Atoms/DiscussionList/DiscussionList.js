@@ -20,7 +20,7 @@ class DiscussionList extends Component{
             <span onClick={openmenu}></span>
           </label>
         </div>
-        <Link to={`/admin/add:${this.props.menu}`}>
+        <Link to={`/admin/add=${this.props.menu}`}>
         <div className={cx('listImg')}>
           <img src={img} alt="img"/>
           <div className={cx('label')}>

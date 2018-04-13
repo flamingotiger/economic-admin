@@ -1,6 +1,7 @@
 import React,{Component} from 'react';
 import styles from './OpenPanel.scss';
 import classNames from 'classnames/bind';
+import axios from 'axios';
 
 const cx = classNames.bind(styles);
 
@@ -8,7 +9,7 @@ class OpenPanel extends Component{
   constructor(props){
     super(props);
     this.state={
-      index:0,
+      openPanel:this.props.openPanel,
       img:'',
       name:'',
       firstname:'',
@@ -17,17 +18,22 @@ class OpenPanel extends Component{
     this.addProfileName = this.addProfileName.bind(this);
     this.addProfileFirstName = this.addProfileFirstName.bind(this);
     this.addProfileMemo = this.addProfileMemo.bind(this);
-    this.addProfileImg = this.addProfileImg.bind(this);
-    this.indexPlus = this.indexPlus.bind(this);
     this.handleSubmit =this.handleSubmit.bind(this);
   }
   addProfileName(e){this.setState({name:e.target.value})}
   addProfileFirstName(e){this.setState({firstname:e.target.value})}
   addProfileMemo(e){this.setState({memo:e.target.value})}
-  addProfileImg(e){this.setState({img:e.target.value})}
-  indexPlus(e){this.setState((prevState) => ({index: prevState.index}));}
   handleSubmit(e){
     e.preventDefault();
+    console.log('api POST사용');
+    const {img, name, firstname, memo} = this.state;
+    //test api
+    axios.post('https://jsonplaceholder.typicode.com/posts',{
+      img:img,
+      name:name,
+      firstname:firstname,
+      memo:memo
+    }).then(res => console.log(res));
     //초기화
     this.setState({
       img:'',
@@ -35,17 +41,28 @@ class OpenPanel extends Component{
       firstname:'',
       memo:''
     })
+    this.setState({openPanel:false});
+  }
+  //ImgEdit
+  handleImageChange(e) {
+    e.preventDefault();
+    let reader = new FileReader();
+    let file = e.target.files[0];
+    reader.onloadend = () => {
+      this.setState({img: reader.result});
+    }
+    reader.readAsDataURL(file)
   }
   render(){
-    const { onCreateUser, openPanel } = this.props;
-    const { index, img, name, firstname, memo } = this.state;
+    const { openPanel, profilePanel } = this.props;
+    const { img, name, firstname, memo } = this.state;
     return (
       <div className={openPanel ? cx('addPanel','open') : cx('addPanel')}>
-        <form onSubmit={ (e) => { onCreateUser({index, img, name, firstname, memo}); this.handleSubmit(e) } }>
+        <form onSubmit={ (e) => { this.handleSubmit(e) } }>
           <div className={cx('profileTitle')}>PROFILE</div>
           <div className={cx('profileLeft')}>
-            <input type="file" value={img} onChange={this.addProfileImg}/>
-            <img className={cx('img')} src={img} alt="img"/>
+            <input type="file" accept='image/*' onChange={(e) => this.handleImageChange(e)}/>
+            <img className={cx('img')} src={img} alt=""/>
           </div>
           <div className={cx('profileRight')}>
             <div className={cx('rightText')}>
@@ -53,7 +70,7 @@ class OpenPanel extends Component{
               <div className={cx('rightInput')}><input type="text" placeholder="PRENOM" value={firstname} onChange={this.addProfileFirstName}/></div>
             </div>
             <div className={cx('textArea')}><textarea placeholder="MEMO" value={memo} onChange={this.addProfileMemo}></textarea></div>
-            <button type="submit" onClick={this.indexPlus}>ADD</button>
+            <button type="submit" onClick={() => profilePanel(0)}>ADD</button>
           </div>
         </form>
       </div>

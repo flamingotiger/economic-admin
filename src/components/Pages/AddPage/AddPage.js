@@ -1,7 +1,7 @@
 import React,{Component} from 'react';
 import styles from './AddPage.scss';
 import classNames from 'classnames/bind';
-import { Navigate } from '../../Atoms';
+import { Navigate, AddListBtn } from '../../Atoms';
 import { NewsTemplate,
          DiscussionTemplate,
          StartUpTemplate,
@@ -45,6 +45,7 @@ class AddPage extends Component{
     const params = this.props.match.params.menu.slice(1);
     return (
       <div className={cx('addWrapper')}>
+        <AddListBtn menu={this.state.addvalue}/>
         <Navigate />
         <div className={cx('addMenu')}>
           <div className={cx('addTitle')}>ADD</div>

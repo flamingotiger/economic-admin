@@ -129,7 +129,7 @@ class DiscussionAdminPage extends Component{
     return (
       <div className={cx('startupAdminPage')}>
         <AddListBtn menu="discussion"/>
-        <Navigate />
+        <Navigate discussion="discussion"/>
           <div className={cx('startupWrapper')}>
             <Search handleChange={(e) => this.handleChange(e)}/>
             <ListUtil menuToggle={this.menuToggle}/>

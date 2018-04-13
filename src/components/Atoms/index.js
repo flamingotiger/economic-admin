@@ -10,6 +10,8 @@ import DiscussionList from './DiscussionList';
 import DataList from './DataList';
 import OpenPanel from './OpenPanel';
 import OpenPanelEdit from './OpenPanelEdit';
+import Cancel from './Cancel';
+
 export {
   Navigate,
   AddListBtn,
@@ -22,5 +24,6 @@ export {
   DataList,
   BtnMenu,
   OpenPanel,
-  OpenPanelEdit
+  OpenPanelEdit,
+  Cancel,
 };

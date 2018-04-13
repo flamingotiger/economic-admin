@@ -16,7 +16,7 @@ class AdminList extends Component{
             <span onClick={openmenu}></span>
           </label>
         </div>
-        <Link to={`/admin/add:${menu}`}>
+        <Link to={`/admin/add=${menu}`}>
           <div className={cx('listImg')}>
             <img src={img} alt="img"/>
           </div>

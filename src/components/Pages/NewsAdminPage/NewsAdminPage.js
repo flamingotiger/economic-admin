@@ -119,7 +119,7 @@ class NewsAdminPage extends Component{
     return (
       <div className={cx('newsAdminPage')}>
         <AddListBtn menu="news"/>
-        <Navigate />
+        <Navigate news="news"/>
           <div className={cx('newsWrapper')}>
             <Search handleChange={(e) => this.handleChange(e)}/>
             <ListUtil menuToggle={this.menuToggle}/>

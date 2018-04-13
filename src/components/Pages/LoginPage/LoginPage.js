@@ -5,7 +5,7 @@ import { Navigate } from '../../Atoms';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import * as actions from '../../../actions';
-import Cookies from 'universal-cookie';
+import Cookies from 'js-cookie';
 
 const cx = classNames.bind(styles);
 
@@ -22,12 +22,11 @@ class LoginPage extends Component{
   handleSubmit = (e) => {
     e.preventDefault();
     const pw = this.password.value
-    if(pw.length < 4){
+    if(pw.length < 3){
       alert('More password!')
       return false;
     }
-    const cookies = new Cookies();
-    cookies.set('token', 'HELLO_TOKEN_VALUE~',{ path: '/admin'});
+    Cookies.set('token', 'HELLO_TOKEN_VALUE~',{ path: '/admin'});
     this.props.onLogin()
   }
   idHandleChange(e){
@@ -39,7 +38,6 @@ class LoginPage extends Component{
   render(){
     const { user } = this.props;
     if(user.isLoggedIn) {
-      console.log(user.isLoggedIn)
       return (
         <Redirect to="/admin/magazine"/>
       );

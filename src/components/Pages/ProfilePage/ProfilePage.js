@@ -1,10 +1,9 @@
 import React, {Component} from 'react';
 import styles from './ProfilePage.scss';
 import classNames from 'classnames/bind';
-import { Navigate, OpenPanel, OpenPanelEdit} from '../../Atoms';
-import { ProfileContainer } from '../../../containers';
-import * as actions from '../../../actions';
-import { connect } from 'react-redux';
+import { Navigate, OpenPanel } from '../../Atoms';
+import { ProfileLists } from '../../Molecules';
+import axios from 'axios';
 
 const cx = classNames.bind(styles);
 
@@ -14,56 +13,50 @@ class ProfilePage extends Component{
     this.state={
       openPanel:false,
       openPanelEdit:false,
-      index:0,
-      img:'',
-      name:'',
-      firstname:'',
-      memo:'',
+      profile:[]
     }
     this.profilePanel = this.profilePanel.bind(this);
-    this.handleSubmit =this.handleSubmit.bind(this);
-    this.handleEdit = this.handleEdit.bind(this);
   }
-  profilePanel(){this.setState((prevState) => ({openPanel: !prevState.openPanel}))}
-  handleSubmit(e){
-    e.preventDefault();
-    //초기화
-    this.setState({
-      img:'',
-      name:'',
-      firstname:'',
-      memo:''
-    })
+
+  //패널열기
+  profilePanel(open){
+    if(open){
+      this.setState((prevState) => ({openPanel: !prevState.openPanel}))
+    }else{
+      this.setState({openPanel: false})
+    }
   }
-  handleEdit(e){
-    this.setState({
-      index:Number(e.target.getAttribute("data-key")),
-      openPanelEdit:!this.state.openPanelEdit
-    })
+  getIdx = (idx) => { this.setState({ idx : idx })}
+
+  //get api
+  componentDidMount(){
+    axios.get('https://honghakbum.github.io/economic-admin/profile.json')
+    .then(res => this.setState({ profile : res.data.profile }))
+    .catch(err => console.log(err))
   }
   render(){
-    const uservalue = this.props.profile.userValue[this.state.index]
-    const { openPanel, openPanelEdit } = this.state;
+    const { profile, openPanel } = this.state;
     return (
       <div className={cx('profilePage')}>
         <Navigate />
-        <div className={cx('addProfileBtn')} onClick={this.profilePanel}>
+        <div className={cx('addProfileBtn')} onClick={() => this.profilePanel(1)}>
           <span>ADD PROFILE</span>
         </div>
-        <OpenPanel onCreateUser={this.props.onCreateUser} openPanel={openPanel}/>
-        <ProfileContainer handleEdit={this.handleEdit}/>
-        <OpenPanelEdit onCreateUser={this.props.onCreateUser} uservalue={uservalue} openPanelEdit={openPanelEdit}/>
+        <OpenPanel
+          profile={profile}
+          openPanel={openPanel}
+          profilePanel={this.profilePanel}
+          idx={this.state.idx}
+          />
+        <ProfileLists
+          profile={profile}
+          onRemoveUser={this.props.onRemoveUser}
+          onEditUser={this.props.onEditUser}
+          getIdx={this.getIdx}
+        />
       </div>
     )
   }
 }
-const mapStateToProps = (state) => ({
-  profile:state.profile,
-});
 
-const mapToDispatch = (dispatch) => ({
-    onCreateUser : ({index, img, name, firstname, memo}) =>
-    dispatch(actions.createUser({index, img, name, firstname, memo}))
-});
-
-export default connect(mapStateToProps, mapToDispatch)(ProfilePage);
+export default ProfilePage;

@@ -118,7 +118,7 @@ class StartUpAdminPage extends Component{
     return (
       <div className={cx('startupAdminPage')}>
         <AddListBtn menu="startup"/>
-        <Navigate />
+        <Navigate startup="startup"/>
           <div className={cx('startupWrapper')}>
             <Search handleChange={(e) => this.handleChange(e)}/>
             <ListUtil menuToggle={this.menuToggle}/>

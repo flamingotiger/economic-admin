@@ -15,7 +15,7 @@ class DataList extends Component{
             <span onClick={this.props.openmenu}></span>
           </label>
         </div>
-        <Link to={`/admin/add:${this.props.menu}`}>
+        <Link to={`/admin/add=${this.props.menu}`}>
           <div className={cx('listImg')}>
             <img src={this.props.img} alt="img"/>
           </div>

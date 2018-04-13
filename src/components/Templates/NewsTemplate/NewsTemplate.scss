@@ -15,7 +15,6 @@
   .upLoadWrapper{
     clear:both;
     width:800px;
-    overflow: hidden;
     margin:auto;
     margin-top:35px;
     .fileUpLoads{
@@ -131,4 +130,26 @@
       cursor:pointer;
       font:14px/40px "IBM Plex Sans","sans-serif";
     }
+}
+.calendar{
+  position: absolute;
+  transition:all .2s ease;
+  transform: scale(0.5);
+  visibility: hidden;
+  opacity: 0;
+  left: 50%;
+  top: 50%;
+  margin-left: -180px;
+  z-index:3;
+  &.on{
+    position: absolute;
+    transition:all .2s ease;
+    transform: scale(1);
+    visibility: visible;
+    opacity: 1;
+    left: 50%;
+    top: 50%;
+    z-index:3;
+    margin-left: -180px;
+  }
 }

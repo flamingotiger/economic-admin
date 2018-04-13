@@ -1,20 +1,29 @@
-import React from 'react';
+import React,{Component} from 'react';
 import styles from './ProfileLists.scss';
 import classNames from 'classnames/bind';
 import { ProfileList } from '../../Atoms';
 
 const cx = classNames.bind(styles);
-class ProfileLists extends React.Component{
+class ProfileLists extends Component{
 
   renderContent= () => {
-    const userValue = this.props.profile.userValue
-    const profile = userValue.map((content,i) => {
+    const profile = this.props.profile.map((content,i) => {
       return <ProfileList
             key={i}
-            index={content.index}
-            {...userValue}
+            idx={content.idx}
+            img={content.img}
+            name={content.name}
+            firstname={content.firstname}
+            memo={content.memo}
+            popup={content.popup}
             onRemoveUser={this.props.onRemoveUser}
-            handleEdit={this.props.handleEdit}
+            onEditUser={this.props.onEditUser}
+            getIdx={this.props.getIdx}
+            magachk={this.props.magachk}
+            newschk={this.props.newschk}
+            startupchk={this.props.startupchk}
+            discussionchk={this.props.discussionchk}
+            datachk={this.props.datachk}
           />
       })
     return profile

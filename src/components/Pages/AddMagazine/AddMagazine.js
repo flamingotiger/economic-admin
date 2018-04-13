@@ -1,7 +1,7 @@
 import React,{Component} from 'react';
 import styles from './AddMagazine.scss';
 import classNames from 'classnames/bind';
-import { Navigate } from '../../Atoms';
+import { Navigate, AddListBtn } from '../../Atoms';
 
 const cx = classNames.bind(styles);
 
@@ -9,6 +9,7 @@ class AddMagazine extends Component{
   render(){
     return (
       <div className={cx('addMagazineWrapper')}>
+        <AddListBtn menu="magazine"/>
         <Navigate />
         <div className={cx('addMagazine')}>
           <div className={cx('title')}>MAGAZINE</div>

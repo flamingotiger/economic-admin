@@ -7,6 +7,9 @@ const cx = classNames.bind(styles);
 
 class MagazineThumb extends Component{
   render(){
+    //idx에 따라 style변경
+    //idx = next border-color:red
+    //idx = on no-gray
     const {idx, year, month, date} = this.props;
     return (
       <div className={cx('profileList',`${idx}`)}>

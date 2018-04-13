@@ -3,7 +3,7 @@ import ProfilePage from './ProfilePage';
 import NewsAdminPage from './NewsAdminPage';
 import StartUpAdminPage from './StartUpAdminPage';
 import NotAllow from './NotAllow';
-import MagazinePage from './MagazinePage';
+import MagazineAdminPage from './MagazineAdminPage';
 import DiscussionAdminPage from './DiscussionAdminPage';
 import DataAdminPage from './DataAdminPage';
 import AddMagazine from './AddMagazine';
@@ -14,7 +14,7 @@ export {
   ProfilePage,
   NewsAdminPage,
   StartUpAdminPage,
-  MagazinePage,
+  MagazineAdminPage,
   DiscussionAdminPage,
   DataAdminPage,
   AddMagazine,

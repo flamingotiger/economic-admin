@@ -1,55 +1,82 @@
 import React,{Component} from 'react';
 import styles from './OpenPanelEdit.scss';
 import classNames from 'classnames/bind';
+import axios from 'axios';
 
 const cx = classNames.bind(styles);
 
 class OpenPanelEdit extends Component{
   constructor(props){
     super(props);
+    const { name, firstname, memo, img, magachk, openPanel,
+       newschk, startupchk, discussionchk, datachk } = this.props;
     this.state={
-      openPanel:false,
-      index:0,
-      img:'',
-      imgs:this.props.uservalue.img,
-      name:this.props.uservalue.name,
-      firstname:this.props.uservalue.firstname,
-      memo:this.props.uservalue.memo,
+      name:name,
+      firstname:firstname,
+      memo:memo,
+      img:img,
+      magachk:magachk,
+      openPanel:openPanel,
+      newschk:newschk,
+      startupchk:startupchk,
+      discussionchk:discussionchk,
+      datachk:datachk,
+      popup:false,
     }
     this.addProfileName = this.addProfileName.bind(this);
     this.addProfileFirstName = this.addProfileFirstName.bind(this);
     this.addProfileMemo = this.addProfileMemo.bind(this);
-    this.addProfileImg = this.addProfileImg.bind(this);
-    this.profilePanel = this.profilePanel.bind(this);
     this.handleSubmit =this.handleSubmit.bind(this);
+    this.btnClick = this.btnClick.bind(this);
   }
-  profilePanel(){this.setState((prevState) => ({openPanel: !prevState.openPanel}))}
   addProfileName(e){this.setState({name:e.target.value})}
   addProfileFirstName(e){this.setState({firstname:e.target.value})}
   addProfileMemo(e){this.setState({memo:e.target.value})}
-  addProfileImg(e){this.setState({img:e.target.value})}
   handleSubmit(e){
     e.preventDefault();
-    //초기화
-    this.setState({
-      img:'',
-      name:'',
-      firstname:'',
-      memo:''
-    })
+    console.log('여기서 api PUT사용')
+    const { idx, img, name, firstname, memo, popup, openPanel,
+       magachk, newschk, startupchk, discussionchk, datachk } = this.state
+    //파라미터에 해당하는 `url${idx}` 값을 토대로 put
+    axios.put('https://honghakbum.github.io/economic-admin/profile.json',{
+        magachk:magachk,
+        openPanel:openPanel,
+        newschk:newschk,
+        startupchk:startupchk,
+        discussionchk:discussionchk,
+        datachk:datachk,
+        img:img,
+        name:name,
+        firstname:firstname,
+        memo:memo,
+        popup:popup
+    }).then(res => console.log(res))
+  }
+  //popup
+  btnClick = () => {
+    this.setState({ popup: !this.state.popup })
+    setTimeout(()=>{
+      this.setState({ popup: !this.state.popup })
+    },1500)
+  }
+  //imgEdit
+  handleImageChange(e) {
+    e.preventDefault();
+    let reader = new FileReader();
+    let file = e.target.files[0];
+    reader.onloadend = () => { this.setState({img: reader.result}); }
+    reader.readAsDataURL(file)
   }
   render(){
-    const { onCreateUser, openPanelEdit } = this.props;
-    const { index, img, name, firstname, memo, imgs } = this.state;
-    console.log(this.props.uservalue)
-    console.log(this.state)
+    const { openPanel } = this.props;
+    const { img, name, firstname, memo, popup } = this.state;
     return (
-      <div className={openPanelEdit ? cx('addPanel','open') : cx('addPanel')}>
-        <form onSubmit={ (e) => { onCreateUser({index, img, name, firstname, memo}); this.handleSubmit(e) } }>
+      <div className={openPanel ? cx('editPanel','open') : cx('editPanel')}>
+        <form onSubmit={ (e) => { this.handleSubmit(e) } }>
           <div className={cx('profileTitle')}>PROFILE</div>
           <div className={cx('profileLeft')}>
-            <input type="file" value={img} onChange={this.addProfileImg}/>
-            <img className={cx('img')} src={imgs} alt="img"/>
+            <input type="file" accept='image/*' onChange={(e)=>this.handleImageChange(e)}/>
+            <img className={cx('img')} src={img} alt=""/>
           </div>
           <div className={cx('profileRight')}>
             <div className={cx('rightText')}>
@@ -57,14 +84,12 @@ class OpenPanelEdit extends Component{
               <div className={cx('rightInput')}><input type="text" placeholder="PRENOM" value={firstname} onChange={this.addProfileFirstName}/></div>
             </div>
             <div className={cx('textArea')}><textarea placeholder="MEMO" value={memo} onChange={this.addProfileMemo}></textarea></div>
-            <button type="submit">CHANGE</button>
+            <button type="submit" onClick={this.btnClick}>CHANGE</button>
+            <div className={popup? cx('successEdit','on') : cx('successEdit')}>수정되었습니다</div>
           </div>
         </form>
       </div>
     );
   }
-}
-OpenPanelEdit.defaultProps={
-  imgFile:"https://www.bzh.be/img.php?src=https://www.sortir-en-bretagne.fr/images/no-image.png&w=330&h=200&zc=1"
 }
 export default OpenPanelEdit;

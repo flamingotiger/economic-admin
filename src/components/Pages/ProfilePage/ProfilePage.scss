@@ -120,3 +120,9 @@
     }
   }
 }
+.openPanel{
+  display: none;
+  &.on{
+    display: block;
+  }
+}
