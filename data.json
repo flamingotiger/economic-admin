@@ -7,7 +7,14 @@
     "date":"2017.11.27",
     "subTitle":"PSA forcé d'importer de plus en plus de moteurs made in China",
     "publish":"MODIFIÉ  3j",
-    "reporter":"Redigé par KIM"
+    "reporter":"Redigé par KIM",
+    "f_title":"title",
+    "f_text":"texettextext",
+    "f_source":"sourcesssss",
+    "e_title":"etitle",
+    "e_text":"etexttext",
+    "e_source":"esource",
+    "calendarDate":"datedate"
     },
     {
     "idx":1,
@@ -17,7 +24,14 @@
     "date":"2017.11.27",
     "subTitle":"PSA forcé d'importer de plus en plus de moteurs made in China",
     "publish":"MODIFIÉ  3j",
-    "reporter":"Redigé par KIM"
+    "reporter":"Redigé par KIM",
+    "f_title":"title",
+    "f_text":"texettextext",
+    "f_source":"sourcesssss",
+    "e_title":"etitle",
+    "e_text":"etexttext",
+    "e_source":"esource",
+    "calendarDate":"datedate"  
     },    
     {
     "idx":2,
@@ -27,7 +41,14 @@
     "date":"2017.11.27",
     "subTitle":"PSA forcé d'importer de plus en plus de moteurs made in China",
     "publish":"MODIFIÉ  3j",
-    "reporter":"Redigé par KIM"
+    "reporter":"Redigé par KIM",
+    "f_title":"title",
+    "f_text":"texettextext",
+    "f_source":"sourcesssss",
+    "e_title":"etitle",
+    "e_text":"etexttext",
+    "e_source":"esource",
+    "calendarDate":"datedate"  
     },
     {
     "idx":3,
@@ -37,7 +58,14 @@
     "date":"2017.11.27",
     "subTitle":"PSA forcé d'importer de plus en plus de moteurs made in China",
     "publish":"MODIFIÉ  3j",
-    "reporter":"Redigé par KIM"
+    "reporter":"Redigé par KIM",
+    "f_title":"title",
+    "f_text":"texettextext",
+    "f_source":"sourcesssss",
+    "e_title":"etitle",
+    "e_text":"etexttext",
+    "e_source":"esource",
+    "calendarDate":"datedate"  
     },
     {
     "idx":4,
@@ -47,7 +75,14 @@
     "date":"2017.11.27",
     "subTitle":"PSA forcé d'importer de plus en plus de moteurs made in China",
     "publish":"MODIFIÉ  3j",
-    "reporter":"Redigé par KIM"
+    "reporter":"Redigé par KIM",
+    "f_title":"title",
+    "f_text":"texettextext",
+    "f_source":"sourcesssss",
+    "e_title":"etitle",
+    "e_text":"etexttext",
+    "e_source":"esource",
+    "calendarDate":"datedate"  
     }  
   ]
 }
