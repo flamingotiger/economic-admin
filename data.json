@@ -99,7 +99,12 @@
       "reporter1":"Redigé par KIM",
       "publish2":"MODIFIÉ  3j",
       "reporter2":"Redigé par KIM",
-      "source":"test texttexttexttexttexttexttext"
+      "f_source":"test texttexttexttexttexttexttext",
+      "f_title1":"PSA forcé d'importer de plus en plus de moteurs made in China",  
+      "f_text1":"test texttexttexttexttexttexttext",
+      "e_source":"test texttexttexttexttexttexttext",
+      "e_title1":"PSA forcé d'importer de plus en plus de moteurs made in China",  
+      "e_text1":"test texttexttexttexttexttexttext"  
     },
     {
       "idx":1,
@@ -114,7 +119,12 @@
       "reporter1":"Redigé par KIM",
       "publish2":"MODIFIÉ  3j",
       "reporter2":"Redigé par KIM",
-      "source":"test texttexttexttexttexttexttext"
+      "f_source":"test texttexttexttexttexttexttext",
+      "f_title1":"PSA forcé d'importer de plus en plus de moteurs made in China",  
+      "f_text1":"test texttexttexttexttexttexttext",
+      "e_source":"test texttexttexttexttexttexttext",
+      "e_title1":"PSA forcé d'importer de plus en plus de moteurs made in China",  
+      "e_text1":"test texttexttexttexttexttexttext"
     },
     {
       "idx":2,
@@ -129,7 +139,12 @@
       "reporter1":"Redigé par KIM",
       "publish2":"MODIFIÉ  3j",
       "reporter2":"Redigé par KIM",
-      "source":"test texttexttexttexttexttexttext"
+      "f_source":"test texttexttexttexttexttexttext",
+      "f_title1":"PSA forcé d'importer de plus en plus de moteurs made in China",  
+      "f_text1":"test texttexttexttexttexttexttext",
+      "e_source":"test texttexttexttexttexttexttext",
+      "e_title1":"PSA forcé d'importer de plus en plus de moteurs made in China",  
+      "e_text1":"test texttexttexttexttexttexttext"
     },
     {
       "idx":3,
@@ -144,7 +159,12 @@
       "reporter1":"Redigé par KIM",
       "publish2":"MODIFIÉ  3j",
       "reporter2":"Redigé par KIM",
-      "source":"test texttexttexttexttexttexttext"
+      "f_source":"test texttexttexttexttexttexttext",
+      "f_title1":"PSA forcé d'importer de plus en plus de moteurs made in China",  
+      "f_text1":"test texttexttexttexttexttexttext",
+      "e_source":"test texttexttexttexttexttexttext",
+      "e_title1":"PSA forcé d'importer de plus en plus de moteurs made in China",  
+      "e_text1":"test texttexttexttexttexttexttext"
     }
   ],
    "startup":[
