@@ -3,6 +3,8 @@
     {
       "idx":0,
       "img":"https://vignette.wikia.nocookie.net/marvelcinematicuniverse/images/b/bb/Tony_Stark_Promo.jpg/revision/latest?cb=20141129202546",
+      "email":"tony@gmail.com",
+      "password":"pw1234",
       "name":"Tony",
       "firstname":"Stark",
       "memo":"hello! IronMan",
@@ -15,6 +17,8 @@
     {
       "idx":1,
       "img":"http://cfile3.uf.tistory.com/image/256C344558DA25EB207D59",
+      "email":"chris@gmail.com",
+      "password":"pw5678",
       "name":"Chris",
       "firstname":"Evans",
       "memo":"hello! Captain America",
