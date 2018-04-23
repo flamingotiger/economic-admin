@@ -254,5 +254,51 @@
       "publish":"MODIFIÉ  3j",
       "reporter":""
     }    
+  ],
+  "data":[
+    {
+      "idx":0,
+      "menu":"data",
+      "img":"https://visualstudiomagazine.com/~/media/ECG/visualstudiomagazine/Images/introimages/BigData.jpg",      
+      "publish":"MODIFIÉ  3j",
+      "reporter":"",
+      "f_title":"PSA forcé d'importer de plus en plus de moteurs made in China",
+      "f_text":"texettextext",     
+      "e_title":"etitle",
+      "e_text":"etexttext"
+    },
+    {
+      "idx":1,
+      "menu":"data",
+      "img":"https://visualstudiomagazine.com/~/media/ECG/visualstudiomagazine/Images/introimages/BigData.jpg",      
+      "publish":"MODIFIÉ  3j",
+      "reporter":"",
+      "f_title":"PSA forcé d'importer de plus en plus de moteurs made in China",
+      "f_text":"texettextext",     
+      "e_title":"etitle",
+      "e_text":"etexttext"
+    },
+    {
+      "idx":2,
+      "menu":"data",
+      "img":"https://visualstudiomagazine.com/~/media/ECG/visualstudiomagazine/Images/introimages/BigData.jpg",     
+      "publish":"MODIFIÉ  3j",
+      "reporter":"",
+      "f_title":"PSA forcé d'importer de plus en plus de moteurs made in China",
+      "f_text":"texettextext",     
+      "e_title":"etitle",
+      "e_text":"etexttext"
+    },  
+    {
+      "idx":3,
+      "menu":"data",
+      "img":"https://visualstudiomagazine.com/~/media/ECG/visualstudiomagazine/Images/introimages/BigData.jpg",     
+      "publish":"MODIFIÉ  3j",
+      "reporter":"",
+      "f_title":"PSA forcé d'importer de plus en plus de moteurs made in China",
+      "f_text":"texettextext",     
+      "e_title":"etitle",
+      "e_text":"etexttext"
+    }
   ]
 }
