@@ -1,5 +1,5 @@
 import * as types from './ActionTypes';
-
+//login
 export const adminLogin = () => ({
    type:types.ADMIN_LOGIN,
  })
@@ -9,16 +9,35 @@ export const adminSubLogin = () => ({
 export const adminLogout = () => ({
   type: types.ADMIN_LOGOUT,
 })
-export const createUser = ({index, name, firstname, memo}) => ({
+//addMagazine
+export const magazineNews = (num, idx) => ({
+  type: types.MAGAZINE_NEWS,
+  num,
+  idx
+})
+export const magazineDiscussion = (idx) => ({
+  type: types.MAGAZINE_DISCUSSION,
+  idx
+})
+export const magazineStartup = (num, idx) => ({
+  type: types.MAGAZINE_STARTUP,
+  num,
+  idx
+})
+export const magazineData = (idx) => ({
+  type: types.MAGAZINE_DATA,
+  idx
+})
+//profile 보류
+export const createUser = ({idx, img, name, firstname, memo}) => ({
   type:types.CREATE_USER,
-  index, name, firstname, memo
+  idx, img, name, firstname, memo
 })
-export const removeUser = (index) => ({
+export const removeUser = (idx) => ({
   type:types.REMOVE_USER,
-  index
+  idx
 })
-//보류
-export const checkUser = ({magazine, news, startup, discussion, data}) => ({
-  type: types.CHECK_USER,
-  magazine, news, startup, discussion, data
+export const editUser = ({idx, img, name, firstname, memo, magachk, newschk, startupchk, discussionchk, datachk}) => ({
+  type:types.EDIT_USER,
+  idx, img, name, firstname, memo, magachk, newschk, startupchk, discussionchk, datachk
 })
