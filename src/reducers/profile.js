@@ -1,14 +1,8 @@
 import * as types from '../actions/ActionTypes';
+import update from 'immutability-helper';
 
 const initialState = {
   userValue:[
-    {
-      index:0,
-      img:'https://vignette.wikia.nocookie.net/marvelcinematicuniverse/images/b/bb/Tony_Stark_Promo.jpg/revision/latest?cb=20141129202546',
-      name:"Tony",
-      firstname:"Stark",
-      memo:"hello! IronMan",
-    }
   ]
 }
 function profile(state = initialState, action){
@@ -19,18 +13,40 @@ function profile(state = initialState, action){
         userValue : [
           ...userValue,
           {
-            index:userValue[userValue.length - 1].index + 1,
+            idx:action.idx,
             img:action.img,
             name:action.name,
             firstname:action.firstname,
-            memo:action.memo
+            memo:action.memo,
+            magachk: false,
+            newschk: false,
+            startupchk: false,
+            discussionchk: false,
+            datachk: false
           },
         ]
       }
     case types.REMOVE_USER:
       return {
-        userValue: userValue.filter(idx => idx.index !== action.index)
+        userValue: userValue.filter(stateidx => stateidx.idx !== action.idx)
       };
+    case types.EDIT_USER:
+      return update(state,{
+              userValue: {
+                [action.idx]: {
+                  idx:{ $set: action.idx},
+                  img:{ $set: action.img},
+                  name:{ $set: action.name},
+                  firstname:{ $set: action.firstname},
+                  memo:{ $set: action.memo},
+                  magachk: { $set: action.magachk},
+                  newschk: { $set: action.newschk},
+                  startupchk: { $set: action.startupchk},
+                  discussionchk: { $set: action.discussionchk},
+                  datachk: { $set: action.datachk}
+                }
+              }
+            })
     default:
       return state;
   }
