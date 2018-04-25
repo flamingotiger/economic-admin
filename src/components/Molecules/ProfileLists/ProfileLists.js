@@ -10,20 +10,19 @@ class ProfileLists extends Component{
     const profile = this.props.profile.map((content,i) => {
       return <ProfileList
             key={i}
+            getIdx={this.props.getIdx}
             idx={content.idx}
             img={content.img}
             name={content.name}
             firstname={content.firstname}
+            email={content.email}
+            password={content.password}
             memo={content.memo}
-            popup={content.popup}
-            onRemoveUser={this.props.onRemoveUser}
-            onEditUser={this.props.onEditUser}
-            getIdx={this.props.getIdx}
-            magachk={this.props.magachk}
-            newschk={this.props.newschk}
-            startupchk={this.props.startupchk}
-            discussionchk={this.props.discussionchk}
-            datachk={this.props.datachk}
+            magachk={content.magachk}
+            newschk={content.newschk}
+            startupchk={content.startupchk}
+            discussionchk={content.discussionchk}
+            datachk={content.datachk}
           />
       })
     return profile

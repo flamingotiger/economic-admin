@@ -1,7 +1,8 @@
 import React,{Component} from 'react';
 import styles from './DiscussionAdminPage.scss';
 import classNames from 'classnames/bind';
-import { AddListBtn, Navigate, Search, DiscussionList, ListUtil, BtnMenu } from '../../Atoms';
+import { AddListBtn, Navigate, Search, DiscussionList, ListUtil, BtnMenu, SelectBtn } from '../../Atoms';
+import { getApi, deleteApi } from '../../../api';
 
 const cx = classNames.bind(styles);
 
@@ -12,72 +13,64 @@ class DiscussionAdminPage extends Component{
       keyword:'',
       openMenu:false,
       checkIdx:[],
-      listContent:[
-        {
-          idx:0,
-          menu:"discussion",
-          img:"https://i.ndtvimg.com/i/2017-02/group-discussion_650x400_71487508322.jpg",
-          cate:"Automobile",
-          year:"2018",
-          month:"OCTOBER",
-          title1:"PSA forcé d'importer de plus en plus de moteurs made in China",
-          title2:"PSA forcé d'importer de plus en plus de moteurs made in China",
-          publish1:"MODIFIÉ  3j",
-          reporter1:"Redigé par KIM",
-          publish2:"MODIFIÉ  3j",
-          reporter2:"Redigé par KIM",
-        },
-        {
-          idx:1,
-          menu:"discussion",
-          img:"https://i.ndtvimg.com/i/2017-02/group-discussion_650x400_71487508322.jpg",
-          cate:"Automobile",
-          year:"2018",
-          month:"OCTOBER",
-          title1:"PSA forcé d'importer de plus en plus de moteurs made in China",
-          title2:"PSA forcé d'importer de plus en plus de moteurs made in China",
-          publish1:"MODIFIÉ  3j",
-          reporter1:"Redigé par KIM",
-          publish2:"MODIFIÉ  3j",
-          reporter2:"Redigé par KIM",
-        },
-        {
-          idx:2,
-          menu:"discussion",
-          img:"https://i.ndtvimg.com/i/2017-02/group-discussion_650x400_71487508322.jpg",
-          cate:"Automobile",
-          year:"2018",
-          month:"OCTOBER",
-          title1:"PSA forcé d'importer de plus en plus de moteurs made in China",
-          title2:"PSA forcé d'importer de plus en plus de moteurs made in China",
-          publish1:"MODIFIÉ  3j",
-          reporter1:"Redigé par KIM",
-          publish2:"MODIFIÉ  3j",
-          reporter2:"Redigé par KIM",
-        }
-      ]
-
+      discussion:[],
+      checkAll:false
     }
     this.closeBtnMenu = this.closeBtnMenu.bind(this);
-    this.openBtnMenu = this.openBtnMenu.bind(this);
+    this.openMenu = this.openMenu.bind(this);
     this.removeBtn = this.removeBtn.bind(this);
     this.menuToggle = this.menuToggle.bind(this);
   }
   closeBtnMenu(){this.setState({ openMenu:false })}
+  //검색시 인덱스 초기화
+  handleChange = (e) => {this.setState({keyword: e.target.value, checkIdx:[] })}
+  //ListUtil연결
   menuToggle(){this.setState({ openMenu:!this.state.openMenu })}
-  openBtnMenu(e){
-    const check = Number(e.target.parentNode.parentNode.parentNode.getAttribute('id'))
-    this.setState({
-      openMenu:true,
-      checkIdx:this.state.checkIdx.concat(check)
-    })
+  listCheckAll = (e) => {
+    const {discussion, checkAll, keyword } = this.state
+    this.setState((prevState) => ({checkAll: !prevState.checkAll}))
+      if(!checkAll){
+        const srch = discussion.filter((contact) => {
+          return contact.title1.toLowerCase().indexOf(keyword) > -1
+        });
+        if(keyword === ""){
+          this.setState({checkIdx:discussion.map(content => content.idx), openMenu:true})
+        }else{
+          this.setState({checkIdx:srch.map(content => content.idx), openMenu:true})
+        }
+      }else{
+        this.setState({checkIdx:[], openMenu:false })
+      }
+    }
+  //버튼 클릭시 check된것가져오고 삭제 메뉴열기
+  openMenu(e){
+    const check = Number(e.target.parentNode.getAttribute('data-item'))
+    const checked = e.target.previousSibling.checked
+
+    const checkIdx = this.state.checkIdx.concat(check)
+    const delCheckIdx = this.state.checkIdx.filter(value => value !== check)
+
+    if(!checked){
+      this.setState({
+        openMenu:true,
+        checkIdx:checkIdx
+      })
+    }else{
+      this.setState({
+        openMenu:false,
+        checkIdx:delCheckIdx
+       })
+    }
   }
   removeBtn(){
-    console.log(this.state.checkIdx)
-    //체크한 리스트 인덱스 값들
+    //체크한 리스트 인덱스 값들 ${checkIdx} ex) [0,2,4,5,6,7]
+    const checkIdx = this.state.checkIdx;
+    checkIdx.map((remove) => (
+      deleteApi(remove)
+    ))
   }
   renderAdminList = () => {
-    const listContent = this.state.listContent.map((content,i) => {
+    const discussion = this.state.discussion.map((content,i) => {
       return <DiscussionList
         key={i}
         idx={content.idx}
@@ -91,22 +84,26 @@ class DiscussionAdminPage extends Component{
         title2={content.title2}
         publish2={content.publish2}
         reporter2={content.reporter2}
-        openmenu={this.openBtnMenu}
+        openmenu={this.openMenu}
         menu={content.menu}
+        checkAll={this.state.checkAll}
         />
     })
-    return listContent
+    return discussion
   }
-  handleChange = (e) => {this.setState({keyword: e.target.value})}
+  componentDidMount(){
+    getApi().then(res => this.setState({discussion: res.data.discussion}))
+  }
   render(){
-    const mapToComponents = (listContent) => {
+    console.log(this.state.checkIdx)
+    const mapToComponents = (discussion) => {
       if(this.state.keyword === ''){
           this.renderAdminList()
       }
-       listContent = listContent.filter((contact) => {
+       discussion = discussion.filter((contact) => {
          return contact.title1.toLowerCase().indexOf(this.state.keyword) > -1
        });
-       return listContent.map((content,i) => {
+       return discussion.map((content,i) => {
             return <DiscussionList
               key={i}
               idx={content.idx}
@@ -120,21 +117,31 @@ class DiscussionAdminPage extends Component{
               title2={content.title2}
               publish2={content.publish2}
               reporter2={content.reporter2}
-              openmenu={this.openBtnMenu}
+              openmenu={this.openMenu}
               menu={content.menu}
+              checkAll={this.state.checkAll}
               />
         });
     };
-    const { openMenu, listContent } = this.state;
+    const { openMenu, discussion } = this.state;
     return (
-      <div className={cx('startupAdminPage')}>
+      <div className={cx('discussionAdminPage')}>
         <AddListBtn menu="discussion"/>
         <Navigate discussion="discussion"/>
-          <div className={cx('startupWrapper')}>
-            <Search handleChange={(e) => this.handleChange(e)}/>
-            <ListUtil menuToggle={this.menuToggle}/>
-            {mapToComponents(listContent)}
-            <BtnMenu openMenu={openMenu} closeBtnMenu={this.closeBtnMenu}/>
+          <div className={cx('discussionWrapper')}>
+            <div className={cx('search')}>
+              <div className={cx('selectBtn')}><SelectBtn /></div>
+              <div className={cx('searchBox')}><Search handleChange={(e) => this.handleChange(e)}/></div>
+            </div>
+            <ListUtil menuToggle={this.menuToggle} listCheckAll={this.listCheckAll}/>
+            <form>
+              {mapToComponents(discussion)}
+            </form>
+            <BtnMenu
+              openMenu={openMenu}
+              closeBtnMenu={this.closeBtnMenu}
+              removeBtn={this.removeBtn}
+            />
           </div>
       </div>
     )

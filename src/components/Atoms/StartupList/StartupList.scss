@@ -1,0 +1,79 @@
+.startupList{
+  clear:both;
+  width:928px;
+  height:120px;
+  margin:auto;
+  margin-top:10px;
+  margin-bottom:10px;
+  .listCheck{
+    margin-top:53px;
+    margin-right:36px;
+  }
+  div{
+    float: left;
+  }
+  .listImg{
+    width:120px;
+    height:120px;
+    margin-left:3.5px;
+  }
+  .listText{
+    margin-top:20px;
+    margin-left:60px;
+    dt{
+      .listTitle{
+        margin-right:17px;
+        font:14px/18px "IBM Plex Sans","sans-serif";
+        color:#122491;
+        font-weight:600;
+      }
+      span{
+        color:#000000;
+      }
+      font:10px/13px "IBM Plex Sans","sans-serif";
+    }
+    dd{margin-top:9px; font:18px/24px "IBM Plex Sans","sans-serif"; color:#000000; font-weight:600;}
+    .listReport{
+      clear: both;
+      width:350px;
+      margin-top:21px;
+      .first{
+        float:left;
+        color:#000000;
+        font:10px/13px "IBM Plex Sans","sans-serif";
+      }
+      .last{
+        float:right;
+        color:#122491;
+        font:14px/18px "IBM Plex Sans","sans-serif"; font-weight:600;
+      }
+    }
+  }
+}
+label{
+  font:14px/18px "IBM Plex Sans","sans-serif";
+  cursor:pointer;
+  input{
+    display: none;
+    background: none; border:0 none;
+  }
+  span{
+    display: inline-block;
+    width:14px; height:14px; border:1px solid #000000;
+    background: none;
+    vertical-align: bottom;
+    -webkit-transition: all .2s ease;
+    -moz-transition: all .2s ease;
+    -o-transition: all .2s ease;
+    -ms-transition: all .2s ease;
+    transition: all .2s ease;
+  }
+  input:checked + span{
+    background: #f34a4a;
+    -webkit-transition: all .2s ease;
+    -moz-transition: all .2s ease;
+    -o-transition: all .2s ease;
+    -ms-transition: all .2s ease;
+    transition: all .2s ease;
+  }
+}

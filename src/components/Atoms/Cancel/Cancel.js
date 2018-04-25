@@ -24,7 +24,7 @@ class Cancel extends Component{
         <div className={cx('cancel')}>
           <span>Are you sure you want to delete?</span>
           <div>
-            <button className={cx('return')} onClick={() => handleCancel(0)}>RETURN</button>
+            <button className={cx('return')} onClick={() => handleCancel(false)}>RETURN</button>
             <button className={cx('delete')} onClick={(e) => this.removeUser(idx)}>DELETE</button>
           </div>
         </div>

@@ -1,65 +1,10 @@
-.startupWrapper{
+.dataWrapper{
   width:950px;
   margin:auto;
   margin-top:20px;
-}
-.btnMenuInner{
-  width:488px;
-  margin:auto;
-  height:42px;
-  margin-top:33px;
-}
-.btnMenu.on{
-  bottom:0;
-  -webkit-transition: all .2s ease;
-  -moz-transition: all .2s ease;
-  -o-transition: all .2s ease;
-  -ms-transition: all .2s ease;
-  transition: all .2s ease;
-}
-.btnMenu{
-  width:1030px;
-  height:105px;
-  position:fixed;
-  bottom:-100px;
-  background: #f7f7f7;
-  margin:auto;
-  -webkit-transition: all .2s ease;
-  -moz-transition: all .2s ease;
-  -o-transition: all .2s ease;
-  -ms-transition: all .2s ease;
-  transition: all .2s ease;
-  .cancleBox{
-    position:absolute;
-    right:8px;
-    top:8px;
-    width:20px;
-    height:20px;
-    cursor: pointer;
-  }
-  select{
-    width:154px;
-    height:40px;
-    text-align: center;
-    border:1px solid #000000;
-    font:14px/40px "IBM Plex Sans","sans-serif";
-  }
-  button{
-    width:154px;
-    height:42px;
-    text-align: center;
-    border:1px solid #000000;
-    box-sizing: border-box;
-    font:14px/40px "IBM Plex Sans","sans-serif";
-  }
-  .magazineBtn{
-    margin-left:13px;
-    background:#000000;
-    color:#ffffff;
-  }
-  .removeBtn{
-    margin-left:13px;
-    background:#f34a4a;
-    color:#ffffff;
+  .search{
+    float:right;
+    .selectBtn{display: inline-block; margin-right:12px;}
+    .searchBox{display: inline-block;}
   }
 }

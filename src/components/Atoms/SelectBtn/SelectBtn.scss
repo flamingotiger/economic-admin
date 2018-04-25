@@ -1,0 +1,20 @@
+.select{
+  display: inline-block;
+  width:154px; height:40px;
+  border:1px solid #000000;
+  background: #f7f7f7;
+  box-sizing: border-box;
+  select{
+    cursor: pointer;
+    display: block;
+    margin: auto;
+    padding: 0 46px;
+    text-align: center;
+    font:14px/40px "IBM Plex Sans","sans-serif";
+    -webkit-appearance: none;
+    -moz-appearance: none; appearance: none;
+    border-radius: 0px;
+    border:0 none;
+    background:none;
+  }
+}

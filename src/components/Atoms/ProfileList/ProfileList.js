@@ -28,7 +28,7 @@ class ProfileList extends Component{
     this.handleEdit = this.handleEdit.bind(this);
     this.handleCancel = this.handleCancel.bind(this);
   }
-  //체크박스--------------------------------------------------
+  //체크박스-------------------------------------------------------------
   allCheckBox(){
     this.setState({magachk : !this.state.magachk});
       if(!this.state.magachk){
@@ -40,26 +40,13 @@ class ProfileList extends Component{
         });
       }
     }
-  newsCheckBox(e){this.setState({newschk : e.target.checked})}
-  startupCheckBox(e){this.setState({startupchk : e.target.checked})}
-  discussionCheckBox(e){this.setState({discussionchk : e.target.checked})}
-  dataCheckBox(e){this.setState({datachk : e.target.checked})}
-  //--------------------------------------------------------
+  newsCheckBox(){this.setState({newschk : !this.state.newschk})}
+  startupCheckBox(){this.setState({startupchk : !this.state.startupchk})}
+  discussionCheckBox(){this.setState({discussionchk : !this.state.discussionchk})}
+  dataCheckBox(){this.setState({datachk : !this.state.datachk})}
+  //-------------------------------------------------------------------
   handleEdit(){this.setState({openPanel:!this.state.openPanel})}
-  chkValue = () => {
-    const { idx } = this.props
-    if(this.props[idx]){
-      this.setState({
-          magachk: this.props[idx].magachk,
-          newschk: this.props[idx].newschk,
-          startupchk: this.props[idx].startupchk,
-          discussionchk: this.props[idx].discussionchk,
-          datachk: this.props[idx].datachk,
-      })
-    }
-  }
   componentDidMount(){
-    this.chkValue();
     this.props.getIdx(this.props.idx);
   }
   handleCancel(close){
@@ -70,13 +57,12 @@ class ProfileList extends Component{
     }
   }
   render(){
-    const {idx, img, name, firstname, memo } = this.props;
+    const {idx, img, email, password, name, firstname, memo } = this.props;
     const { openPanel, openCancel, magachk, newschk, startupchk, discussionchk, datachk} = this.state;
-    const uservalue = this.props
     return (
       <div className={cx('listWrapper')}>
       <div className={cx('profileList')}>
-        <div className={cx('closeBtn')} onClick={() => this.handleCancel(1)}>
+        <div className={cx('closeBtn')} onClick={() => this.handleCancel(true)}>
           <img src="/assets/btn-cancle.svg" alt="xBtn"/>
         </div>
         <Cancel
@@ -85,62 +71,72 @@ class ProfileList extends Component{
           handleCancel={this.handleCancel}
         />
         <div className={cx('profileEditWrapper')}>
-          <div className={cx('profileUser')}>user{idx}</div>
+          <div className={cx('profileUser')}>{firstname}</div>
           <div className={cx('profileEdit')} onClick={this.handleEdit}>EDIT PROFILE</div>
         </div>
         <form className={cx('profileForm')}>
           <div className={cx('profileCheckBox')}>
-            <label htmlFor={`magazine${idx}`}>
+            <label
+              htmlFor={`magazine${idx}`}
+              onClick={this.allCheckBox}
+              >
               <input
                 type="checkbox"
                 name="magazine"
                 idx={`magazine${idx}`}
                 checked={magachk}
-                onChange={this.allCheckBox}
               />
               <span></span>MAGAZINE</label>
           </div>
           <div className={cx('profileCheckBox')}>
-            <label htmlFor={`news${idx}`}>
+            <label
+              htmlFor={`news${idx}`}
+              onClick={this.newsCheckBox}
+            >
               <input
                 type="checkbox"
                 name="news"
                 idx={`news${idx}`}
                 checked={newschk}
-                onChange={this.newsCheckBox}
               />
             <span></span>NEWS</label>
           </div>
           <div className={cx('profileCheckBox')}>
-            <label htmlFor={`startup${idx}`}>
+            <label
+              htmlFor={`startup${idx}`}
+              onClick={this.startupCheckBox}
+              >
               <input
                 type="checkbox"
                 name="startup"
                 idx={`startup${idx}`}
                 checked={startupchk}
-                onChange={this.startupCheckBox}
               />
             <span></span>START_UP</label>
           </div>
           <div className={cx('profileCheckBox')}>
-            <label htmlFor={`discussion${idx}`}>
+            <label
+              htmlFor={`discussion${idx}`}
+              onClick={this.discussionCheckBox}
+              >
               <input
                 type="checkbox"
                 name="discussion"
                 idx={`discussion${idx}`}
                 checked={discussionchk}
-                onChange={this.discussionCheckBox}
               />
             <span></span>DISCUSSION</label>
           </div>
           <div className={cx('profileCheckBox')}>
-            <label htmlFor={`data${idx}`}>
+            <label
+              htmlFor={`data${idx}`}
+              onClick={this.dataCheckBox}
+              >
               <input
                 type="checkbox"
                 name="data"
                 idx={`data${idx}`}
                 checked={datachk}
-                onChange={this.dataCheckBox}
               />
             <span></span>DATA</label>
           </div>
@@ -151,13 +147,14 @@ class ProfileList extends Component{
         img={img}
         name={name}
         firstname={firstname}
+        email={email}
+        password={password}
         memo={memo}
         magachk={magachk}
         newschk={newschk}
         startupchk={startupchk}
         discussionchk={discussionchk}
         datachk={datachk}
-        uservalue={uservalue}
         openPanel={openPanel}
         />
       </div>

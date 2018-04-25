@@ -1,48 +1,76 @@
-import React,{Component} from 'react';
+import React,{ Component } from 'react';
 import styles from './NewsTemplate.scss';
 import classNames from 'classnames/bind';
 import update from 'immutability-helper';
-//import Calendar from 'react-calendar/dist/entry.nostyle';
-import Calendar from 'react-calendar';
-import axios from 'axios';
-// import DatePicker from 'react-datepicker';
-// import moment from 'moment';
-// import 'react-datepicker/dist/react-datepicker.css';
+//react-datepicker
+import DatePicker from 'react-datepicker';
+import moment from 'moment';
+import 'react-datepicker/dist/react-datepicker.css';
+import { putApi, postApi } from '../../../api';
 
 const cx = classNames.bind(styles);
 
+class DateBtn extends React.Component {
+  //Date button style (react-datepicker)
+  render () {
+    return (
+      <button
+        className={cx('addDate')}
+        onClick={this.props.onClick}>
+        {this.props.value ? this.props.value : "DATE"}
+      </button>
+    )
+  }
+}
 class NewsTemplate extends Component{
   constructor(props){
     super(props);
     this.state={
+      loading:false,
       file:[],
-      imagePreviewUrl:[],
-      title:'',
-      text:'',
-      source:'',
-      calendar:false,
+      imagePreviewUrl:this.props.news? [this.props.news.img, this.props.news.img1, this.props.news.img2] : [],
+      f_title:'',
+      f_text:'',
+      f_source:'',
+      e_title:'',
+      e_text:'',
+      e_source:'',
       calendarDate:'DATE',
-      getApi:[],
-      files:[]
-      //startDate:moment()
+      addEnglish:true,
+      startDate:moment()
     }
-    this.toggleCalendar = this.toggleCalendar.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.addEnglish = this.addEnglish.bind(this);
   }
+  //AddEnglish
+  addEnglish = () => { this.setState({ addEnglish: !this.state.addEnglish})}
   //UploadData
   handleImageChange(e) {
     e.preventDefault();
     let reader = new FileReader();
     let file = e.target.files[0];
     let idx = e.target.getAttribute('data-type')
+    /*
+    const formData = new FormData();
+    formData.append('image', file);
+    axios.post('https://jsonplaceholder.typicode.com/posts', formData, {
+      header:{"Content-type": "multipart / form-data",
+      },
+      //업로드 진행
+      onUploadProgress: progressEvent => {
+        console.log(progressEvent.loaded / progressEvent.total)
+      }
+    }).then(res => res)
+    */
     reader.onloadend = () => {
-      if(this.state.file.length >= 3){
-        let files = update(this.state.file, { [idx]: {$set: file} });
-        let imgUrl = update(this.state.imagePreviewUrl,{ [idx]: {$set: reader.result} });
+      const { file, imagePreviewUrl } = this.state;
+      if(imagePreviewUrl.length >= 3){
+        let files = update(file, { [idx]: {$set: file} });
+        let imgUrl = update(imagePreviewUrl,{ [idx]: {$set: reader.result} });
         this.setState({ file: files, imagePreviewUrl: imgUrl });
       }else{
-        let files = update(this.state.file, {$push: [file]});
-        let imgUrl = update(this.state.imagePreviewUrl, {$push: [reader.result]});
+        let files = update(file, {$push: [file]});
+        let imgUrl = update(imagePreviewUrl, {$push: [reader.result]});
         this.setState({ file: files, imagePreviewUrl: imgUrl });
       }
     }
@@ -52,100 +80,168 @@ class NewsTemplate extends Component{
     let {imagePreviewUrl} = this.state;
     if (imagePreviewUrl) return <img src={imagePreviewUrl[idx]} alt=""/>
   }
-  newsTitle = (e) => this.setState({title:e.target.value})
-  newsText = (e) => this.setState({text:e.target.value})
-  newsSource = (e) => this.setState({source:e.target.value})
+  newsChange = (e) => {
+      this.setState({
+        [e.target.name]: e.target.value
+      });
+    }
   //Calendar
-  toggleCalendar(){this.setState({calendar:!this.state.calendar})}
-  onClickDay = (value) => this.setState({calendarDate: String(value), calendar:!this.state.calendar})
-  handleChange(date) {this.setState({ startDate: date });
-  }
-  //api
-  componentDidMount(){
-      //처음 실행시 데이터 URL + 파라미터
-      if(false){
-      //파라미터 받은것이 있는지
-      axios.get('https://jsonplaceholder.typicode.com/posts/1')
-      .then( response => this.setState({ getApi:response.data }) )
-      .catch( error => { console.log(error) } );
-      }
-  }
+  onClickDay = (value) => this.setState({calendarDate: String(value)});
+  handleChange = (date) => this.setState({ startDate: date });
+  //Api 데이터입력
   handleSubmit(e){
     e.preventDefault();
-    const { file, imagePreviewUrl, title, text, source, calendarDate} = this.state;
-    //데이터가 입력이 되어있는지
-    if(false){
+    const { f_title, f_text, f_source,
+       e_title, e_text, e_source, calendarDate, imagePreviewUrl } = this.state;
+    const data = {
+      "img": imagePreviewUrl[0],
+      "img1": imagePreviewUrl[1],
+      "img2": imagePreviewUrl[2],
+      "f_title" :  f_title,
+      "f_text" :  f_text,
+      "f_source" :  f_source,
+      "e_title" :  e_title,
+      "e_text" :  e_text,
+      "e_source" :  e_source,
+      "calendarDate" :  calendarDate
+    }
+    if(!this.props.news){//데이터가 입력이 되어있었는지 확인 없으면 post
       //데이터 추가 URL + 파라미터
-      axios.post('https://jsonplaceholder.typicode.com/posts', {
-        imagePreviewUrl:imagePreviewUrl,
-        file:file,
-        title:title,
-        text:text,
-        source:source,
-        calendarDate:calendarDate
-      })
+      postApi(data)
       .then(res => console.log(res))
-      .catch( error => { console.log(error) } );
-    }else if(false){
+    }else if(this.props.news){
       //데이터 업데이트 수정 URL + 파라미터
-      axios.put('/url입력', {
-        imagePreviewUrl:imagePreviewUrl,
-        file:file,
-        title:title,
-        text:text,
-        source:source,
-        calendarDate:calendarDate
-      })
-      .then(res => res)
-      .catch( error => { console.log(error) } );
+      const params = this.props.idx;
+      putApi( params , data )
+      .then(res => console.log(res))
     }else{
       console.log('api서버 연동해주세요')
     }
   }
+  //Getapi
+  componentDidMount(){
+    if(this.props.news){
+      this.getnews();
+    }else{
+      this.setState({loading:true})
+    }
+  }
+  getnews = () => {
+    const getNews = this.props.news;
+    this.setState({
+      img1:getNews.img1,
+      img2:getNews.img2,
+      img3:getNews.img3,
+      f_title:getNews.f_title,
+      f_text:getNews.f_text,
+      f_source:getNews.f_source,
+      e_title:getNews.e_title,
+      e_text:getNews.e_text,
+      e_source:getNews.e_source,
+      calendarDate:getNews.calendarDate,
+      loading:true
+    })
+  }
   render(){
-    //api 데이터들 console.log(this.state.getApi)
+    const {loading} = this.state
+    if(!loading){
+      return null
+    }
+    const templateForm = (lang) => (
+      <div className={cx('templateWrapper')}>
+        <div className={cx('inputText')}>
+          <input
+            type="text"
+            onChange={(e) => this.newsChange(e)}
+            placeholder="TITLE"
+            value={lang? f_title : e_title}
+            name={lang? "f_title" : "e_title"}
+            />
+        </div>
+        <div className={cx('textArea')}>
+          <textarea
+            onChange={(e) => this.newsChange(e)}
+            placeholder="TEXT"
+            value={lang? f_text : e_text}
+            name={lang? "f_text" : "e_text"}
+          >
+          </textarea>
+        </div>
+        <div className={cx('sourceInput')}>
+          <input
+            type="text"
+            onChange={(e) => this.newsChange(e)}
+            placeholder="SOURCE"
+            value={lang? f_source : e_source}
+            name={lang? "f_source" : "e_source"}
+            />
+        </div>
+      </div>
+    )
+    const {f_title, f_text, f_source, e_title, e_text, e_source} = this.state;
     return (
       <div className={cx('template')}>
         <form onSubmit={(e)=>this.handleSubmit(e)}>
           <div className={cx('title')}>{(this.props.addvalue).toUpperCase()}</div>
           <div className={cx('upLoadWrapper')}>
             <div className={cx('fileUpLoads')}>
-              <div className={cx('fileUpLoad')}><input type="file" name="img1" onChange={(e)=>this.handleImageChange(e)} accept='image/*' data-type="0"/>{this.imagePreviewUrl(0)}</div>
-              <div className={cx('fileUpLoad')}><input type="file" name="img2" onChange={(e)=>this.handleImageChange(e)} accept='image/*' data-type="1"/>{this.imagePreviewUrl(1)}</div>
-              <div className={cx('fileUpLoad')}><input type="file" name="img3" onChange={(e)=>this.handleImageChange(e)} accept='image/*' data-type="2"/>{this.imagePreviewUrl(2)}</div>
+              <div className={cx('fileUpLoad')}>
+                <input
+                  type="file"
+                  name="img1"
+                  onChange={(e)=>this.handleImageChange(e)}
+                  accept='image/*'
+                  data-type="0"
+                  />
+                  {this.imagePreviewUrl(0)}
+              </div>
+              <div className={cx('fileUpLoad')}>
+                <input
+                  type="file"
+                  name="img2"
+                  onChange={(e)=>this.handleImageChange(e)}
+                  accept='image/*'
+                  data-type="1"
+                  />
+                {this.imagePreviewUrl(1)}
+              </div>
+              <div className={cx('fileUpLoad')}>
+                <input
+                  type="file"
+                  name="img3"
+                  onChange={(e)=>this.handleImageChange(e)}
+                  accept='image/*'
+                  data-type="2"
+                  />
+                {this.imagePreviewUrl(2)}
+              </div>
             </div>
             <div className={cx('utilSelect')}>
-              <button className={cx('addEnglish')}><div className={cx('englishBtn')}></div><span>ADD ENGLISH</span></button>
+              <div className={cx('addEnglish')} onClick={this.addEnglish}>
+                <div className={cx('englishBtn')}></div><span>{this.state.addEnglish ? "ADD ENGLISH" : "FRENCH"}</span>
+              </div>
                 <select className={cx('selectList')} defaultValue="SELECT">
-                    <option value="">SELECT</option>
-                    <option value="1">SUBTITLE1</option>
-                    <option value="2">SUBTITLE2</option>
+                    <option value="">CATEGORY</option>
+                    <option value="1">ECONOMIC</option>
+                    <option value="2">CATE</option>
                 </select>
-                {/* 일단 보류
                 <DatePicker
+                  customInput={<DateBtn />}
                   dateFormat="YYYY-MM-DD"
                   selected={this.state.startDate}
                   onChange={this.handleChange}
                   minDate={moment()}
                   maxDate={moment().add(30, "days")}
-                />*/}
-              <div className={cx('addDate')}><button onClick={this.toggleCalendar}>{this.state.calendarDate}</button></div>
-              <Calendar
-                className={this.state.calendar ? cx('calendar', 'on') : cx('calendar')}
-                onClickDay={this.onClickDay}
                 />
             </div>
           </div>
-          <div className={cx('templateWrapper')}>
-            <div className={cx('inputText')}><input type="text" onChange={(e) => this.newsTitle(e)} placeholder="TITLE" value={this.state.title}/></div>
-            <div className={cx('textArea')}>
-              <textarea onChange={(e) => this.newsText(e)} placeholder="TEXT" value={this.state.text}></textarea>
-            </div>
-            <div className={cx('sourceInput')}><input type="text" onChange={(e) => this.newsSource(e)} placeholder="SOURCE" value={this.state.source}/></div>
-          </div>
+          {this.state.addEnglish ?
+            templateForm(true)
+           : templateForm(false)
+          }
           <div className={cx('publish')}>
             <div className={cx('text')}>MODIFIÉ  3j</div>
-            <button type="submit">PUBLISH</button>
+            <button type="submit" >PUBLISH</button>
             <div className={cx('deleteBtn')}><img src="https://www.simuladordeinvestimentos.com/images/clear.png" alt="deleteBtn"/></div>
           </div>
         </form>

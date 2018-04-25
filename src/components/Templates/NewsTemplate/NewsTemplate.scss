@@ -45,19 +45,21 @@
     .utilSelect{
       float:left;
       .addEnglish{
-        .englishBtn{float:left; margin-top:-2px; margin-left:-7px;  width:40px; height:40px; border-right:1px solid #000000;
-          background: url("/assets/icon-plus-add_english.svg") no-repeat 8px 50%;
+        .englishBtn{float: left; margin-top: -1px; margin-left: -5px; width: 40px; height: 40px; border-right: 1px solid #000000;
+          background: url("/assets/icon-plus-add_english.svg") no-repeat 10px 50%;
         }
         width:252px; height:40px; font:14px/37px "IBM Plex Sans","sans-serif";
-        text-align: center; cursor: pointer; background:#f7f7f7;
+        text-align: center; cursor: pointer; background:#FFFFFF;
         color:#000000; box-sizing: border-box; letter-spacing: 3px;
         word-spacing: 4px; border:1px solid #000000; margin-bottom:15px;
         }
         .selectList{ display: block;
           width:252px; height:40px;
           margin-bottom: 15px;
+          padding-left: 10px;
           text-align: center; border:1px solid #000000;
           font:12px/40px "IBM Plex Sans","sans-serif";
+          background:#f7f7f7;
           }
         .addDate{
           width:252px; height:40px; font:14px/18px "IBM Plex Sans","sans-serif"; text-align: center; cursor: pointer; background:#f7f7f7;
@@ -98,7 +100,7 @@
       box-sizing: border-box; text-align: center; background:#f7f7f7;
       textarea{
         width:769px; height: 310px; padding: 14px;
-        text-align: center; background: none; border: 0 none;
+        text-align: justify; background: none; border: 0 none;
         font:14px/18px "IBM Plex Sans","sans-serif";
         resize:none;
       }

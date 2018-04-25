@@ -8,9 +8,11 @@ const cx = classNames.bind(styles);
 class OpenPanelEdit extends Component{
   constructor(props){
     super(props);
-    const { name, firstname, memo, img, magachk, openPanel,
+    const { name, email, password, firstname, memo, img, magachk, openPanel,
        newschk, startupchk, discussionchk, datachk } = this.props;
     this.state={
+      email:email,
+      password:password,
       name:name,
       firstname:firstname,
       memo:memo,
@@ -23,19 +25,23 @@ class OpenPanelEdit extends Component{
       datachk:datachk,
       popup:false,
     }
-    this.addProfileName = this.addProfileName.bind(this);
-    this.addProfileFirstName = this.addProfileFirstName.bind(this);
-    this.addProfileMemo = this.addProfileMemo.bind(this);
+    this.addEmail = this.addEmail.bind(this);
+    this.addPassword = this.addPassword.bind(this);
+    this.addName = this.addName.bind(this);
+    this.addFirstName = this.addFirstName.bind(this);
+    this.addMemo = this.addMemo.bind(this);
     this.handleSubmit =this.handleSubmit.bind(this);
     this.btnClick = this.btnClick.bind(this);
   }
-  addProfileName(e){this.setState({name:e.target.value})}
-  addProfileFirstName(e){this.setState({firstname:e.target.value})}
-  addProfileMemo(e){this.setState({memo:e.target.value})}
+  addEmail(e){this.setState({email:e.target.value})}
+  addPassword(e){this.setState({password:e.target.value})}
+  addName(e){this.setState({name:e.target.value})}
+  addFirstName(e){this.setState({firstname:e.target.value})}
+  addMemo(e){this.setState({memo:e.target.value})}
   handleSubmit(e){
     e.preventDefault();
     console.log('여기서 api PUT사용')
-    const { idx, img, name, firstname, memo, popup, openPanel,
+    const {  email, password, img, name, firstname, memo, popup, openPanel,
        magachk, newschk, startupchk, discussionchk, datachk } = this.state
     //파라미터에 해당하는 `url${idx}` 값을 토대로 put
     axios.put('https://honghakbum.github.io/economic-admin/profile.json',{
@@ -45,6 +51,8 @@ class OpenPanelEdit extends Component{
         startupchk:startupchk,
         discussionchk:discussionchk,
         datachk:datachk,
+        email:email,
+        password:password,
         img:img,
         name:name,
         firstname:firstname,
@@ -69,7 +77,7 @@ class OpenPanelEdit extends Component{
   }
   render(){
     const { openPanel } = this.props;
-    const { img, name, firstname, memo, popup } = this.state;
+    const { email, password, img, name, firstname, memo, popup } = this.state;
     return (
       <div className={openPanel ? cx('editPanel','open') : cx('editPanel')}>
         <form onSubmit={ (e) => { this.handleSubmit(e) } }>
@@ -80,10 +88,12 @@ class OpenPanelEdit extends Component{
           </div>
           <div className={cx('profileRight')}>
             <div className={cx('rightText')}>
-              <div className={cx('rightInput','first')}><input type="text" placeholder="NOM" value={name} onChange={this.addProfileName}/></div>
-              <div className={cx('rightInput')}><input type="text" placeholder="PRENOM" value={firstname} onChange={this.addProfileFirstName}/></div>
+              <div className={cx('rightInput','first')}><input type="email" name="email" placeholder="EMAIL" value={email} onChange={this.addEmail}/></div>
+              <div className={cx('rightInput')}><input type="text" name="pw" placeholder="PASSWORD" value={password} onChange={this.addPassword}/></div>
+              <div className={cx('rightInput','first')}><input type="text" name="name" placeholder="NOM" value={name} onChange={this.addName}/></div>
+              <div className={cx('rightInput')}><input type="text" name="fitstname" placeholder="PRENOM" value={firstname} onChange={this.addFirstName}/></div>
             </div>
-            <div className={cx('textArea')}><textarea placeholder="MEMO" value={memo} onChange={this.addProfileMemo}></textarea></div>
+            <div className={cx('textArea')}><textarea placeholder="MEMO" value={memo} onChange={this.addMemo}></textarea></div>
             <button type="submit" onClick={this.btnClick}>CHANGE</button>
             <div className={popup? cx('successEdit','on') : cx('successEdit')}>수정되었습니다</div>
           </div>

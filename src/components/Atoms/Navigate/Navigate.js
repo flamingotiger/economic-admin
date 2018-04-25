@@ -29,8 +29,8 @@ class Navigate extends Component{
         <ul className={cx('navListWrapper')}>
           <li className={magazine ? cx('navList','on') : cx('navList')}><NavLink to={user ? "/admin/magazine" : redirect}>MAGAZINE</NavLink></li>
           <li className={news ? cx('navList','on') : cx('navList')}><NavLink to={user ? "/admin/news" : redirect}>NEWS</NavLink></li>
-          <li className={startup ? cx('navList','on') : cx('navList')}><NavLink to={user ? "/admin/startup" : redirect}>START-UP</NavLink></li>
           <li className={discussion ? cx('navList','on') : cx('navList')}><NavLink to={user ? "/admin/discussion" : redirect}>DISCUSSION</NavLink></li>
+          <li className={startup ? cx('navList','on') : cx('navList')}><NavLink to={user ? "/admin/startup" : redirect}>START-UP</NavLink></li>
           <li className={data ? cx('navList','on') : cx('navList')}><NavLink to={user ? "/admin/data" : redirect}>DATA</NavLink></li>
         </ul>
       </nav>

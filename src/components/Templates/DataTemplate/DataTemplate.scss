@@ -23,8 +23,8 @@
         color:#777777;
         cursor: pointer;
         span{display: block; text-align: center; font:18px/80px "IBM Plex Sans","sans-serif"; background: url('/assets/icon-plus-add_profile.svg') no-repeat 36% 50%;}
-        background: url('/assets/icon-excel.svg') no-repeat 0 0;
-        background-size:119px 78px;
+        background-position:0 0;
+        background-repeat:no-repeat;
           input{
             width: 100%;
             display: block;
@@ -41,11 +41,11 @@
     .utilSelect{
       float:left;
       .addEnglish{
-        .englishBtn{float:left; margin-top:-2px; margin-left:-7px;  width:40px; height:40px; border-right:1px solid #000000;
-          background: url("/assets/icon-plus-add_english.svg") no-repeat 8px 50%;
+        .englishBtn{float: left; margin-top: -1px; margin-left: -5px; width: 40px; height: 40px; border-right: 1px solid #000000;
+          background: url("/assets/icon-plus-add_english.svg") no-repeat 10px 50%;
         }
         width:252px; height:40px; font:14px/37px "IBM Plex Sans","sans-serif";
-        text-align: center; cursor: pointer; background:#f7f7f7;
+        text-align: center; cursor: pointer; background:#ffffff;
         color:#000000; box-sizing: border-box; letter-spacing: 3px;
         word-spacing: 4px; border:1px solid #000000;
         }
