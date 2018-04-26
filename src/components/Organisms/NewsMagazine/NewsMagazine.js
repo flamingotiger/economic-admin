@@ -33,6 +33,8 @@ class NewsMagazine extends Component{
         openmenu={this.openBtnMenu}
         menu={content.menu}
         magazine={this.props.magazine}
+        getIdx={this.props.getIdx}
+        selectItem={this.props.selectItem}
         />
     })
     return news
@@ -43,9 +45,9 @@ class NewsMagazine extends Component{
   handleSubmit = (e) => {
     e.preventDefault();
     console.log(e.target)
+    //데이터 put
   }
   render(){
-    console.log(this.props)
     //검색
     const mapToComponents = (news) => {
       if(this.state.keyword === ''){
@@ -68,6 +70,8 @@ class NewsMagazine extends Component{
               openmenu={this.openBtnMenu}
               menu={content.menu}
               magazine={this.props.magazine}
+              getIdx={this.props.getIdx}
+              selectItem={this.props.selectItem}
               />
         });
     };
@@ -76,31 +80,29 @@ class NewsMagazine extends Component{
     const { news } = this.state;
     return (
       <div className={cx('newsAdminPage')}>
-        <form onSubmit={(e) => this.handleSubmit(e)}>
-          <div className={cx('newsWrapper')}>
-            <div className={cx('util')}>
-              <div className={cx('select')}>
-                <select>
-                    <option value="201712">2017-12</option>
-                    <option value="201712">2017-12</option>
-                    <option value="201712">2017-12</option>
-                    <option value="201712">2017-12</option>
-                </select>
-              </div>
-              <div className={cx('search')}>
-                <Search handleChange={(e) => this.handleChange(e)}/>
-              </div>
+        <div className={cx('newsWrapper')}>
+          <div className={cx('util')}>
+            <div className={cx('select')}>
+              <select>
+                  <option value="201712">2017-12</option>
+                  <option value="201712">2017-12</option>
+                  <option value="201712">2017-12</option>
+                  <option value="201712">2017-12</option>
+              </select>
             </div>
-            <div className={cx('listScroll')}>
-              {mapToComponents(news)}
+            <div className={cx('search')}>
+              <Search handleChange={(e) => this.handleChange(e)}/>
             </div>
           </div>
-          <div className={cx('publish')}>
-            <div className={cx('publishBtn')} onClick={this.handleClose}>
-              <PublishBtn />
-            </div>
+          <div className={cx('listScroll')}>
+            {mapToComponents(news)}
           </div>
-        </form>
+        </div>
+        <div className={cx('publish')}>
+          <div className={cx('publishBtn')} onClick={this.props.handleClose}>
+            <PublishBtn />
+          </div>
+        </div>
       </div>
     )
   }

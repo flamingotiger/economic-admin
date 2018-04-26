@@ -36,6 +36,7 @@ class DiscussionMagazine extends Component{
         openmenu={this.openBtnMenu}
         menu={content.menu}
         magazine={this.props.magazine}
+        getIdx={this.props.getIdx}
         />
     })
     return discussion
@@ -44,7 +45,6 @@ class DiscussionMagazine extends Component{
     getApi().then(res => this.setState({discussion: res.data.discussion}))
   }
   render(){
-    console.log(this.props.magazine)
     const mapToComponents = (discussion) => {
       if(this.state.keyword === ''){
           this.renderAdminList()
@@ -68,6 +68,7 @@ class DiscussionMagazine extends Component{
               reporter2={content.reporter2}
               menu={content.menu}
               magazine={this.props.magazine}
+              getIdx={this.props.getIdx}
               />
         });
     };

@@ -26,11 +26,16 @@ class AddMagazine extends Component{
     this.state={
       popup:"",
       loading:false,
-      news1:true,
       calendarDate:"DATE",
-      startDate:moment()
+      startDate:moment(),
+      newsItem0:undefined,
+      newsItem1:undefined,
+      disItem:undefined,
+      newsTitle:undefined,
+      disTitle:undefined,
+      startupTitle:undefined,
+      dataTitle:undefined
     }
-    this.handlePopup = this.handlePopup.bind(this);
   }
   handlePopup = (cate) => { this.setState({popup: cate}) }
   componentDidMount(){
@@ -39,15 +44,20 @@ class AddMagazine extends Component{
   //Calendar
   onClickDay = (value) => this.setState({calendarDate: String(value)});
   handleChange = (date) => this.setState({ startDate: date });
+  getIdx = (e) => {
+    const check = Number(e.target.parentNode.getAttribute('data-item'))
+    this.setState({ [e.target.name]: check})
+  }
   render(){
-    console.log(this.state.data)
-    const { popup, loading } = this.state;
+    const { popup, loading, data, newsItem0, newsItem1, disItem } = this.state;
     if(!loading){
       return null
     }
     return (
       <div className={cx('addMagazineWrapper')}>
-        {this.state.popup && <MagazinePopup popup={popup} />}
+        {this.state.popup &&
+          <MagazinePopup popup={popup} getIdx={(e) => this.getIdx(e)} />
+        }
         <AddListBtn menu="magazine"/>
         <Navigate />
         <div className={cx('addMagazine')}>
@@ -69,28 +79,39 @@ class AddMagazine extends Component{
           </div>
           <div className={cx('newsMagazine')}>
             <div className={cx('inputText')}>
-              <input type="text" placeholder="News-title" />
+              <input
+                type="text"
+                placeholder="News-title"
+                />
             </div>
             <ul className={cx('subTitle')}>
               <li className={cx('subTitleList','list1')}>
-                Après le Brexit, la désignation du 45e président américain marque une nouvelle poussée populiste.
+                {newsItem0 >= 0?
+                  data.news[newsItem0].f_title
+                  :
+                  ""
+                }
               </li>
               <li className={cx('subTitleList','list2')}>
-                « Je serai le président de tous les Américains. Il est temps de se rassembler », déclare Donald Trump.
+                {newsItem1 >= 0?
+                  data.news[newsItem1].f_title
+                  :
+                  ""
+                }
               </li>
             </ul>
             <div className={cx('newsSelect1')} onClick={(cate) => this.handlePopup("news1")}>
-              {this.state.news1 ?
+              {newsItem0 >= 0?
                 (
                 <div className={cx('newsContent')}>
                   <div className={cx('text')}>
                     <div className={cx('newsLeft')}>
-                      <div className={cx('category')}>ECONOMIC</div>
-                      <p>test</p>
+                      <div className={cx('category')}>{data.news[newsItem0].cate}</div>
+                      <p>{data.news[newsItem0].f_text}</p>
                     </div>
                     <div className={cx('newsRight')}>
-                      <div className={cx('newsImg')}><img src="http://quotes.multi-gaming.me/download/258/most-inspiring-quotes-11-comp-480x720.jpg" alt="columnImg"/></div>
-                      <p>test</p>
+                      <div className={cx('newsImg')}><img src={data.news[newsItem0].img} alt="columnImg"/></div>
+                      <p>{data.news[newsItem0].f_text}</p>
                     </div>
                   </div>
                 </div>
@@ -103,10 +124,27 @@ class AddMagazine extends Component{
               }
             </div>
             <div className={cx('newsSelect2')} onClick={(cate) => this.handlePopup("news2")}>
-              <dl>
-                <dt>NEWS</dt>
-                <dd>SELECT POST</dd>
-              </dl>
+              {newsItem1 >= 0?
+                (
+                <div className={cx('newsContent')}>
+                  <div className={cx('text')}>
+                    <div className={cx('newsLeft')}>
+                      <div className={cx('category')}>{data.news[newsItem1].cate}</div>
+                      <p>{data.news[newsItem1].f_text}</p>
+                    </div>
+                    <div className={cx('newsRight')}>
+                      <div className={cx('newsImg')}><img src={data.news[newsItem1].img} alt="columnImg"/></div>
+                      <p>{data.news[newsItem1].f_text}</p>
+                    </div>
+                  </div>
+                </div>
+                )
+                :
+                <dl>
+                  <dt>NEWS</dt>
+                  <dd>SELECT POST</dd>
+                </dl>
+              }
             </div>
           </div>
           <div className={cx('disMagazine')}>
@@ -114,15 +152,33 @@ class AddMagazine extends Component{
               <h2 className={cx('title')}>
                 <span>POUR? CONTRE?</span>
                 <div className={cx('inputText')}>
-                  <input type="text" placeholder="Discussion-title" />
+                  <input
+                    type="text"
+                    placeholder="Discussion-title"
+                  />
                 </div>
               </h2>
             </div>
             <div className={cx('disSelect')} onClick={(cate) => this.handlePopup("discussion")}>
-              <dl>
+              { disItem >= 0 ?
+                <div className={cx('text')}>
+                  <div className={cx('column','column1')}>
+                    <img src={data.discussion[disItem].img} alt="columnImg"/>
+                  </div>
+                  <div className={cx('column','column2')}>
+                    {data.discussion[disItem].f_text1}
+                    {data.discussion[disItem].f_text2}
+                  </div>
+                  <div className={cx('column','column3')}>
+                    <img src={data.discussion[disItem].img} alt="columnImg"/>
+                  </div>
+                </div>
+                :
+              (<dl>
                 <dt>DISCUSSION</dt>
                 <dd>SELECT POST</dd>
-              </dl>
+              </dl>)
+              }
             </div>
           </div>
           <div className={cx('startupMagazine')}>

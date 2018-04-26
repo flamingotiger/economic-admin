@@ -23,8 +23,13 @@ class DiscussionList extends Component{
       return (
         <div className={cx('discussionList')} id={idx}>
           <div className={cx('listCheck')}>
-            <label htmlFor={`newsListCheck${idx}`}>
-              <input type="radio" name="listradio" id={`newsListCheck${idx}`} />
+            <label htmlFor={`newsListCheck${idx}`} data-item={idx}>
+              <input
+                type="radio"
+                name="disItem"
+                id={`newsListCheck${idx}`}
+                onChange={(e) => this.props.getIdx(e)}
+                />
               <span></span>
             </label>
           </div>

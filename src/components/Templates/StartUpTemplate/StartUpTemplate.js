@@ -20,9 +20,9 @@ class StartUpTemplate extends Component{
       addEnglish:true,
       startup:[],
       chapter:[],
-      chapterfilter:[1],
+      chapterfilter:[this.props.startup? {id:1} : 1],
       selectChapter:0,
-      f_title1:'', f_text1:'', e_title1:'', e_text1:'',
+      f_title1:'aa', f_text1:'', e_title1:'', e_text1:'',
       f_title2:'', f_text2:'', e_title2:'', e_text2:'',
       f_title3:'', f_text3:'', e_title3:'', e_text3:'',
       f_title4:'', f_text4:'', e_title4:'', e_text4:'',
@@ -79,9 +79,6 @@ class StartUpTemplate extends Component{
     let reader = new FileReader();
     let file = e.target.files[0];
     let idx = e.target.getAttribute('data-type')
-
-    this.setState({filess: file})
-
     reader.onloadend = () => {
       const { file, imagePreviewUrl } = this.state;
       if(imagePreviewUrl.length >= 3){
@@ -133,7 +130,7 @@ class StartUpTemplate extends Component{
       axios.post("http://localhost:3001/add=startup", data).then(res => console.log(res))
     }else if(this.props.startup){
       const formData = new FormData();
-      formData.append('imgs', this.state.filess);
+      formData.append('imgs', this.state.files);
       //데이터 업데이트 수정 URL + 파라미터
       const params = this.props.idx;
       axios.put(`http://localhost:3001/add=startup/${params}`, formData, { headers: { 'Content-Type': 'multipart/form-data' } }).then(res => console.log(res))
@@ -146,7 +143,6 @@ class StartUpTemplate extends Component{
       this.setState({ [e.target.name]: e.target.value});
     }
   render(){
-    console.log(this.state.chapterfilter)
     const textFontSize = {
       fontSize: this.state.fontsize,
       fontWeight: this.state.fontweight,
@@ -156,7 +152,8 @@ class StartUpTemplate extends Component{
     if(!loading){
       return null
     }
-    const chapterItem = (value , i, lang) => (
+    const chapterItem = (value , i, lang) => {
+        return (
       <div className={cx('chapterWrapper')} key={i}>
         <span className={cx('chapterTitle')}>
           CHAPTER{i + 1}
@@ -187,7 +184,8 @@ class StartUpTemplate extends Component{
           </div>
         </div>
       </div>
-    )
+      )
+    }
     const chapterForm = (lang) => {
       const { chapterfilter, selectChapter }= this.state;
       const { startup }= this.props;

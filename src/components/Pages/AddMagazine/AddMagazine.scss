@@ -45,6 +45,7 @@
       .subTitleList{
         position:relative;
         font:14px/16px "IBM Plex Sans","sans-serif";
+        height:16px;
         padding-left:27px;
         margin:4px 0;
         &.list1{margin-top:38px;}
@@ -114,6 +115,29 @@
         text-align: center;
         dt{font:18px/23px "IBM Plex Sans","sans-serif"; margin-bottom:8px;}
         dd{font:lighter 14px/18px "IBM Plex Sans","sans-serif";}
+      }
+    }
+    .text{
+      display: flex;
+      .column{
+        text-align: justify;
+        margin:10px;
+        height:350px;
+      }
+      .column1{
+        flex:1;
+      }
+      .column2{
+        overflow: hidden;
+        -moz-column-count: 2;
+        -webkit-column-count: 2;
+        column-count: 2;
+        column-gap: 2rem;
+        text-align:justify;
+        flex:2;
+      }
+      .column3{
+        flex:1;
       }
     }
   }
@@ -190,7 +214,7 @@
   margin: 10px;
   overflow: hidden;
   text-align:justify;
-  
+
   -moz-column-count: 2;
   -webkit-column-count: 2;
   column-count: 2;

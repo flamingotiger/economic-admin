@@ -21,7 +21,10 @@ class DiscussionTemplate extends Component{
       e_text1:'',
       e_source1:'',
       select:true,
-      imagePreviewUrl:this.props.discussion? [this.props.discussion.img, this.props.discussion.img1, this.props.discussion.img2] : [],
+      file1:undefined,
+      file2:undefined,
+      imagePreviewUrl1:this.props.discussion? this.props.discussion.img : undefined,
+      imagePreviewUrl2:this.props.discussion? this.props.discussion.img1 : undefined
     }
     this.fontSizeUp= this.fontSizeUp.bind(this);
     this.fontSizeDown= this.fontSizeDown.bind(this);
@@ -89,13 +92,12 @@ class DiscussionTemplate extends Component{
       }
     }
   }
-    selectBox = (e) => {
+  selectBox = (e) => {
     if(e.target.value === "CONTRE"){
       this.setState({select : true})
     }else{
       this.setState({select : false})
     }
-
   }
   //AddEnglish
   addEnglish = () => { this.setState({ addEnglish: !this.state.addEnglish})}
@@ -104,35 +106,30 @@ class DiscussionTemplate extends Component{
     let reader = new FileReader();
     let file = e.target.files[0];
     let idx = e.target.getAttribute('data-type')
-    /*
-    const formData = new FormData();
-    formData.append('image', file);
-    axios.post('https://jsonplaceholder.typicode.com/posts', formData, {
-      header:{"Content-type": "multipart / form-data",
-      },
-      //업로드 진행
-      onUploadProgress: progressEvent => {
-        console.log(progressEvent.loaded / progressEvent.total)
-      }
-    }).then(res => res)
-    */
+
     reader.onloadend = () => {
-      const { file, imagePreviewUrl } = this.state;
-      if(imagePreviewUrl.length >= 3){
-        let files = update(file, { [idx]: {$set: file} });
-        let imgUrl = update(imagePreviewUrl,{ [idx]: {$set: reader.result} });
-        this.setState({ file: files, imagePreviewUrl: imgUrl });
+      const { file1, file2, imagePreviewUrl1, imagePreviewUrl2 } = this.state;
+      if(this.state.select){
+        let files = update(file1, {$set: file});
+        let imgUrl = update(imagePreviewUrl1, {$set: reader.result});
+        this.setState({ file1: files, imagePreviewUrl1: imgUrl });
       }else{
-        let files = update(file, {$push: [file]});
-        let imgUrl = update(imagePreviewUrl, {$push: [reader.result]});
-        this.setState({ file: files, imagePreviewUrl: imgUrl });
+        let files = update(file2, {$set: file});
+        let imgUrl = update(imagePreviewUrl2, {$set: reader.result});
+        this.setState({ file2: files, imagePreviewUrl2: imgUrl });
       }
+
     }
     reader.readAsDataURL(file)
   }
-  imagePreviewUrl = (idx) => {
-    let {imagePreviewUrl} = this.state;
-    if (imagePreviewUrl) return <img src={imagePreviewUrl[idx]} alt=""/>
+  imagePreviewUrl = () => {
+    let {imagePreviewUrl1, imagePreviewUrl2, select} = this.state;
+    if (select) {
+      return <img src={imagePreviewUrl1} alt=""/>
+    }
+    else{
+      return <img src={imagePreviewUrl2} alt=""/>
+    }
   }
   //Api 데이터입력
   handleSubmit(e){
@@ -193,156 +190,98 @@ getdiscussion = () => {
     loading:true
   })
 }
-render(){
-  const {loading} = this.state
-  if(!loading){
-    return null
-  }
-  const textFontSize = {
-    fontSize: this.state.fontsize,
-    fontWeight: this.state.fontweight,
-    lineHeight: this.state.lineheight + 'px'
-  }
-  const templateForm = (title1, text1, source1, title2, text2, source2) => (
-    this.state.addEnglish ?
-    (<div className={cx('templateWrapper')}>
-    <div className={cx('inputText')}>
-      <input
-        type="text"
-        placeholder="TITLE"
-        onChange={(e) => this.discussionTitle(e)}
-        value={title1}
-        />
-    </div>
-    <div className={cx('textArea')}>
-      <textarea
-        placeholder="TEXT"
-        style={textFontSize}
-        onChange={(e) => this.discussionText(e)}
-        value={text1}
-        >
-      </textarea>
-      <div className={cx('textUtil')}>
-        <div className={cx('utilImg')}>
-          <input type="file"/><span>IMAGE</span>
+  render(){
+    const {loading} = this.state
+    if(!loading){
+      return null
+    }
+    const textFontSize = {
+      fontSize: this.state.fontsize,
+      fontWeight: this.state.fontweight,
+      lineHeight: this.state.lineheight + 'px'
+    }
+    const templateForm = (f_title, f_text, f_source, e_title, e_text, e_source) => (
+      <div className={cx('templateWrapper')}>
+        <div className={cx('inputText')}>
+          <input
+            type="text"
+            placeholder="TITLE"
+            onChange={(e) => this.discussionTitle(e)}
+            value={this.state.addEnglish ? f_title : e_title}
+            />
         </div>
-        <div onClick={this.fontSizeUp}>A+</div>
-        <div onClick={this.fontSizeDown}>A-</div>
-        <div className={cx('utilBold')} onClick={this.fontBold}>BOLD</div>
-      </div>
-    </div>
-    <div className={cx('sourceInput')}>
-      <input
-        type="text"
-        placeholder="SOURCE"
-        onChange={(e) => this.discussionSource(e)}
-        value={source1}
-        />
-    </div>
-  </div>)
-  :
-  (<div className={cx('templateWrapper')}>
-  <div className={cx('inputText')}>
-    <input
-      type="text"
-      placeholder="TITLE"
-      onChange={(e) => this.discussionTitle(e)}
-      value={title2}
-      />
-  </div>
-  <div className={cx('textArea')}>
-    <textarea
-      placeholder="TEXT"
-      style={textFontSize}
-      onChange={(e) => this.discussionText(e)}
-      value={text2}
-      >
-    </textarea>
-    <div className={cx('textUtil')}>
-      <div className={cx('utilImg')}>
-        <input type="file"/><span>IMAGE</span>
-      </div>
-      <div onClick={this.fontSizeUp}>A+</div>
-      <div onClick={this.fontSizeDown}>A-</div>
-      <div className={cx('utilBold')} onClick={this.fontBold}>BOLD</div>
-    </div>
-  </div>
-  <div className={cx('sourceInput')}>
-    <input
-      type="text"
-      placeholder="SOURCE"
-      onChange={(e) => this.discussionSource(e)}
-      value={source2}
-      />
-  </div>
-</div>)
-)
-//lastName 1 => contre / 2 => pour
-const {f_title1, f_text1, f_source1, e_title1, e_text1, e_source1,
-  f_title2, f_text2, f_source2, e_title2, e_text2, e_source2
-} = this.state
-return (
-  <div className={cx('template')}>
-    <form onSubmit={(e)=>this.handleSubmit(e)}>
-      <div className={cx('title')}>{(this.props.addvalue).toUpperCase()}</div>
-      <div className={cx('upLoadWrapper')}>
-        <div className={cx('fileUpLoads')}>
-          <div className={cx('fileUpLoad')}>
-            <input
-              type="file"
-              name="img1"
-              onChange={(e)=> this.handleImageChange(e)}
-              accept="image/*"
-              data-type="0"
-              />
-            {this.imagePreviewUrl(0)}
-          </div>
-          <div className={cx('fileUpLoad')}>
-            <input
-              type="file"
-              name="img2"
-              onChange={(e)=> this.handleImageChange(e)}
-              accept="image/*"
-              data-type="1"
-              />
-            {this.imagePreviewUrl(1)}
-          </div>
-          <div className={cx('fileUpLoad')}>
-            <input
-              type="file"
-              name="img3"
-              onChange={(e)=> this.handleImageChange(e)}
-              accept="image/*"
-              data-type="3"
-              />
-            {this.imagePreviewUrl(2)}
+        <div className={cx('textArea')}>
+          <textarea
+            placeholder="TEXT"
+            style={textFontSize}
+            onChange={(e) => this.discussionText(e)}
+            value={this.state.addEnglish ? f_text : e_text}
+            >
+          </textarea>
+          <div className={cx('textUtil')}>
+            <div className={cx('utilImg')}>
+              <input type="file"/><span>IMAGE</span>
+            </div>
+            <div onClick={this.fontSizeUp}>A+</div>
+            <div onClick={this.fontSizeDown}>A-</div>
+            <div className={cx('utilBold')} onClick={this.fontBold}>BOLD</div>
           </div>
         </div>
-        <div className={cx('utilSelect')}>
-          <div className={cx('addEnglish')} onClick={this.addEnglish}>
-            <div className={cx('englishBtn')}></div><span>{this.state.addEnglish ? "ADD ENGLISH" : "FRENCH"}</span>
-          </div>
-            <select className={cx('selectList')}
-              onChange={this.selectBox}
-              >
-              <option value="CONTRE">CONTRE</option>
-              <option value="POUR">POUR</option>
-            </select>
-          </div>
+        <div className={cx('sourceInput')}>
+          <input
+            type="text"
+            placeholder="SOURCE"
+            onChange={(e) => this.discussionSource(e)}
+            value={this.state.addEnglish ? f_source : e_source}
+            />
         </div>
-        {this.state.select ?
-          templateForm(f_title1, f_text1, f_source1, e_title1, e_text1, e_source1)
-          : templateForm(f_title2, f_text2, f_source2, e_title2, e_text2, e_source2)
-        }
-        <div className={cx('publish')}>
-          <div className={cx('text')}>MODIFIÉ  3j</div>
-          <button type="submit">PUBLISH</button>
-          <div className={cx('deleteBtn')}><img src="https://www.simuladordeinvestimentos.com/images/clear.png" alt="deleteBtn"/></div>
-        </div>
-      </form>
     </div>
   )
-}
+  //lastName 1 => contre / 2 => pour
+  const {f_title1, f_text1, f_source1, e_title1, e_text1, e_source1,
+    f_title2, f_text2, f_source2, e_title2, e_text2, e_source2
+  } = this.state
+  return (
+    <div className={cx('template')}>
+      <form onSubmit={(e)=>this.handleSubmit(e)}>
+        <div className={cx('title')}>{(this.props.addvalue).toUpperCase()}</div>
+        <div className={cx('upLoadWrapper')}>
+          <div className={cx('fileUpLoads')}>
+            <div className={cx('fileUpLoad')}>
+              <input
+                type="file"
+                name="img"
+                onChange={(e)=> this.handleImageChange(e)}
+                accept="image/*"
+                />
+              {this.imagePreviewUrl()}
+            </div>
+          </div>
+          <div className={cx('utilSelect')}>
+            <div className={cx('addEnglish')} onClick={this.addEnglish}>
+              <div className={cx('englishBtn')}></div><span>{this.state.addEnglish ? "ADD ENGLISH" : "FRENCH"}</span>
+            </div>
+              <select className={cx('selectList')}
+                onChange={this.selectBox}
+                >
+                <option value="CONTRE">CONTRE</option>
+                <option value="POUR">POUR</option>
+              </select>
+            </div>
+          </div>
+          {this.state.select ?
+            templateForm(f_title1, f_text1, f_source1, e_title1, e_text1, e_source1)
+            : templateForm(f_title2, f_text2, f_source2, e_title2, e_text2, e_source2)
+          }
+          <div className={cx('publish')}>
+            <div className={cx('text')}>MODIFIÉ  3j</div>
+            <button type="submit">PUBLISH</button>
+            <div className={cx('deleteBtn')}><img src="https://www.simuladordeinvestimentos.com/images/clear.png" alt="deleteBtn"/></div>
+          </div>
+        </form>
+      </div>
+    )
+  }
 }
 
 export default DiscussionTemplate;

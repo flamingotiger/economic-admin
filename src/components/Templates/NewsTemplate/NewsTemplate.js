@@ -14,11 +14,11 @@ class DateBtn extends React.Component {
   //Date button style (react-datepicker)
   render () {
     return (
-      <button
+      <div
         className={cx('addDate')}
         onClick={this.props.onClick}>
         {this.props.value ? this.props.value : "DATE"}
-      </button>
+      </div>
     )
   }
 }
@@ -37,10 +37,9 @@ class NewsTemplate extends Component{
       e_source:'',
       calendarDate:'DATE',
       addEnglish:true,
-      startDate:moment()
+      startDate:moment(),
+      value:''
     }
-    this.handleChange = this.handleChange.bind(this);
-    this.addEnglish = this.addEnglish.bind(this);
   }
   //AddEnglish
   addEnglish = () => { this.setState({ addEnglish: !this.state.addEnglish})}
@@ -87,7 +86,13 @@ class NewsTemplate extends Component{
     }
   //Calendar
   onClickDay = (value) => this.setState({calendarDate: String(value)});
-  handleChange = (date) => this.setState({ startDate: date });
+  handleChange = (date) => this.setState({ startDate: date});
+  handleChangeRaw(value) {
+    if(value === "tomorrow") {
+      const tomorrow = moment().add(1, "day")
+      this.handleChange(tomorrow)
+    }
+  }
   //Api 데이터입력
   handleSubmit(e){
     e.preventDefault();
@@ -179,6 +184,7 @@ class NewsTemplate extends Component{
       </div>
     )
     const {f_title, f_text, f_source, e_title, e_text, e_source} = this.state;
+    console.log(this.state)
     return (
       <div className={cx('template')}>
         <form onSubmit={(e)=>this.handleSubmit(e)}>
@@ -230,6 +236,7 @@ class NewsTemplate extends Component{
                   dateFormat="YYYY-MM-DD"
                   selected={this.state.startDate}
                   onChange={this.handleChange}
+                  onChangeRaw={(e) => this.handleChangeRaw(e.target.value)}
                   minDate={moment()}
                   maxDate={moment().add(30, "days")}
                 />

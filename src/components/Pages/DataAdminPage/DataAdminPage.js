@@ -43,7 +43,6 @@ class DataAdminPage extends Component{
       }
     }
   //버튼 클릭시 check된것가져오고 삭제 메뉴열기
-  //버튼 클릭시 check된것가져오고 삭제 메뉴열기
   openMenu(e){
     const check = Number(e.target.parentNode.getAttribute('data-item'))
     const checked = e.target.previousSibling.checked

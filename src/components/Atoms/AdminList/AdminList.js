@@ -17,13 +17,18 @@ class AdminList extends Component{
   render(){
     const { check } = this.state;
     const { idx, openmenu, menu, img, cate, date,
-       ftitle, publish, reporter, magazine } = this.props;
+       ftitle, publish, reporter, magazine, selectItem } = this.props;
     if(magazine){
       return (
-        <div className={cx('newsList')} id={idx}>
+        <div className={cx('newsList')} >
           <div className={cx('listCheck')}>
-            <label htmlFor={`newsListCheck${idx}`} >
-              <input type="radio" name="listradio" id={`newsListCheck${idx}`} />
+            <label htmlFor={`newsListCheck${idx}`} data-item={idx}>
+              <input
+                type="radio"
+                name={`newsItem${selectItem}`}
+                id={`newsListCheck${idx}`}
+                onChange={(e) => this.props.getIdx(e)}
+              />
               <span></span>
             </label>
           </div>

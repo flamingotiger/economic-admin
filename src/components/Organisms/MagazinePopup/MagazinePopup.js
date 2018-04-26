@@ -9,36 +9,35 @@ class MagazinePopup extends Component{
   constructor(props){
     super(props);
     this.state={
-      popup:this.props.popup,
       open:true
     }
     this.handleClose = this.handleClose.bind(this);
   }
   componentWillReceiveProps(nextProps){
-      this.setState({popup: nextProps.popup, open:true})
+      this.setState({ open:true })
   }
   renderPopup(){
-    const {popup} = this.state;
+    const {popup} = this.props;
     switch(popup){
       case "news1":
-        return <NewsMagazine magazine="true" />
+        return <NewsMagazine magazine="true" getIdx={this.props.getIdx} selectItem="0" handleClose={this.handleClose}/>
       case "news2":
-        return <NewsMagazine magazine="true" />
+        return <NewsMagazine magazine="true" getIdx={this.props.getIdx} selectItem="1" handleClose={this.handleClose}/>
       case "discussion":
-        return <DiscussionMagazine magazine="true" />
+        return <DiscussionMagazine magazine="true" getIdx={this.props.getIdx} handleClose={this.handleClose}/>
       case "startup1":
-        return <StartupMagazine magazine="true" />
+        return <StartupMagazine magazine="true" getIdx={this.props.getIdx} selectItem="0" handleClose={this.handleClose}/>
       case "startup2":
-        return <StartupMagazine magazine="true" />
+        return <StartupMagazine magazine="true" getIdx={this.props.getIdx} selectItem="1" handleClose={this.handleClose}/>
       case "startup3":
-        return <StartupMagazine magazine="true" />
+        return <StartupMagazine magazine="true" getIdx={this.props.getIdx} selectItem="2" handleClose={this.handleClose}/>
       case "data":
-        return <DataMagazine magazine="true" />
+        return <DataMagazine magazine="true" getIdx={this.props.getIdx}/>
       default:
         return null;
     }
   }
-  handleClose(){ this.setState({open:false, popup:this.props.popup});}
+  handleClose(){ this.setState({ open:false });}
   render(){
     return (
       <div className={this.state.open ? cx('bg') : cx('bg','hidden')}>
