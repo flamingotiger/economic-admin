@@ -8,6 +8,8 @@ import { NewsTemplate,
          DataTemplate
 } from '../../Templates';
 import { getApi } from '../../../api';
+import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 
 const cx = classNames.bind(styles);
 
@@ -55,6 +57,12 @@ class AddPage extends Component{
     getApi().then(res => this.setState({getData : res.data.data[idx], loading:true}))
   }
   render(){
+    const { user } = this.props;
+    if(!user.isLoggedIn) {
+      return (
+        <Redirect to="/admin"/>
+      );
+    }
     const params = this.props.match.params.menu.slice(1);
     return (
       <div className={cx('addWrapper')}>
@@ -82,5 +90,7 @@ class AddPage extends Component{
     )
   }
 }
-
-export default AddPage;
+const mapStateToProps = (state) => ({
+  user: state.login
+});
+export default connect(mapStateToProps)(AddPage);

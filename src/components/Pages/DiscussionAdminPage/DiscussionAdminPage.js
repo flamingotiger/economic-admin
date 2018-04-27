@@ -2,7 +2,10 @@ import React,{Component} from 'react';
 import styles from './DiscussionAdminPage.scss';
 import classNames from 'classnames/bind';
 import { AddListBtn, Navigate, Search, DiscussionList, ListUtil, BtnMenu, SelectBtn } from '../../Atoms';
-import { getApi, deleteApi } from '../../../api';
+import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
+import { getApi, deleteApi, DiscussionApi } from '../../../api';
+import axios from 'axios';
 
 const cx = classNames.bind(styles);
 
@@ -95,7 +98,12 @@ class DiscussionAdminPage extends Component{
     getApi().then(res => this.setState({discussion: res.data.discussion}))
   }
   render(){
-    console.log(this.state.checkIdx)
+    const { user } = this.props;
+    if(!user.isLoggedIn) {
+      return (
+        <Redirect to="/admin"/>
+      );
+    }
     const mapToComponents = (discussion) => {
       if(this.state.keyword === ''){
           this.renderAdminList()
@@ -147,4 +155,7 @@ class DiscussionAdminPage extends Component{
     )
   }
 }
-export default DiscussionAdminPage;
+const mapStateToProps = (state) => ({
+  user: state.login
+});
+export default connect(mapStateToProps)(DiscussionAdminPage);

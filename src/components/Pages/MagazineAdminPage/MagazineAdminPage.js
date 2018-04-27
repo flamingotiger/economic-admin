@@ -2,6 +2,8 @@ import React,{Component} from 'react';
 import styles from './MagazineAdminPage.scss';
 import classNames from 'classnames/bind';
 import { AddListBtn, Navigate, MagazineThumb } from '../../Atoms';
+import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 
 const cx = classNames.bind(styles);
 
@@ -94,6 +96,12 @@ class MagazineAdminPage extends Component{
     }
   }
   render(){
+    const { user } = this.props;
+    if(!user.isLoggedIn) {
+      return (
+        <Redirect to="/admin"/>
+      );
+    }
     return (
       <div className={cx('magazine')}>
         <AddListBtn menu="magazine"/>
@@ -115,4 +123,7 @@ class MagazineAdminPage extends Component{
     )
   }
 }
-export default MagazineAdminPage;
+const mapStateToProps = (state) => ({
+  user: state.login
+});
+export default connect(mapStateToProps)(MagazineAdminPage);

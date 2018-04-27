@@ -2,6 +2,8 @@ import React,{Component} from 'react';
 import styles from './DataAdminPage.scss';
 import classNames from 'classnames/bind';
 import { AddListBtn, Navigate, Search, DataList, ListUtil, BtnMenu, SelectBtn } from '../../Atoms';
+import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 import { getApi, deleteApi } from '../../../api';
 
 const cx = classNames.bind(styles);
@@ -89,6 +91,12 @@ class DataAdminPage extends Component{
     getApi().then(res => this.setState({data: res.data.data}))
   }
   render(){
+    const { user } = this.props;
+    if(!user.isLoggedIn) {
+      return (
+        <Redirect to="/admin"/>
+      );
+    }
     const mapToComponents = (data) => {
       //검색하지 않았을때 전부보이기
       if(this.state.keyword === ''){
@@ -132,4 +140,7 @@ class DataAdminPage extends Component{
     )
   }
 }
-export default DataAdminPage;
+const mapStateToProps = (state) => ({
+  user: state.login
+});
+export default connect(mapStateToProps)(DataAdminPage);

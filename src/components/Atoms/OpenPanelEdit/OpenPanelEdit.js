@@ -25,18 +25,10 @@ class OpenPanelEdit extends Component{
       datachk:datachk,
       popup:false,
     }
-    this.addEmail = this.addEmail.bind(this);
-    this.addPassword = this.addPassword.bind(this);
-    this.addName = this.addName.bind(this);
-    this.addFirstName = this.addFirstName.bind(this);
     this.addMemo = this.addMemo.bind(this);
     this.handleSubmit =this.handleSubmit.bind(this);
     this.btnClick = this.btnClick.bind(this);
   }
-  addEmail(e){this.setState({email:e.target.value})}
-  addPassword(e){this.setState({password:e.target.value})}
-  addName(e){this.setState({name:e.target.value})}
-  addFirstName(e){this.setState({firstname:e.target.value})}
   addMemo(e){this.setState({memo:e.target.value})}
   handleSubmit(e){
     e.preventDefault();
@@ -88,10 +80,10 @@ class OpenPanelEdit extends Component{
           </div>
           <div className={cx('profileRight')}>
             <div className={cx('rightText')}>
-              <div className={cx('rightInput','first')}><input type="email" name="email" placeholder="EMAIL" value={email} onChange={this.addEmail}/></div>
-              <div className={cx('rightInput')}><input type="text" name="pw" placeholder="PASSWORD" value={password} onChange={this.addPassword}/></div>
-              <div className={cx('rightInput','first')}><input type="text" name="name" placeholder="NOM" value={name} onChange={this.addName}/></div>
-              <div className={cx('rightInput')}><input type="text" name="fitstname" placeholder="PRENOM" value={firstname} onChange={this.addFirstName}/></div>
+              <div className={cx('rightInput','first')}><input type="email" name="email" placeholder="EMAIL" value={email} onChange={ (e) => this.setState({email:e.target.value}) }/></div>
+              <div className={cx('rightInput')}><input type="text" name="pw" placeholder="PASSWORD" value={password} onChange={ (e) => this.setState({password:e.target.value}) }/></div>
+              <div className={cx('rightInput','first')}><input type="text" name="name" placeholder="NOM" value={name} onChange={ (e) => this.setState({name:e.target.value}) }/></div>
+              <div className={cx('rightInput')}><input type="text" name="fitstname" placeholder="PRENOM" value={firstname} onChange={ (e) => this.setState({firstname:e.target.value}) }/></div>
             </div>
             <div className={cx('textArea')}><textarea placeholder="MEMO" value={memo} onChange={this.addMemo}></textarea></div>
             <button type="submit" onClick={this.btnClick}>CHANGE</button>

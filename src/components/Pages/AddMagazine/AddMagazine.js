@@ -5,9 +5,12 @@ import { Navigate, AddListBtn } from '../../Atoms';
 import { MagazinePopup } from '../../Organisms';
 import DatePicker from 'react-datepicker';
 import moment from 'moment';
+import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 import { getApi, postApi, putApi } from '../../../api';
 
 const cx = classNames.bind(styles);
+
 class DateBtn extends Component {
   //Date button style (react-datepicker)
   render () {
@@ -49,6 +52,12 @@ class AddMagazine extends Component{
     this.setState({ [e.target.name]: check})
   }
   render(){
+    const { user } = this.props;
+    if(!user.isLoggedIn) {
+      return (
+        <Redirect to="/admin"/>
+      );
+    }
     const { popup, loading, data, newsItem0, newsItem1, disItem } = this.state;
     if(!loading){
       return null
@@ -225,4 +234,7 @@ class AddMagazine extends Component{
     )
   }
 }
-export default AddMagazine;
+const mapStateToProps = (state) => ({
+  user: state.login
+});
+export default connect(mapStateToProps)(AddMagazine);

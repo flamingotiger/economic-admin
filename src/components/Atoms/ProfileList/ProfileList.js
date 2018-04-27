@@ -18,18 +18,9 @@ class ProfileList extends Component{
       datachk:this.props.datachk,
       openPanelEdit:false,
     }
-    //체크박스--------------------------------------------------
-    this.allCheckBox = this.allCheckBox.bind(this);
-    this.newsCheckBox = this.newsCheckBox.bind(this);
-    this.startupCheckBox = this.startupCheckBox.bind(this);
-    this.discussionCheckBox = this.discussionCheckBox.bind(this);
-    this.dataCheckBox = this.dataCheckBox.bind(this);
-    //--------------------------------------------------------
-    this.handleEdit = this.handleEdit.bind(this);
     this.handleCancel = this.handleCancel.bind(this);
   }
-  //체크박스-------------------------------------------------------------
-  allCheckBox(){
+  allCheckBox = () => {
     this.setState({magachk : !this.state.magachk});
       if(!this.state.magachk){
         this.setState({
@@ -40,12 +31,7 @@ class ProfileList extends Component{
         });
       }
     }
-  newsCheckBox(){this.setState({newschk : !this.state.newschk})}
-  startupCheckBox(){this.setState({startupchk : !this.state.startupchk})}
-  discussionCheckBox(){this.setState({discussionchk : !this.state.discussionchk})}
-  dataCheckBox(){this.setState({datachk : !this.state.datachk})}
-  //-------------------------------------------------------------------
-  handleEdit(){this.setState({openPanel:!this.state.openPanel})}
+  handleEdit = () => { this.setState({openPanel:!this.state.openPanel}) }
   componentDidMount(){
     this.props.getIdx(this.props.idx);
   }
@@ -76,67 +62,57 @@ class ProfileList extends Component{
         </div>
         <form className={cx('profileForm')}>
           <div className={cx('profileCheckBox')}>
-            <label
-              htmlFor={`magazine${idx}`}
-              onClick={this.allCheckBox}
-              >
+            <label htmlFor={`magazine${idx}`}>
               <input
                 type="checkbox"
                 name="magazine"
                 idx={`magazine${idx}`}
                 checked={magachk}
+                onChange={this.allCheckBox}
               />
               <span></span>MAGAZINE</label>
           </div>
           <div className={cx('profileCheckBox')}>
-            <label
-              htmlFor={`news${idx}`}
-              onClick={this.newsCheckBox}
-            >
+            <label htmlFor={`news${idx}`}>
               <input
                 type="checkbox"
                 name="news"
                 idx={`news${idx}`}
                 checked={newschk}
+                onChange={() => this.setState({newschk : !this.state.newschk})}
               />
             <span></span>NEWS</label>
           </div>
           <div className={cx('profileCheckBox')}>
-            <label
-              htmlFor={`startup${idx}`}
-              onClick={this.startupCheckBox}
-              >
+            <label htmlFor={`startup${idx}`}>
               <input
                 type="checkbox"
                 name="startup"
                 idx={`startup${idx}`}
                 checked={startupchk}
+                onChange={() => this.setState({startupchk : !this.state.startupchk})}
               />
             <span></span>START_UP</label>
           </div>
           <div className={cx('profileCheckBox')}>
-            <label
-              htmlFor={`discussion${idx}`}
-              onClick={this.discussionCheckBox}
-              >
+            <label htmlFor={`discussion${idx}`}>
               <input
                 type="checkbox"
                 name="discussion"
                 idx={`discussion${idx}`}
                 checked={discussionchk}
+                onChange={() => this.setState({discussionchk : !this.state.discussionchk})}
               />
             <span></span>DISCUSSION</label>
           </div>
           <div className={cx('profileCheckBox')}>
-            <label
-              htmlFor={`data${idx}`}
-              onClick={this.dataCheckBox}
-              >
+            <label htmlFor={`data${idx}`}>
               <input
                 type="checkbox"
                 name="data"
                 idx={`data${idx}`}
                 checked={datachk}
+                onChange={() => this.setState({datachk : !this.state.datachk})}
               />
             <span></span>DATA</label>
           </div>

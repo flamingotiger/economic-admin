@@ -3,7 +3,10 @@ import styles from './Navigate.scss';
 import classNames from 'classnames/bind';
 import { NavLink } from 'react-router-dom';
 import { Link } from 'react-router-dom';
+import Cookies from 'js-cookie';
 import { connect } from 'react-redux';
+import * as actions from '../../../actions';
+import { AuthApi } from '../../../api';
 
 const cx = classNames.bind(styles);
 
@@ -14,8 +17,19 @@ class Navigate extends Component{
       user : this.props.user.isLoggedIn
     }
   }
-
+  componentDidMount(){
+    const token = Cookies.get('token'); // 로그인 정보를 로컬스토리지에서 가져옵니다.
+    this.setState({token:token})
+  }
+  logout = () => {
+    AuthApi.destroyAuth().then(res => res)
+    Cookies.remove('token', { path: '/admin' });
+    Cookies.remove('user', { path: '/admin' });
+    this.props.onLogout();
+    //window.location.href = '/admin';
+  }
   render(){
+    console.log(this.state)
     const { magazine, news, startup, discussion, data } = this.props;
     const { user } = this.state;
     const redirect = "/admin"
@@ -24,6 +38,10 @@ class Navigate extends Component{
         <h1 className={cx('navTitle')}>PAGE ADMIN</h1>
         {user ?
           <div className={cx('navi')}><Link to="/admin/profile">MANAGER</Link></div>
+          : null
+        }
+        {user ?
+          <div className={cx('signOut')} onClick={this.logout}>SING OUT</div>
           : null
         }
         <ul className={cx('navListWrapper')}>
@@ -48,4 +66,7 @@ Navigate.defaultProps = {
 const mapStateToProps = (state) => ({
   user: state.login
 });
-export default connect(mapStateToProps)(Navigate);
+const mapDispatchToProps = (dispatch) => ({
+  onLogout: () => dispatch(actions.adminLogout())
+})
+export default connect(mapStateToProps, mapDispatchToProps)(Navigate);
