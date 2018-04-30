@@ -3,35 +3,23 @@ import styles from './Navigate.scss';
 import classNames from 'classnames/bind';
 import { NavLink } from 'react-router-dom';
 import { Link } from 'react-router-dom';
-import Cookies from 'js-cookie';
-import { connect } from 'react-redux';
 import * as actions from '../../../actions';
+import { connect } from 'react-redux';
+import Cookies from 'js-cookie';
 import { AuthApi } from '../../../api';
 
 const cx = classNames.bind(styles);
 
 class Navigate extends Component{
-  constructor(props){
-    super(props);
-    this.state={
-      user : this.props.user.isLoggedIn
-    }
-  }
-  componentDidMount(){
-    const token = Cookies.get('token'); // 로그인 정보를 로컬스토리지에서 가져옵니다.
-    this.setState({token:token})
-  }
   logout = () => {
-    AuthApi.destroyAuth().then(res => res)
-    Cookies.remove('token', { path: '/admin' });
-    Cookies.remove('user', { path: '/admin' });
+    AuthApi.destroyAuth();
+    Cookies.remove('token');
     this.props.onLogout();
     //window.location.href = '/admin';
   }
   render(){
-    console.log(this.state)
     const { magazine, news, startup, discussion, data } = this.props;
-    const { user } = this.state;
+    const { user } = this.props.user;
     const redirect = "/admin"
     return (
       <nav className={cx('navigator')}>
@@ -41,15 +29,25 @@ class Navigate extends Component{
           : null
         }
         {user ?
-          <div className={cx('signOut')} onClick={this.logout}>SING OUT</div>
+          <div className={cx('signOut')} onClick={this.logout}>SIGN OUT</div>
           : null
         }
         <ul className={cx('navListWrapper')}>
-          <li className={magazine ? cx('navList','on') : cx('navList')}><NavLink to={user ? "/admin/magazine" : redirect}>MAGAZINE</NavLink></li>
-          <li className={news ? cx('navList','on') : cx('navList')}><NavLink to={user ? "/admin/news" : redirect}>NEWS</NavLink></li>
-          <li className={discussion ? cx('navList','on') : cx('navList')}><NavLink to={user ? "/admin/discussion" : redirect}>DISCUSSION</NavLink></li>
-          <li className={startup ? cx('navList','on') : cx('navList')}><NavLink to={user ? "/admin/startup" : redirect}>START-UP</NavLink></li>
-          <li className={data ? cx('navList','on') : cx('navList')}><NavLink to={user ? "/admin/data" : redirect}>DATA</NavLink></li>
+          <li className={magazine ? cx('navList','on') : cx('navList')}>
+            <NavLink to={user ? "/admin/magazine" : redirect}>MAGAZINE</NavLink>
+          </li>
+          <li className={news ? cx('navList','on') : cx('navList')}>
+            <NavLink to={user ? "/admin/news" : redirect}>NEWS</NavLink>
+          </li>
+          <li className={discussion ? cx('navList','on') : cx('navList')}>
+            <NavLink to={user ? "/admin/discussion" : redirect}>DISCUSSION</NavLink>
+          </li>
+          <li className={startup ? cx('navList','on') : cx('navList')}>
+            <NavLink to={user ? "/admin/startup" : redirect}>START-UP</NavLink>
+          </li>
+          <li className={data ? cx('navList','on') : cx('navList')}>
+            <NavLink to={user ? "/admin/data" : redirect}>DATA</NavLink>
+          </li>
         </ul>
       </nav>
     );

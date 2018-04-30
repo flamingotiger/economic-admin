@@ -7,7 +7,7 @@ import DatePicker from 'react-datepicker';
 import moment from 'moment';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
-import { getApi, postApi, putApi } from '../../../api';
+import { getApi } from '../../../api';
 
 const cx = classNames.bind(styles);
 

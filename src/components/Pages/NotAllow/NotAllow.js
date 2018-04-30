@@ -8,8 +8,7 @@ const cx = classNames.bind(styles);
 class NotAllow extends Component{
   constructor(props){
     super(props);
-    this.state={
-    }
+    this.state={}
   }
   render(){
     return (

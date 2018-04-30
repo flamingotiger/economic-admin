@@ -6,8 +6,7 @@ import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import * as actions from '../../../actions';
 import Cookies from 'js-cookie';
-import { AuthApi } from '../../../api';
-import axios from 'axios'
+import { AuthApi, UserApi } from '../../../api';
 
 const cx = classNames.bind(styles);
 
@@ -21,7 +20,7 @@ class LoginPage extends Component{
       auth:null,
     }
   }
-  handleSubmit = (e) => {
+ handleSubmit = (e) => {
     e.preventDefault();
     const { password, email } = this.state;
     const body = {"email": email, "password": password}
@@ -29,17 +28,21 @@ class LoginPage extends Component{
     .then(res => {
         if(res.statusText === "OK"){
           //수동으로 데이터 조작
-          this.setState({auth:res.data.auth, token:res.data.auth.token});
-          Cookies.set('token', this.state.token, { path: '/admin'});
-          Cookies.set('user', this.state.auth.user, { path: '/admin'});
-          //id값 저장
-          this.props.onLogin(res.data.auth.user)
+          this.setState({ token:res.data.auth.token });
+          Cookies.set('token', this.state.token);
         }
       }
-    ).catch((err) => console.log(err))
+    )
+    //수동으로 request headers, redux login
+    const token = Cookies.get('token')
+    AuthApi.createAuth(token, body).then(res => this.props.onLogin(this.state.user))
+  }
+  componentDidMount(){
+    //Mylogin data
+    const token = Cookies.get('token')
+    UserApi.getUser(token, 'me').then(res => this.setState({ user: res.data.user}))
   }
   render(){
-    console.log(this.state)
     const { user } = this.props;
     if(user.isLoggedIn) {
       return (
@@ -80,6 +83,6 @@ const mapStateToProps = (state) => ({
   user: state.login
 })
 const mapDispatchToProps = (dispatch) => ({
-  onLogin : (id) => dispatch(actions.adminLogin(id)),
+  onLogin : (user) => dispatch(actions.adminLogin(user)),
 })
 export default connect(mapStateToProps, mapDispatchToProps)(LoginPage);

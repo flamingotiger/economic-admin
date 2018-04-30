@@ -2,4 +2,9 @@
   width:950px;
   margin:auto;
   margin-top:20px;
+  .search{
+    float:right;
+    .selectBtn{display: inline-block; margin-right:12px;}
+    .searchBox{display: inline-block;}
+  }
 }

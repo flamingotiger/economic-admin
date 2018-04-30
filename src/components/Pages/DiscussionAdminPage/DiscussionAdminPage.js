@@ -4,8 +4,7 @@ import classNames from 'classnames/bind';
 import { AddListBtn, Navigate, Search, DiscussionList, ListUtil, BtnMenu, SelectBtn } from '../../Atoms';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
-import { getApi, deleteApi, DiscussionApi } from '../../../api';
-import axios from 'axios';
+import { getApi, deleteApi } from '../../../api';
 
 const cx = classNames.bind(styles);
 
@@ -104,6 +103,13 @@ class DiscussionAdminPage extends Component{
         <Redirect to="/admin"/>
       );
     }
+    /*
+    if(!user.user.discusstionManage){
+      return (
+        <Redirect to="/admin"/>
+      );
+    }
+    */
     const mapToComponents = (discussion) => {
       if(this.state.keyword === ''){
           this.renderAdminList()

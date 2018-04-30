@@ -105,7 +105,6 @@ class DiscussionTemplate extends Component{
     e.preventDefault();
     let reader = new FileReader();
     let file = e.target.files[0];
-    let idx = e.target.getAttribute('data-type')
 
     reader.onloadend = () => {
       const { file1, file2, imagePreviewUrl1, imagePreviewUrl2 } = this.state;

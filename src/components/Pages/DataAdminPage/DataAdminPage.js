@@ -97,6 +97,13 @@ class DataAdminPage extends Component{
         <Redirect to="/admin"/>
       );
     }
+    /*
+    if(!user.user.dataManage){
+      return (
+        <Redirect to="/admin"/>
+      );
+    }
+    */
     const mapToComponents = (data) => {
       //검색하지 않았을때 전부보이기
       if(this.state.keyword === ''){

@@ -2,7 +2,6 @@ import React,{Component} from 'react';
 import styles from './StartUpTemplate.scss';
 import classNames from 'classnames/bind';
 import update from 'immutability-helper';
-import { putApi, postApi } from '../../../api';
 import axios from 'axios';
 
 const cx = classNames.bind(styles);
@@ -124,7 +123,6 @@ class StartUpTemplate extends Component{
       "f_title9": f_title9, "f_text9": f_text9, "e_title9": e_title9, "e_text9": e_text9,
       "f_title10": f_title10, "f_text10": f_text10, "e_title10": e_title10, "e_text10": e_text10
     }
-    const { idx } = this.props;
     if(!this.props.startup){//데이터가 입력이 되어있었는지 확인 없으면 post
       //데이터 추가 URL + 파라미터
       axios.post("http://localhost:3001/add=startup", data).then(res => console.log(res))

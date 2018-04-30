@@ -89,7 +89,7 @@ class DataTemplate extends Component{
     }
   }
   handleUpload = (e) => {
-    let file = e.target.files[0];
+    //let file = e.target.files[0];
     let formdata = new FormData();
     formdata.append("data", "file")
     axios.post('https://localhost:3001/data',formdata,{header:{"Content-type":"multipart/form-data"}}).then(res => console.log(res))
@@ -98,7 +98,7 @@ class DataTemplate extends Component{
     e.preventDefault();
     let reader = new FileReader();
     let file = e.target.files[0];
-    let idx = e.target.getAttribute('data-type');
+    //let idx = e.target.getAttribute('data-type');
     reader.onloadend = () => {
       const { file, imagePreviewUrl } = this.state;
       let files = update(file, {$set: [file]});
