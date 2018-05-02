@@ -5,6 +5,7 @@ import { AddListBtn, Navigate, Search, DiscussionList, ListUtil, BtnMenu, Select
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import { getApi, deleteApi } from '../../../api';
+import { DiscussionApi } from '../../../api';
 
 const cx = classNames.bind(styles);
 
@@ -95,6 +96,7 @@ class DiscussionAdminPage extends Component{
   }
   componentDidMount(){
     getApi().then(res => this.setState({discussion: res.data.discussion}))
+    DiscussionApi.listDiscussion().then(res => console.log(res))
   }
   render(){
     const { user } = this.props;

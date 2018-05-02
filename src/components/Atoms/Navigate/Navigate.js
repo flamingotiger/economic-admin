@@ -7,12 +7,13 @@ import * as actions from '../../../actions';
 import { connect } from 'react-redux';
 import Cookies from 'js-cookie';
 import { AuthApi } from '../../../api';
+import token from '../../../api/token';
 
 const cx = classNames.bind(styles);
 
 class Navigate extends Component{
   logout = () => {
-    AuthApi.destroyAuth();
+    AuthApi.destroyAuth(token);
     Cookies.remove('token');
     this.props.onLogout();
     //window.location.href = '/admin';

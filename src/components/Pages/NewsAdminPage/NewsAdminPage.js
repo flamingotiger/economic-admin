@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import { getApi, deleteApi } from '../../../api';
 import { NewsApi } from '../../../api';
+import token from '../../../api/token';
 
 const cx = classNames.bind(styles);
 
@@ -92,7 +93,7 @@ class NewsAdminPage extends Component{
   }
   componentDidMount(){
     getApi().then(res => this.setState({news: res.data.news}))
-    NewsApi.listNews().then(res => console.log(res))
+    NewsApi.listNews(token).then(res => console.log(res))
   }
   render(){
     const { user } = this.props;
@@ -157,4 +158,5 @@ class NewsAdminPage extends Component{
 const mapStateToProps = (state) => ({
   user: state.login
 });
+
 export default connect(mapStateToProps)(NewsAdminPage);

@@ -7,6 +7,7 @@ import { Redirect } from 'react-router-dom';
 import * as actions from '../../../actions';
 import Cookies from 'js-cookie';
 import { AuthApi, UserApi } from '../../../api';
+import token from '../../../api/token';
 
 const cx = classNames.bind(styles);
 
@@ -20,27 +21,22 @@ class LoginPage extends Component{
       auth:null,
     }
   }
- handleSubmit = (e) => {
+ handleSubmit = async (e) => {
     e.preventDefault();
     const { password, email } = this.state;
     const body = {"email": email, "password": password}
-    AuthApi.createAuth(body)
+    await AuthApi.createAuth(body)
     .then(res => {
         if(res.statusText === "OK"){
           //수동으로 데이터 조작
-          this.setState({ token:res.data.auth.token });
+          this.setState({ token: res.data.auth.token });
           Cookies.set('token', this.state.token);
         }
       }
     )
     //수동으로 request headers, redux login
-    const token = Cookies.get('token')
-    AuthApi.createAuth(token, body).then(res => this.props.onLogin(this.state.user))
-  }
-  componentDidMount(){
-    //Mylogin data
-    const token = Cookies.get('token')
-    UserApi.getUser(token, 'me').then(res => this.setState({ user: res.data.user}))
+    await UserApi.getUser(token, 'me').then(res => this.setState({ user: res.data.user}))
+    await this.props.onLogin(this.state.user)
   }
   render(){
     const { user } = this.props;
@@ -53,7 +49,7 @@ class LoginPage extends Component{
       <div className={cx('loginPage')}>
         <Navigate />
         <div className={cx('loginFrom')}>
-          <form onSubmit={ e => this.handleSubmit(e) }>
+          <form onSubmit={ (e) => this.handleSubmit(e) }>
             <div className={cx('loginInput')}>
               <input
                 type="email"
@@ -85,4 +81,5 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   onLogin : (user) => dispatch(actions.adminLogin(user)),
 })
+
 export default connect(mapStateToProps, mapDispatchToProps)(LoginPage);
