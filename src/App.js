@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
+//components
 import {
   LoginPage,
   ProfilePage,
   NewsAdminPage,
-  MagazinePage,
+  MagazineAdminPage,
   StartUpAdminPage,
   DiscussionAdminPage,
   DataAdminPage,
@@ -14,59 +15,63 @@ import {
 // Router
 import { BrowserRouter as Router, Route, BrowserRouter, Switch } from 'react-router-dom';
 //redux
-import { createStore } from 'redux';
-import reducers from './reducers';
-import { Provider } from 'react-redux';
-
-
-const store = createStore(
-  reducers,
-  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
-)
+import { connect } from 'react-redux';
+import * as actions from './actions';
+import { AuthApi, UserApi } from './api';
+import token from './api/token';
 
 class App extends Component {
   constructor(props){
     super(props);
     this.state={
-      adminUser:true,
-      login:true
+      user:''
     }
   }
+  //새로고침했을때 token 있으면 로그인 없으면 로그아웃
+  initializeUserInfo = () => {
+       if(token){
+         this.props.onLogin()
+       }else{
+         AuthApi.destroyAuth()
+         this.props.onLogout();
+       }
+   }
+   componentWillMount(){ this.initializeUserInfo();}
+   componentDidMount() {
+     if(token){
+       UserApi.getUser(token, 'me').then(res => this.props.onLogin(res.data.user))
+     }
+   }
   render() {
-    const {adminUser, login} = this.state
     return (
-      <Provider store={store}>
       <BrowserRouter>
         <Router>
-          <div className="App">
-            <div className="App-intro">
-              <Switch>
-                {login ? //로그인했나?
-                    adminUser ?  //관리자인가?
-                      <Route exact path="/admin/profile" component={ProfilePage}/>
-                      :
-                      <Route exact path="/admin/news" component={NewsAdminPage}/>
-                  :
-                  <Route exact path="/admin/login" component={LoginPage}/>
-                }
-                <Route exact path="/admin" component={LoginPage}/>
-                <Route exact path="/admin/magazine" component={MagazinePage}/>
-                <Route exact path="/admin/news" component={NewsAdminPage}/>
-                <Route exact path="/admin/startup" component={StartUpAdminPage}/>
-                <Route exact path="/admin/discussion" component={DiscussionAdminPage}/>
-                <Route exact path="/admin/data" component={DataAdminPage}/>
-                <Route exact path="/admin/addmagazine" component={AddMagazine}/>
-                <Route exact path="/admin/add" component={AddPage}/>
-                <Route exact path="/admin/add:menu" component={AddPage}/>
-                <Route component={NotAllow}/>
-              </Switch>
-            </div>
-          </div>
+          <Switch>
+            <Route exact path="/admin" component={LoginPage}/>
+            <Route exact path="/admin/magazine" component={MagazineAdminPage}/>
+            <Route exact path="/admin/profile" component={ProfilePage}/>
+            <Route exact path="/admin/news" component={NewsAdminPage}/>
+            <Route exact path="/admin/startup" component={StartUpAdminPage}/>
+            <Route exact path="/admin/discussion" component={DiscussionAdminPage}/>
+            <Route exact path="/admin/data" component={DataAdminPage}/>
+            <Route exact path="/admin/add=magazine" component={AddMagazine}/>
+            <Route exact path="/admin/add=magazine/:idx" component={AddMagazine}/>
+            <Route exact path="/admin/addmagazine" component={AddMagazine}/>
+            <Route exact path="/admin/add" component={AddPage}/>
+            <Route exact path="/admin/add:menu" component={AddPage}/>
+            <Route exact path="/admin/add:menu/:idx" component={AddPage}/>
+            <Route component={NotAllow}/>
+          </Switch>
         </Router>
       </BrowserRouter>
-      </Provider>
     );
   }
 }
-
-export default App;
+const mapStateToProps = (state) => ({
+  user: state.login
+});
+const mapDispatchToProps = (dispatch) => ({
+  onLogin : (user) => dispatch(actions.adminLogin(user)),
+  onLogout: () => dispatch(actions.adminLogout())
+})
+export default connect(mapStateToProps, mapDispatchToProps)(App);

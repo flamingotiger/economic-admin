@@ -1,5 +1,4 @@
 import axios from 'axios';
-import Cookies from 'js-cookie';
 
 const getApi = () => {
   return axios.get('https://honghakbum.github.io/economic-admin/data.json');
@@ -61,14 +60,7 @@ const PUT = (url, id, token, body) => {
   }
 }
 const AuthApi = {
-  createAuth: (body) => axios.post(endpoint + '/api/auth/', body),
-  requestAuth: (token, body) => axios.request({
-    url:endpoint + '/api/auth/',
-    method:'post',
-    data:body,
-    headers:{ Cookie:'token=' + token },
-    withCredentials: true
-  }),
+  createAuth: (body) => axios.post(endpoint + '/api/auth/', body, {withCredentials: true}),
   destroyAuth: (token) => DELETE('/api/auth/', token),
 };
 const ChapterApi = {
@@ -100,8 +92,12 @@ const FileApi = {
 const ImageApi = {
   addImage: (token, body) => POST('/api/image/', token, body),
   deleteImage: (token, id) => DELETE('/api/image/', token, id),
-  viewOriginalImage: (token, id) => axios.get(endpoint + '/api/image/'+ id + '/original', token),
-  viewThumbnailImage: (token, id, size) => axios.get(endpoint + '/api/image/'+ id + '/thumbnail/' + size, token)
+  viewOriginalImage: (token, id) => axios.get(endpoint + '/api/image/'+ id + '/original', {
+    headers:{ Cookie:'token=' + token },
+    withCredentials: true }),
+  viewThumbnailImage: (token, id, size) => axios.get(endpoint + '/api/image/'+ id + '/thumbnail/' + size, {
+    headers:{ Cookie:'token=' + token },
+    withCredentials: true })
 }
 const MagazineApi = {
   addMagazine : (token, body) => POST('/api/magazine/', token, body),
