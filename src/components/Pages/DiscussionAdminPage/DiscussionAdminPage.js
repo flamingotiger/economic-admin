@@ -20,15 +20,14 @@ class DiscussionAdminPage extends Component{
       checkAll:false
     }
     this.closeBtnMenu = this.closeBtnMenu.bind(this);
-    this.openMenu = this.openMenu.bind(this);
-    this.removeBtn = this.removeBtn.bind(this);
     this.menuToggle = this.menuToggle.bind(this);
   }
   closeBtnMenu(){this.setState({ openMenu:false })}
-  //검색시 인덱스 초기화
+
   handleChange = (e) => {this.setState({keyword: e.target.value, checkIdx:[] })}
-  //ListUtil연결
+
   menuToggle(){this.setState({ openMenu:!this.state.openMenu })}
+
   listCheckAll = (e) => {
     const {discussion, checkAll, keyword } = this.state
     this.setState((prevState) => ({checkAll: !prevState.checkAll}))
@@ -46,7 +45,7 @@ class DiscussionAdminPage extends Component{
       }
     }
   //버튼 클릭시 check된것가져오고 삭제 메뉴열기
-  openMenu(e){
+  openMenu = (e) => {
     const check = Number(e.target.parentNode.getAttribute('data-item'))
     const checked = e.target.previousSibling.checked
 
@@ -65,13 +64,15 @@ class DiscussionAdminPage extends Component{
        })
     }
   }
-  removeBtn(){
+
+  removeBtn = () => {
     //체크한 리스트 인덱스 값들 ${checkIdx} ex) [0,2,4,5,6,7]
     const checkIdx = this.state.checkIdx;
     checkIdx.map((remove) => (
       deleteApi(remove)
     ))
   }
+
   renderAdminList = () => {
     const discussion = this.state.discussion.map((content,i) => {
       return <DiscussionList
@@ -94,24 +95,29 @@ class DiscussionAdminPage extends Component{
     })
     return discussion
   }
+
+  sortDate = (date) => {
+    console.log(date)
+  }
+
   componentDidMount(){
     getApi().then(res => this.setState({discussion: res.data.discussion}))
     DiscussionApi.listDiscussion().then(res => console.log(res))
   }
+
   render(){
+    const auth = Object(this.props.user.user);
     const { user } = this.props;
     if(!user.isLoggedIn) {
       return (
         <Redirect to="/admin"/>
       );
     }
-    /*
-    if(!user.user.discusstionManage){
+    if(!auth.discussionManager){
       return (
-        <Redirect to="/admin"/>
+        <Redirect to="/admin/notallow"/>
       );
     }
-    */
     const mapToComponents = (discussion) => {
       if(this.state.keyword === ''){
           this.renderAdminList()
@@ -146,7 +152,7 @@ class DiscussionAdminPage extends Component{
         <Navigate discussion="discussion"/>
           <div className={cx('discussionWrapper')}>
             <div className={cx('search')}>
-              <div className={cx('selectBtn')}><SelectBtn /></div>
+              <div className={cx('selectBtn')}><SelectBtn sortDate={this.sortDate} /></div>
               <div className={cx('searchBox')}><Search handleChange={(e) => this.handleChange(e)}/></div>
             </div>
             <ListUtil menuToggle={this.menuToggle} listCheckAll={this.listCheckAll}/>

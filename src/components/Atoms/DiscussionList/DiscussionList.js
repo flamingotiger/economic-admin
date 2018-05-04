@@ -23,11 +23,11 @@ class DiscussionList extends Component{
       return (
         <div className={cx('discussionList')} id={idx}>
           <div className={cx('listCheck')}>
-            <label htmlFor={`newsListCheck${idx}`} data-item={idx}>
+            <label htmlFor={`disListCheck${idx}`} data-item={idx}>
               <input
                 type="radio"
                 name="disItem"
-                id={`newsListCheck${idx}`}
+                id={`disListCheck${idx}`}
                 onChange={(e) => this.props.getIdx(e)}
                 />
               <span></span>
@@ -62,11 +62,11 @@ class DiscussionList extends Component{
       return (
         <div className={cx('discussionList')}>
           <div className={cx('listCheck')}>
-            <label htmlFor={`newsListCheck${idx}`} data-item={idx}>
+            <label htmlFor={`disListCheck${idx}`} data-item={idx}>
               <input
                 type="checkbox"
                 name="discussioncheck"
-                id={`newsListCheck${idx}`}
+                id={`disListCheck${idx}`}
                 checked={ this.props.checkAll ? this.props.checkAll : check }
                 onChange={(e) => this.handleCheck(e)}/>
               <span onClick={openmenu}></span>

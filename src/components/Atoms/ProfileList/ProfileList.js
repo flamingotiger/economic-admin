@@ -2,49 +2,100 @@ import React,{Component} from 'react';
 import styles from './ProfileList.scss';
 import classNames from 'classnames/bind';
 import { OpenPanelEdit, Cancel } from '../../Atoms';
+import { ImageApi, UserApi } from '../../../api';
 
 const cx = classNames.bind(styles);
 
 class ProfileList extends Component{
   constructor(props){
     super(props);
+    const { id, lastName, firstName, magazineManager, newsManager, startUpManager,
+       discussionManager, dataManager } = this.props;
     this.state={
       openPanel:false,
       openCancel:false,
-      magachk:this.props.magachk,
-      newschk:this.props.newschk,
-      startupchk:this.props.startupchk,
-      discussionchk:this.props.discussionchk,
-      datachk:this.props.datachk,
+      prevImg:undefined,
+      lastName:lastName,
+      firstName:firstName,
+      id:id,
+      magazineManager:magazineManager,
+      newsManager:newsManager,
+      startUpManager:startUpManager,
+      discussionManager:discussionManager,
+      dataManager:dataManager,
       openPanelEdit:false,
     }
-    this.handleCancel = this.handleCancel.bind(this);
+
   }
-  allCheckBox = () => {
-    this.setState({magachk : !this.state.magachk});
-      if(!this.state.magachk){
-        this.setState({
-          newschk: true,
-          startupchk: true,
-          discussionchk: true,
-          datachk: true
-        });
-      }
-    }
+
   handleEdit = () => { this.setState({openPanel:!this.state.openPanel}) }
+
   componentDidMount(){
-    this.props.getIdx(this.props.idx);
+    this.props.getId(this.props.id);
+    ImageApi.viewThumbnailImage(this.props.image, 256).then(res => this.setState({prevImg: res.config.url}))
   }
-  handleCancel(close){
+
+  handleCancel = (close) => {
     if(close){
       this.setState({openCancel:true})
     }else{
       this.setState({openCancel:false})
     }
   }
+
+ handleAllChk = async () => {
+    await this.setState({magazineManager : !this.state.magazineManager});
+    if(this.state.magazineManager){
+      await this.setState({
+        newsManager: true,
+        startUpManager: true,
+        discussionManager: true,
+        dataManager: true
+      });
+    }
+    await this.apiManager()
+}
+
+handleChk =  async (e) => {
+  await this.setState({ [e.target.name]: e.target.checked })
+  await this.handleUnchk();
+  await this.apiManager()
+}
+
+handleUnchk = () => {
+  const { newsManager, startUpManager, discussionManager, dataManager } = this.state;
+  if ( !(newsManager + startUpManager + discussionManager + dataManager  === 4) ){
+    this.setState({ magazineManager: false})
+  }
+}
+
+apiManager = () => {
+  const { magazineManager, newsManager, startUpManager, discussionManager, dataManager, id} = this.state;
+  const data = {
+    "magazineManager":magazineManager,
+    "newsManager": newsManager,
+    "startUpManager": startUpManager,
+    "discussionManager": discussionManager,
+    "dataManager": dataManager
+  }
+   UserApi.updateUser(id, data).then(res => console.log(res))
+}
+
+//클릭시 바로 변경
+changeText = (state) => {
+  this.setState({
+    email:state.email,
+    password:state.password,
+    lastName:state.lastName,
+    firstName:state.firstName,
+    memo:state.memo
+  })
+}
+
   render(){
-    const {idx, img, email, password, name, firstname, memo } = this.props;
-    const { openPanel, openCancel, magachk, newschk, startupchk, discussionchk, datachk} = this.state;
+    const { changeText } = this;
+    const { id, image, email, password, memo } = this.props;
+    const { lastName, firstName, openPanel, openCancel, magazineManager, newsManager, startUpManager, discussionManager, dataManager, prevImg} = this.state;
     return (
       <div className={cx('listWrapper')}>
       <div className={cx('profileList')}>
@@ -52,86 +103,84 @@ class ProfileList extends Component{
           <img src="/assets/btn-cancle.svg" alt="xBtn"/>
         </div>
         <Cancel
-          idx={idx}
+          id={id}
           openCancel={openCancel}
           handleCancel={this.handleCancel}
         />
         <div className={cx('profileEditWrapper')}>
-          <div className={cx('profileUser')}>{firstname}</div>
+          <div className={cx('profileUser')}>{firstName}</div>
           <div className={cx('profileEdit')} onClick={this.handleEdit}>EDIT PROFILE</div>
         </div>
         <form className={cx('profileForm')}>
           <div className={cx('profileCheckBox')}>
-            <label htmlFor={`magazine${idx}`}>
+            <label htmlFor={`magazine${id}`}>
               <input
                 type="checkbox"
-                name="magazine"
-                idx={`magazine${idx}`}
-                checked={magachk}
-                onChange={this.allCheckBox}
+                name="magazineManager"
+                id={`magazine${id}`}
+                checked={magazineManager}
+                onChange={this.handleAllChk}
               />
               <span></span>MAGAZINE</label>
           </div>
           <div className={cx('profileCheckBox')}>
-            <label htmlFor={`news${idx}`}>
+            <label htmlFor={`news${id}`}>
               <input
                 type="checkbox"
-                name="news"
-                idx={`news${idx}`}
-                checked={newschk}
-                onChange={() => this.setState({newschk : !this.state.newschk})}
+                name="newsManager"
+                id={`news${id}`}
+                checked={newsManager}
+                onChange={(e) => this.handleChk(e)}
               />
             <span></span>NEWS</label>
           </div>
           <div className={cx('profileCheckBox')}>
-            <label htmlFor={`startup${idx}`}>
+            <label htmlFor={`startup${id}`}>
               <input
                 type="checkbox"
-                name="startup"
-                idx={`startup${idx}`}
-                checked={startupchk}
-                onChange={() => this.setState({startupchk : !this.state.startupchk})}
+                name="startUpManager"
+                id={`startup${id}`}
+                checked={startUpManager}
+                onChange={(e) => this.handleChk(e)}
               />
             <span></span>START_UP</label>
           </div>
           <div className={cx('profileCheckBox')}>
-            <label htmlFor={`discussion${idx}`}>
+            <label htmlFor={`discussion${id}`}>
               <input
                 type="checkbox"
-                name="discussion"
-                idx={`discussion${idx}`}
-                checked={discussionchk}
-                onChange={() => this.setState({discussionchk : !this.state.discussionchk})}
+                name="discussionManager"
+                id={`discussion${id}`}
+                checked={discussionManager}
+                onChange={(e) => this.handleChk(e)}
               />
             <span></span>DISCUSSION</label>
           </div>
           <div className={cx('profileCheckBox')}>
-            <label htmlFor={`data${idx}`}>
+            <label htmlFor={`data${id}`}>
               <input
                 type="checkbox"
-                name="data"
-                idx={`data${idx}`}
-                checked={datachk}
-                onChange={() => this.setState({datachk : !this.state.datachk})}
+                name="dataManager"
+                id={`data${id}`}
+                checked={dataManager}
+                onChange={(e) => this.handleChk(e)}
               />
             <span></span>DATA</label>
           </div>
         </form>
       </div>
       <OpenPanelEdit
-        idx={idx}
-        img={img}
-        name={name}
-        firstname={firstname}
+        id={id}
+        image={image}
+        prevImg={prevImg}
+        lastName={lastName}
+        firstName={firstName}
         email={email}
         password={password}
         memo={memo}
-        magachk={magachk}
-        newschk={newschk}
-        startupchk={startupchk}
-        discussionchk={discussionchk}
-        datachk={datachk}
+        changeText={changeText}
         openPanel={openPanel}
+        handleEdit={this.handleEdit}
         />
       </div>
     );

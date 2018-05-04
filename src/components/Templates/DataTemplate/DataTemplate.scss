@@ -86,43 +86,13 @@
       }
     }
     .textArea{
-      position: relative;
       margin-top:11px; width:800px; height:340px; border:1px solid #000000;
       box-sizing: border-box; text-align: center; background:#f7f7f7;
       textarea{
-        display: block; margin: auto;
-        width:769px; height: 282px; padding: 12px;
-        text-align: center; background: none; border: 0 none;
+        width:769px; height: 310px; padding: 14px;
+        text-align: justify; background: none; border: 0 none;
         font:14px/18px "IBM Plex Sans","sans-serif";
         resize:none;
-      }
-      .textUtil{position: relative; width:100%; height:32px; left:0; bottom:0; background:#a5a5a5;
-        div{float:left; width:24px; height:24px; margin:4px; background:#f7f7f7; cursor:pointer; border:1px solid #000000; font:14px/24px "IBM Plex Sans","sans-serif"; }
-        .utilImg{width:92px; position:relative;
-          input{display: block; position:absolute; z-index: 1; width: 100%; height: 100%; background: none; border: 0 none; font-size: 0; opacity: 0; cursor: pointer;}
-          span{display: block; position:absolute; z-index: 0; top: 0; width: 100%; height: 100%;}
-        }
-        .utilBold{width:36px;}
-      }
-    }
-    .selectBtn{
-      width:800px;
-      height:58px;
-      font:14px/18px "IBM Plex Sans","sans-serif";
-      text-align: center;
-      cursor: pointer;
-      margin:auto;
-      background:#f7f7f7;
-      color:#000000;
-      box-sizing: border-box;
-      border:1px solid #000000;
-      &.one{border:2px solid #ff0000;}
-      &.two{
-        border:1px solid #000000; background: #ec0000;
-        span{
-          background: #ffffff;
-          padding:0 18px;
-        }
       }
     }
   }

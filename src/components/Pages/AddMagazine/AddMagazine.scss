@@ -86,6 +86,27 @@
         dd{font:lighter 14px/18px "IBM Plex Sans","sans-serif";}
       }
     }
+    .newsImg{height:240px;}
+    .newsContent{
+      clear:both;
+      height: 566px;
+      margin: 10px;
+      overflow: hidden;
+      text-align:justify;
+
+      -moz-column-count: 2;
+      -webkit-column-count: 2;
+      column-count: 2;
+      column-gap: 20px;
+      column-width: 240px;
+
+      .text{
+        font:14px/16px "IBM Plex Sans","sans-serif";
+        div{margin-top:10px; margin-bottom:10px;}
+      }
+    }
+    .category{font:18px/24px "IBM Plex Sans","sans-serif";
+      border-bottom:1px solid #000000; border-top:1px solid #000000; text-align: left; margin-bottom:2px;}
   }
   .disMagazine{
     clear:both;
@@ -132,7 +153,7 @@
         -moz-column-count: 2;
         -webkit-column-count: 2;
         column-count: 2;
-        column-gap: 2rem;
+        column-gap: 20px;
         text-align:justify;
         flex:2;
       }
@@ -146,7 +167,7 @@
       input{background: none; border: 0 none; color:#000000; width:1172px; padding:4px; font:bold 24px/32px "IBM Plex Sans","sans-serif";}
     }
     .startupSelect{
-      display: inline-block;
+      float:left;
       width:380px; height:660px; display: inline-block;
       border:1px solid #000000; box-sizing: border-box;
       cursor:pointer; background:#f7f7f7;
@@ -158,6 +179,25 @@
         text-align: center;
         dt{font:18px/23px "IBM Plex Sans","sans-serif"; margin-bottom:8px;}
         dd{font:lighter 14px/18px "IBM Plex Sans","sans-serif";}
+      }
+    }
+    .post{
+      margin:10px;
+      .img{
+        height:260px;
+      }
+      .subTitle{
+        color: #791D1B;
+        font:bold 18px/22px "IBMPlexSans","sans-serif";
+        margin-top:26px;
+        margin-bottom:22px;
+        text-align: justify;
+      }
+      .text{
+        font:14px/16px "IBMPlexSans","sans-serif";
+        text-align: justify;
+        height:300px;
+        overflow: hidden;
       }
     }
   }
@@ -176,6 +216,57 @@
         dd{font:lighter 14px/18px "IBM Plex Sans","sans-serif";}
       }
     }
+
+    .searchInput{
+      width:400px;
+      height:40px;
+      border:1px solid #000000;
+      background: #ffffff;
+      box-sizing: border-box;
+      input{
+        width:380px;
+        height:25px;
+        margin-top:5px;
+        margin-left:5px;
+        border:0 none;
+        background:none;
+        font:14px/18px "IBMPlexSans","sans-serif";
+      }
+    }
+      .dataWrapper{
+        position:relative;
+        margin-top: 32px;
+        width:1180px;
+        background: url('/assets/dummy-home-data.png') no-repeat;
+        background-size: cover;
+      }
+      .search{
+        margin:auto;
+        width:400px;
+        margin-top:10px;
+        margin-bottom:23px;
+        &::after{
+          content: "";
+          position: absolute;
+          right: 10px;
+          top: 50%;
+          margin-top: -4px;
+          width: 17px;
+          height: 8px;
+          background: url(/assets/btn-down-data.svg) no-repeat;
+        }
+      }
+    .chartContainer{
+      margin:auto;
+      width:1100px;
+      background: #f7f7f7;
+      canvas{
+        width: 1012px !important;
+        height: 278px !important;
+        margin: auto;
+        margin-top: 20px;
+      }
+      }
   }
   .publish{
     width:800px; height:40px;
@@ -194,6 +285,7 @@
     }
     button{
       margin:auto;
+      margin-bottom:35px;
       display: block;
       width:154px; height:40px;
       text-align: center;
@@ -205,43 +297,3 @@
     }
   }
 }
-
-
-.newsImg{height:240px;}
-.newsContent{
-  clear:both;
-  height: 566px;
-  margin: 10px;
-  overflow: hidden;
-  text-align:justify;
-
-  -moz-column-count: 2;
-  -webkit-column-count: 2;
-  column-count: 2;
-  column-gap: 20px;
-  column-width: 240px;
-  /*
-  .newsLeft{
-    float:left;
-    width:280px;
-    height:566px;
-  }
-  .newsRight{
-    float:right;
-    width:280px;
-    height:566px;
-  }*/
-  .text{
-    font:14px/16px "IBM Plex Sans","sans-serif";
-    div{margin-top:10px; margin-bottom:10px;}
-  }
-  .blur.transform{
-    -webkit-transition: all 0.4s ease;
-    -moz-transition: all 0.4s ease;
-    -o-transition: all 0.4s ease;
-    -ms-transition: all 0.4s ease;
-    transition: all 0.4s ease;
-  }
-}
-.category{font:18px/24px "IBM Plex Sans","sans-serif";
-  border-bottom:1px solid #000000; border-top:1px solid #000000; text-align: left; margin-bottom:2px;}

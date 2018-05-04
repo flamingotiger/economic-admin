@@ -1,17 +1,17 @@
-import React,{ Component } from 'react';
+import React, { Component } from 'react';
 import styles from './NewsTemplate.scss';
 import classNames from 'classnames/bind';
 import update from 'immutability-helper';
-//react-datepicker
 import DatePicker from 'react-datepicker';
 import moment from 'moment';
 import 'react-datepicker/dist/react-datepicker.css';
-import { putApi, postApi } from '../../../api';
+import { NewsApi, ImageApi } from '../../../api';
+import Cookies from 'js-cookie';
 
 const cx = classNames.bind(styles);
 
-class DateBtn extends React.Component {
-  //Date button style (react-datepicker)
+class DateBtn extends Component {
+
   render () {
     return (
       <div
@@ -22,132 +22,183 @@ class DateBtn extends React.Component {
     )
   }
 }
+
 class NewsTemplate extends Component{
   constructor(props){
     super(props);
     this.state={
       loading:false,
+      //imagePreviewUrl:this.props.news? [this.props.news.img, this.props.news.img1, this.props.news.img2] : [],
       file:[],
-      imagePreviewUrl:this.props.news? [this.props.news.img, this.props.news.img1, this.props.news.img2] : [],
-      f_title:'',
-      f_text:'',
-      f_source:'',
-      e_title:'',
-      e_text:'',
-      e_source:'',
-      calendarDate:'DATE',
+      imagePreviewUrl:[],
+      f_title:"",
+      f_text:"",
+      f_source:"",
+      e_title:"",
+      e_text:"",
+      e_source:"",
+      calendarDate:"DATE",
       addEnglish:true,
       startDate:moment(),
-      value:''
+      value:"",
+
+      news:[],
+      publishDate:"",
+      sector:"",
+      title:"",
+      content:"",
+      images:[],
+      sources:"",
+      date:"",
+
     }
   }
-  //AddEnglish
-  addEnglish = () => { this.setState({ addEnglish: !this.state.addEnglish})}
-  //UploadData
-  handleImageChange(e) {
-    e.preventDefault();
+
+  getCount = (e) => {
     let reader = new FileReader();
     let file = e.target.files[0];
     let idx = e.target.getAttribute('data-type')
-    /*
-    const formData = new FormData();
-    formData.append('image', file);
-    axios.post('https://jsonplaceholder.typicode.com/posts', formData, {
-      header:{"Content-type": "multipart / form-data",
-      },
-      //업로드 진행
-      onUploadProgress: progressEvent => {
-        console.log(progressEvent.loaded / progressEvent.total)
-      }
-    }).then(res => res)
-    */
-    reader.onloadend = () => {
-      const { file, imagePreviewUrl } = this.state;
-      if(imagePreviewUrl.length >= 3){
-        let files = update(file, { [idx]: {$set: file} });
-        let imgUrl = update(imagePreviewUrl,{ [idx]: {$set: reader.result} });
-        this.setState({ file: files, imagePreviewUrl: imgUrl });
-      }else{
-        let files = update(file, {$push: [file]});
-        let imgUrl = update(imagePreviewUrl, {$push: [reader.result]});
-        this.setState({ file: files, imagePreviewUrl: imgUrl });
-      }
+    if(this.state.images.length >= 3){
+      let files = update(this.state.file, { [idx]: {$set: file} });
+      this.setState({ file: files })
+    }else{
+      let files = update(this.state.file, {$push: [file]});
+      this.setState({ file: files })
     }
+    reader.onloadend = () => {
+      const { images, imagePreviewUrl } = this.state;
+          if(images.length >= 3){
+            let imgUrl = update(imagePreviewUrl,{ [idx]: {$set: reader.result} });
+            this.setState({ imagePreviewUrl: imgUrl });
+          }else{
+            let imgUrl = update(imagePreviewUrl, {$push: [reader.result]});
+            this.setState({ imagePreviewUrl: imgUrl });
+          }
+        }
     reader.readAsDataURL(file)
   }
+
+  handleImageChange = async (e) => {
+    e.preventDefault();
+    let idx = e.target.getAttribute('data-type')
+    await this.getCount(e);
+    const formData = new FormData();
+    await formData.append("image" , this.state.file[idx]);
+    await ImageApi.addImage(formData).then(res => {
+        if(this.state.images.length >= 3){
+          let images = update(this.state.image, { [idx]: {$set: res.data.image._id} });
+          this.setState({ image: images })
+        }else{
+          let images = update(this.state.file, {$push: [res.data.image._id]});
+          this.setState({ image: images })
+        }
+    })
+  }
+
+
   imagePreviewUrl = (idx) => {
     let {imagePreviewUrl} = this.state;
     if (imagePreviewUrl) return <img src={imagePreviewUrl[idx]} alt=""/>
   }
+
   newsChange = (e) => {
       this.setState({
         [e.target.name]: e.target.value
       });
     }
-  //Calendar
+
   onClickDay = (value) => this.setState({calendarDate: String(value)});
+
   handleChange = (date) => this.setState({ startDate: date});
+
   handleChangeRaw(value) {
     if(value === "tomorrow") {
       const tomorrow = moment().add(1, "day")
       this.handleChange(tomorrow)
     }
   }
-  //Api 데이터입력
+
   handleSubmit(e){
     e.preventDefault();
-    const { f_title, f_text, f_source,
-       e_title, e_text, e_source, calendarDate, imagePreviewUrl } = this.state;
+    const { sector, title, content, images, sources, date } = this.state;
     const data = {
-      "img": imagePreviewUrl[0],
-      "img1": imagePreviewUrl[1],
-      "img2": imagePreviewUrl[2],
-      "f_title" :  f_title,
-      "f_text" :  f_text,
-      "f_source" :  f_source,
-      "e_title" :  e_title,
-      "e_text" :  e_text,
-      "e_source" :  e_source,
-      "calendarDate" :  calendarDate
+      "sector":sector,
+      "title":title,
+      "content":content,
+      "images":images,
+      "sources":sources,
+      "date":date
     }
-    if(!this.props.news){//데이터가 입력이 되어있었는지 확인 없으면 post
-      //데이터 추가 URL + 파라미터
-      postApi(data)
+    if(!this.state.news){
+      NewsApi.addNews(data)
       .then(res => console.log(res))
-    }else if(this.props.news){
-      //데이터 업데이트 수정 URL + 파라미터
+    }else{
       const params = this.props.idx;
-      putApi( params , data )
+      NewsApi.updateNews( params , data )
       .then(res => console.log(res))
-    }else{
-      console.log('api서버 연동해주세요')
+    }
+    //페이지 이동시키자
+  }
+
+  lang = () => {
+    if(!Cookies.get('lang')){
+      Cookies.set('lang','fr')
     }
   }
-  //Getapi
-  componentDidMount(){
-    if(this.props.news){
-      this.getnews();
+
+  addEnglish = () => {
+    if(Cookies.get('lang') === 'fr'){
+      Cookies.set('lang','en')
     }else{
-      this.setState({loading:true})
+      Cookies.set('lang','fr')
+    }
+    this.setState({ addEnglish: !this.state.addEnglish})
+  }
+
+  async componentDidMount(){
+    await this.lang()
+    await NewsApi.getNews(this.props.idx).then(res => this.setState({ news: res.data.news}))
+    if(this.state.news){
+      let day = moment(this.state.news.date, "YYYY-MM-DD").fromNow();
+      let publish = day.replace(" year", "년").replace(" months", "개월").replace(" day", "일").replace(" ago", "전");
+      let number = publish.replace(/\d+(?= 일)/,"");
+      if(number <= 7){
+        this.setState({ publishDate: publish })
+      }
+    }
+    if(this.state.news){
+      this.getnewsData();
+    }else{
+      await this.setState({ loading:true })
     }
   }
-  getnews = () => {
-    const getNews = this.props.news;
+
+  clearData = () => {
     this.setState({
-      img1:getNews.img1,
-      img2:getNews.img2,
-      img3:getNews.img3,
-      f_title:getNews.f_title,
-      f_text:getNews.f_text,
-      f_source:getNews.f_source,
-      e_title:getNews.e_title,
-      e_text:getNews.e_text,
-      e_source:getNews.e_source,
-      calendarDate:getNews.calendarDate,
+      sector:"",
+      title:"",
+      content:"",
+      images:[],
+      sources:"",
+      date:"",
+    })
+  }
+
+  getnewsData = () => {
+    const newsData = this.state.news;
+    this.setState({
+      sector:newsData.sector,
+      title:newsData.title,
+      content:newsData.content,
+      images:newsData.images,
+      sources:newsData.sources,
+      date:newsData.date,
       loading:true
     })
   }
+
   render(){
+    console.log(this.props.idx)
     const {loading} = this.state
     if(!loading){
       return null
@@ -159,16 +210,16 @@ class NewsTemplate extends Component{
             type="text"
             onChange={(e) => this.newsChange(e)}
             placeholder="TITLE"
-            value={lang? f_title : e_title}
-            name={lang? "f_title" : "e_title"}
+            value={ title }
+            name="title"
             />
         </div>
         <div className={cx('textArea')}>
           <textarea
             onChange={(e) => this.newsChange(e)}
             placeholder="TEXT"
-            value={lang? f_text : e_text}
-            name={lang? "f_text" : "e_text"}
+            value={ content }
+            name="content"
           >
           </textarea>
         </div>
@@ -177,14 +228,13 @@ class NewsTemplate extends Component{
             type="text"
             onChange={(e) => this.newsChange(e)}
             placeholder="SOURCE"
-            value={lang? f_source : e_source}
-            name={lang? "f_source" : "e_source"}
+            value={ sources }
+            name="sources"
             />
         </div>
       </div>
     )
-    const {f_title, f_text, f_source, e_title, e_text, e_source} = this.state;
-    console.log(this.state)
+    const { sector, title, content, images, sources, date, publishDate } = this.state;
     return (
       <div className={cx('template')}>
         <form onSubmit={(e)=>this.handleSubmit(e)}>
@@ -194,7 +244,6 @@ class NewsTemplate extends Component{
               <div className={cx('fileUpLoad')}>
                 <input
                   type="file"
-                  name="img1"
                   onChange={(e)=>this.handleImageChange(e)}
                   accept='image/*'
                   data-type="0"
@@ -204,7 +253,6 @@ class NewsTemplate extends Component{
               <div className={cx('fileUpLoad')}>
                 <input
                   type="file"
-                  name="img2"
                   onChange={(e)=>this.handleImageChange(e)}
                   accept='image/*'
                   data-type="1"
@@ -214,7 +262,6 @@ class NewsTemplate extends Component{
               <div className={cx('fileUpLoad')}>
                 <input
                   type="file"
-                  name="img3"
                   onChange={(e)=>this.handleImageChange(e)}
                   accept='image/*'
                   data-type="2"
@@ -242,14 +289,11 @@ class NewsTemplate extends Component{
                 />
             </div>
           </div>
-          {this.state.addEnglish ?
-            templateForm(true)
-           : templateForm(false)
-          }
+            { templateForm() }
           <div className={cx('publish')}>
-            <div className={cx('text')}>MODIFIÉ  3j</div>
+            <div className={cx('text')}>{publishDate}</div>
             <button type="submit" >PUBLISH</button>
-            <div className={cx('deleteBtn')}><img src="https://www.simuladordeinvestimentos.com/images/clear.png" alt="deleteBtn"/></div>
+            <div className={cx('deleteBtn')} onClick={this.clearData}><img src="https://www.simuladordeinvestimentos.com/images/clear.png" alt="deleteBtn"/></div>
           </div>
         </form>
       </div>

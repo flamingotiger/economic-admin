@@ -138,20 +138,12 @@ class DataTemplate extends Component{
           </div>
           <div className={cx('textArea')}>
             <textarea
-              placeholder="TEXT"
-              style={textFontSize}
               onChange={(e) => this.dataChange(e)}
+              placeholder="TEXT"
               value={lang? f_text : e_text}
               name={lang? "f_text" : "e_text"}
-            ></textarea>
-              <div className={cx('textUtil')}>
-                <div className={cx('utilImg')}>
-                  <input type="file"/><span>IMAGE</span>
-                </div>
-                <div onClick={this.fontSizeUp}>A+</div>
-                <div onClick={this.fontSizeDown}>A-</div>
-                <div className={cx('utilBold')} onClick={this.fontBold}>BOLD</div>
-              </div>
+            >
+            </textarea>
           </div>
         </div>
       )

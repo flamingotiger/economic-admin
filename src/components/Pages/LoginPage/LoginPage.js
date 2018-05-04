@@ -7,7 +7,6 @@ import { Redirect } from 'react-router-dom';
 import * as actions from '../../../actions';
 import Cookies from 'js-cookie';
 import { AuthApi, UserApi } from '../../../api';
-import token from '../../../api/token';
 
 const cx = classNames.bind(styles);
 
@@ -28,21 +27,19 @@ class LoginPage extends Component{
     await AuthApi.createAuth(body)
     .then(res => {
         if(res.statusText === "OK"){
-          //수동으로 데이터 조작
           this.setState({ token: res.data.auth.token });
           Cookies.set('token', this.state.token);
         }
       }
     )
-    //수동으로 request headers, redux login
-    await UserApi.getUser(token, 'me').then(res => this.setState({ user: res.data.user}))
+    await UserApi.getUser('me').then(res => this.setState({ user: res.data.user}))
     await this.props.onLogin(this.state.user)
   }
   render(){
     const { user } = this.props;
     if(user.isLoggedIn) {
       return (
-        <Redirect to="/admin/magazine"/>
+        <Redirect to="/admin/news"/>
       );
     }
     return (

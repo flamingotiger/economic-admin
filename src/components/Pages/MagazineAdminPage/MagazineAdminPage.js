@@ -4,6 +4,7 @@ import classNames from 'classnames/bind';
 import { AddListBtn, Navigate, MagazineThumb } from '../../Atoms';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
+import { getApi, MagazineApi } from '../../../api';
 
 const cx = classNames.bind(styles);
 
@@ -95,11 +96,21 @@ class MagazineAdminPage extends Component{
       ]
     }
   }
+  componentDidMount(){
+    getApi().then(res => this.setState({news: res.data.news}))
+    MagazineApi.listMagazines().then(res => console.log(res))
+  }
   render(){
+    const auth = Object(this.props.user.user);
     const { user } = this.props;
     if(!user.isLoggedIn) {
       return (
         <Redirect to="/admin"/>
+      );
+    }
+    if(!auth.magazineManager){
+      return (
+        <Redirect to="/admin/notallow"/>
       );
     }
     return (

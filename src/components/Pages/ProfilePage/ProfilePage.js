@@ -18,23 +18,31 @@ class ProfilePage extends Component{
       profile:[],
       loading:false
     }
+
   }
+
   profilePanel = (open) => {
     if(open){ this.setState((prevState) => ({openPanel: !prevState.openPanel})) }
     else{ this.setState({openPanel: false}) }
   }
-  getIdx = (idx) => { this.setState({ idx : idx })}
-  async componentDidMount(){
-    UserApi.listUser().then(res => this.setState({ profile: res.data.users}))
-    this.setState({ loading:true })
+
+  componentDidMount(){
+    UserApi.listUser().then(res => this.setState({ profile: res.data.users, loading:true}))
   }
+  componentWillUpdate(nextProps){
+    if(this.props.profile !== nextProps.profile){
+    UserApi.listUser().then(res => this.setState({ profile: res.data.users, loading:true}))
+    }
+  }
+  getId = (id) => { this.setState({ id : id })}
+
   render(){
     const { user } = this.props.user;
     const { profile, openPanel, loading } = this.state;
     if(!loading) return null;
-    if(!user.admin || undefined) {
+    if(user === undefined || user.admin === false) {
       return (
-        <Redirect to="/admin/magazine"/>
+        <Redirect to="/admin/notallow"/>
       );
     }
     return (
@@ -47,13 +55,13 @@ class ProfilePage extends Component{
             profile={profile}
             openPanel={openPanel}
             profilePanel={this.profilePanel}
-            idx={this.state.idx}
+            id={this.state.id}
             />
           <ProfileLists
             profile={profile}
             onRemoveUser={this.props.onRemoveUser}
             onEditUser={this.props.onEditUser}
-            getIdx={this.getIdx}
+            getId={this.getId}
           />
       </div>
     )

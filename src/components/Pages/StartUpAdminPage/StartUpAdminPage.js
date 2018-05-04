@@ -5,6 +5,7 @@ import { AddListBtn, Navigate, Search, StartupList, ListUtil, BtnMenu, SelectBtn
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import { getApi, deleteApi } from '../../../api';
+import { StartupApi } from '../../../api';
 
 const cx = classNames.bind(styles);
 
@@ -19,15 +20,14 @@ class StartUpAdminPage extends Component{
       checkAll:false
     }
     this.closeBtnMenu = this.closeBtnMenu.bind(this);
-    this.openMenu = this.openMenu.bind(this);
-    this.removeBtn = this.removeBtn.bind(this);
     this.menuToggle = this.menuToggle.bind(this);
   }
   closeBtnMenu(){ this.setState({ openMenu:false })}
-  //검색시 인덱스 초기화
+
   handleChange = (e) => {this.setState({keyword: e.target.value, checkIdx:[] })}
-  //ListUtil연결
+
   menuToggle(){ this.setState({ openMenu:!this.state.openMenu })}
+
   listCheckAll = (e) => {
     const {startup, checkAll, keyword } = this.state
     this.setState((prevState) => ({checkAll: !prevState.checkAll}))
@@ -45,7 +45,7 @@ class StartUpAdminPage extends Component{
       }
     }
   //버튼 클릭시 check된것가져오고 삭제 메뉴열기
-  openMenu(e){
+  openMenu = (e) => {
     const check = Number(e.target.parentNode.getAttribute('data-item'))
     const checked = e.target.previousSibling.checked
 
@@ -64,13 +64,15 @@ class StartUpAdminPage extends Component{
        })
     }
   }
-  removeBtn(){
+
+  removeBtn = () => {
     //체크한 리스트 인덱스 값들 ${checkIdx}
     const checkIdx = this.state.checkIdx;
     checkIdx.map((remove) => (
       deleteApi(remove)
       ))
   }
+
   renderAdminList = () => {
     const startup = this.state.startup.map((content,i) => {
       return <StartupList
@@ -89,23 +91,31 @@ class StartUpAdminPage extends Component{
     })
     return startup
   }
+
+  sortDate = (date) => {
+    console.log(date)
+  }
+
   componentDidMount(){
     getApi().then(res => this.setState({startup: res.data.startup}))
+    StartupApi.listStartup().then(res => console.log(res))
   }
+
   render(){
+    const auth = Object(this.props.user.user);
     const { user } = this.props;
     if(!user.isLoggedIn) {
       return (
         <Redirect to="/admin"/>
       );
     }
-    /*
-    if(!user.user.startupManage){
+
+    if(!auth.startUpManager){
       return (
-        <Redirect to="/admin"/>
+        <Redirect to="/admin/notallow"/>
       );
     }
-    */
+
     const mapToComponents = (startup) => {
       //검색하지 않았을때 전부보이기
       if(this.state.keyword === ''){
@@ -138,7 +148,7 @@ class StartUpAdminPage extends Component{
         <Navigate startup="startup"/>
           <div className={cx('startupWrapper')}>
             <div className={cx('search')}>
-              <div className={cx('selectBtn')}><SelectBtn /></div>
+              <div className={cx('selectBtn')}><SelectBtn sortDate={this.sortDate} /></div>
               <div className={cx('searchBox')}><Search handleChange={(e) => this.handleChange(e)}/></div>
             </div>
             <ListUtil menuToggle={this.menuToggle} listCheckAll={this.listCheckAll}/>

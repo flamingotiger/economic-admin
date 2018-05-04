@@ -8,6 +8,7 @@ import moment from 'moment';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import { getApi } from '../../../api';
+import { Line } from 'react-chartjs-2';
 
 const cx = classNames.bind(styles);
 
@@ -34,10 +35,53 @@ class AddMagazine extends Component{
       newsItem0:undefined,
       newsItem1:undefined,
       disItem:undefined,
+      startupItem0:undefined,
+      startupItem1:undefined,
+      startupItem2:undefined,
+      dataItem:undefined,
       newsTitle:undefined,
       disTitle:undefined,
       startupTitle:undefined,
-      dataTitle:undefined
+      dataTitle:undefined,
+      chartData:{
+        labels:[
+          '1998','1999','2000','2001','2002','2003','2004','2005','2006','2007',
+          '2008','2009','2010','2011','2012','2013','2014','2015','2016','2017',
+        ],
+        datasets:[
+          {
+            label:'(M$)',
+            data:[
+              20000000,
+              21000000,
+              22000000,
+              23000000,
+              24000000,
+              25000000,
+              26000000,
+              28000000,
+              32000000,
+              33000000,
+              34000000,
+              30000000,
+              32000000,
+              31000000,
+              33000000,
+              34000000,
+              35000000,
+              36000000,
+              37000000,
+              38000000,
+            ],
+            backgroundColor:'rgba(255,255,255,0)',
+            borderColor:'rgba(255,0,0,0.7)',
+            lineTension:0,
+            pointHoverBorderColor:'rgba(255,0,0,1)',
+            pointHoverBackgroundColor:'rgba(255,0,0,1)',
+            pointBackgroundColor:'rgba(255,0,0,0.7)',
+          }
+        ]
+      }
     }
   }
   handlePopup = (cate) => { this.setState({popup: cate}) }
@@ -58,7 +102,33 @@ class AddMagazine extends Component{
         <Redirect to="/admin"/>
       );
     }
-    const { popup, loading, data, newsItem0, newsItem1, disItem } = this.state;
+    const options={
+      legend:{
+        display:false,
+      },
+      maintainAspectRatio: false,
+      scales: {
+        xAxes: [
+          {
+            scaleLabel: {
+              display: true,
+              labelString: 'SOURCE:OECD',
+            },
+          }
+        ],
+        yAxes: [
+          {
+            scaleLabel: {
+              display: true,
+              labelString: '(M $)',
+            },
+          }
+        ],
+      }
+    }
+    const { popup, loading, data, newsItem0, newsItem1, disItem,
+       startupItem0, startupItem1, startupItem2, dataItem
+     } = this.state;
     if(!loading){
       return null
     }
@@ -116,11 +186,11 @@ class AddMagazine extends Component{
                   <div className={cx('text')}>
                     <div className={cx('newsLeft')}>
                       <div className={cx('category')}>{data.news[newsItem0].cate}</div>
-                      <p>{data.news[newsItem0].f_text}</p>
+                      <p className={cx('text')}>{data.news[newsItem0].f_text}</p>
                     </div>
                     <div className={cx('newsRight')}>
                       <div className={cx('newsImg')}><img src={data.news[newsItem0].img} alt="columnImg"/></div>
-                      <p>{data.news[newsItem0].f_text}</p>
+                      <p className={cx('text')}>{data.news[newsItem0].f_text}</p>
                     </div>
                   </div>
                 </div>
@@ -138,7 +208,6 @@ class AddMagazine extends Component{
                 <div className={cx('newsContent')}>
                   <div className={cx('text')}>
                     <div className={cx('newsLeft')}>
-                      <div className={cx('category')}>{data.news[newsItem1].cate}</div>
                       <p>{data.news[newsItem1].f_text}</p>
                     </div>
                     <div className={cx('newsRight')}>
@@ -195,22 +264,46 @@ class AddMagazine extends Component{
               <input type="text" placeholder="Startup-title" />
             </div>
             <div className={cx('startupSelect')} onClick={(cate) => this.handlePopup("startup1")}>
-              <dl>
-                <dt>STARTUP</dt>
-                <dd>SELECT POST</dd>
-              </dl>
+              { startupItem0 >= 0 ?
+                <div className={cx('post')}>
+                  <div className={cx('img')}><img src={data.startup[startupItem0].img} alt="img"/></div>
+                  <div className={cx('subTitle')}>{data.startup[startupItem0].ftitle}</div>
+                  <div className={cx('text')}>{data.startup[startupItem0].text}</div>
+                </div>
+                :
+                <dl>
+                  <dt>STARTUP</dt>
+                  <dd>SELECT POST</dd>
+                </dl>
+              }
             </div>
             <div className={cx('startupSelect','center')} onClick={(cate) => this.handlePopup("startup2")}>
+              { startupItem1 >= 0 ?
+              <div className={cx('post')}>
+                <div className={cx('img')}><img src={data.startup[startupItem1].img} alt="img"/></div>
+                <div className={cx('subTitle')}>{data.startup[startupItem1].ftitle}</div>
+                <div className={cx('text')}>{data.startup[startupItem1].text}</div>
+              </div>
+              :
               <dl>
                 <dt>STARTUP</dt>
                 <dd>SELECT POST</dd>
               </dl>
+              }
             </div>
             <div className={cx('startupSelect')} onClick={(cate) => this.handlePopup("startup3")}>
+              { startupItem2 >= 0 ?
+                <div className={cx('post')}>
+                  <div className={cx('img')}><img src={data.startup[startupItem2].img} alt="img"/></div>
+                  <div className={cx('subTitle')}>{data.startup[startupItem2].ftitle}</div>
+                  <div className={cx('text')}>{data.startup[startupItem2].text}</div>
+                </div>
+                :
               <dl>
                 <dt>STARTUP</dt>
                 <dd>SELECT POST</dd>
               </dl>
+              }
             </div>
           </div>
           <div className={cx('dataMagazine')}>
@@ -218,10 +311,31 @@ class AddMagazine extends Component{
               <input type="text" placeholder="Data-title" />
             </div>
               <div className={cx('dataSelect')} onClick={(cate) => this.handlePopup("data")}>
+                { dataItem >= 0 ?
+                  <div className={cx('dataWrapper')}>
+                    <div className={cx('search')}>
+                      <div className={cx('searchInput')}>
+                        <input
+                          name="keyword"
+                          placeholder="search"
+                          autoComplete="off"
+                          disabled
+                          />
+                      </div>
+                    </div>
+                    <div className={cx('chartContainer')}>
+                      <Line
+                        data={this.state.chartData}
+                        options={options}
+                        />
+                    </div>
+                  </div>
+                  :
                 <dl>
                   <dt>DATA</dt>
                   <dd>SELECT POST</dd>
                 </dl>
+                }
               </div>
           </div>
           <div className={cx('publish')}>

@@ -4,7 +4,7 @@
   margin-top:20px;
   .search{
     float:right;
-    .selectBtn{display: inline-block; margin-right:12px;}
-    .searchBox{display: inline-block;}
+    .selectBtn{float:left; margin-right:12px;}
+    .searchBox{float:right;}
   }
 }

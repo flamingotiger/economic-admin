@@ -124,3 +124,46 @@
     }
   }
 }
+
+.successEdit{
+  visibility: hidden;
+  opacity: 0;
+  color:#ffffff;
+  z-index:4;
+  position:absolute;
+  margin-top: -50px;
+  top: 50%;
+  left:50%;
+  margin-left:-150px;
+  width:300px;
+  height:100px;
+  text-align: center;
+  font:14px/100px "IBM Plex Sans","sans-serif";
+  background: #000000;
+  transition:all .4s ease;
+  -o-transition:all .4s ease;
+  -ms-transition:all .4s ease;
+  -webkit-transition:all .4s ease;
+  -moz-transition:all .4s ease;
+  &.on{
+    visibility: visible;
+    opacity: .8;
+    color:#ffffff;
+    z-index:4;
+    position:absolute;
+    margin-top: -50px;
+    top: 50%;
+    left:50%;
+    margin-left:-150px;
+    width:300px;
+    height:100px;
+    text-align: center;
+    font:14px/100px "IBM Plex Sans","sans-serif";
+    background: #000000;
+    transition:all .4s ease;
+    -o-transition:all .4s ease;
+    -ms-transition:all .4s ease;
+    -webkit-transition:all .4s ease;
+    -moz-transition:all .4s ease;
+  }
+}

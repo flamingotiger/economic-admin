@@ -1,7 +1,7 @@
 import React,{Component} from 'react';
 import styles from './OpenPanel.scss';
 import classNames from 'classnames/bind';
-import axios from 'axios';
+import { UserApi, ImageApi } from '../../../api';
 
 const cx = classNames.bind(styles);
 
@@ -9,80 +9,108 @@ class OpenPanel extends Component{
   constructor(props){
     super(props);
     this.state={
-      openPanel:this.props.openPanel,
-      img:'',
-      email:'',
-      password:'',
-      name:'',
-      firstname:'',
-      memo:'',
+      email:"",
+      password:"",
+      lastName:"",
+      firstName:"",
+      image:undefined,
+      memo:"",
+      imagePreviewUrl:"",
+      popup:false,
+      popuptext:''
     }
-    this.addEmail = this.addEmail.bind(this);
-    this.addPassword = this.addPassword.bind(this);
-    this.addProfileName = this.addProfileName.bind(this);
-    this.addProfileFirstName = this.addProfileFirstName.bind(this);
-    this.addProfileMemo = this.addProfileMemo.bind(this);
-    this.handleSubmit =this.handleSubmit.bind(this);
+
   }
-  addEmail(e){this.setState({email:e.target.value})}
-  addPassword(e){this.setState({password:e.target.value})}
-  addProfileName(e){this.setState({name:e.target.value})}
-  addProfileFirstName(e){this.setState({firstname:e.target.value})}
-  addProfileMemo(e){this.setState({memo:e.target.value})}
-  handleSubmit(e){
+
+  btnClick = () => {
+    this.setState({ popup: !this.state.popup })
+    setTimeout(()=>{
+      this.setState({ popup: !this.state.popup })
+    },1500)
+  }
+
+  handleSubmit = (e) => {
     e.preventDefault();
-    console.log('api POST사용');
-    const { img, email, password, name, firstname, memo } = this.state;
-    //api POST
-    axios.post('https://jsonplaceholder.typicode.com/posts',{
-      email:email,
-      password:password,
-      img:img,
-      name:name,
-      firstname:firstname,
-      memo:memo
-    }).then(res => console.log(res));
-    //초기화
+    const { email, password, firstName, lastName, image, memo } = this.state;
+    if(!email){
+      this.setState({popuptext: 'email을 등록해주세요'})
+      return false;
+    }else if(!password){
+      this.setState({popuptext: 'password를 입력해주세요'})
+      return false;
+    }else if(!firstName){
+      this.setState({popuptext: 'firstName을 입력해주세요'})
+      return false;
+    }else if(!lastName){
+      this.setState({popuptext: 'lastName을 입력해주세요'})
+      return false;
+    }else if(!image){
+      this.setState({popuptext: 'image를 입력해주세요'})
+      return false;
+    }else{
+      this.setState({popuptext: '입력이 완료되었습니다.'})
+    }
+    const body = {
+      "email":email,
+      "password":password,
+      "firstName":firstName,
+      "lastName":lastName,
+      "image":image,
+      "memo":memo,
+      "magazineManager":false,
+      "newsManager":true,
+      "startUpManager":false,
+      "discussionManager":false,
+      "dataManager":false,
+      "admin":false
+    }
+    UserApi.addUser(body)
     this.setState({
-      email:'',
-      password:'',
-      img:'',
-      name:'',
-      firstname:'',
-      memo:''
+      email:"",
+      password:"",
+      image:"",
+      lastName:"",
+      firstname:"",
+      memo:"",
     })
-    this.setState({openPanel:false});
+    this.props.profilePanel(false)
   }
-  //ImgEdit
-  handleImageChange(e) {
+
+  handleImageChange = async (e) => {
     e.preventDefault();
     let reader = new FileReader();
     let file = e.target.files[0];
+    await this.setState({ file:file })
     reader.onloadend = () => {
-      this.setState({img: reader.result});
+       this.setState({ imagePreviewUrl: reader.result });
     }
     reader.readAsDataURL(file)
+    const formData = new FormData();
+    await formData.append("image" , this.state.file);
+    await ImageApi.addImage(formData).then(res => this.setState({ image: res.data.image._id }))
   }
+
   render(){
-    const { openPanel, profilePanel } = this.props;
-    const { img, email, password, name, firstname, memo } = this.state;
+    const { openPanel } = this.props;
+    const { image, email, password, lastName, firstName, memo, imagePreviewUrl } = this.state;
     return (
       <div className={openPanel ? cx('addPanel','open') : cx('addPanel')}>
         <form onSubmit={e => this.handleSubmit(e) }>
           <div className={cx('profileTitle')}>PROFILE</div>
           <div className={cx('profileLeft')}>
             <input type="file" accept='image/*' onChange={(e) => this.handleImageChange(e)}/>
-            <img className={cx('img')} src={img} alt=""/>
+            <img className={cx('img')} src={imagePreviewUrl} alt=""/>
           </div>
           <div className={cx('profileRight')}>
             <div className={cx('rightText')}>
-              <div className={cx('rightInput','first')}><input type="email" name="email" placeholder="EMAIL" value={email} onChange={this.addEmail}/></div>
-              <div className={cx('rightInput')}><input type="text" name="pw" placeholder="PASSWORD" value={password} onChange={this.addPassword}/></div>
-              <div className={cx('rightInput','first')}><input type="text" name="name" placeholder="NOM" value={name} onChange={this.addProfileName}/></div>
-              <div className={cx('rightInput')}><input type="text" name="firstname" placeholder="PRENOM" value={firstname} onChange={this.addProfileFirstName}/></div>
+              <div className={cx('rightInput','first')}><input type="email" name="email" placeholder="EMAIL" value={email} onChange={(e) => this.setState({ email:e.target.value })}/></div>
+              <div className={cx('rightInput')}><input type="text" name="pw" placeholder="PASSWORD" value={password} onChange={(e) => this.setState({ password:e.target.value })}/></div>
+              <div className={cx('rightInput','first')}><input type="text" name="name" placeholder="NOM" value={lastName} onChange={(e) => this.setState({ lastName:e.target.value })}/></div>
+              <div className={cx('rightInput')}><input type="text" name="firstname" placeholder="PRENOM" value={firstName} onChange={(e) => this.setState({ firstName:e.target.value })}/></div>
             </div>
-            <div className={cx('textArea')}><textarea placeholder="MEMO" name="memo" value={memo} onChange={this.addProfileMemo}></textarea></div>
-            <button type="submit" onClick={() => profilePanel(false)}>ADD</button>
+            <div className={cx('textArea')}><textarea placeholder="MEMO" name="memo" value={memo} onChange={(e) => this.setState({memo:e.target.value})}></textarea></div>
+            <button type="submit" onClick={this.btnClick}>ADD</button>
+            <div className={this.state.popup? cx('successEdit','on') : cx('successEdit')}>{this.state.popuptext}</div>
           </div>
         </form>
       </div>

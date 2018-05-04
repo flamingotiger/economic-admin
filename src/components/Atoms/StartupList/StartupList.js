@@ -17,13 +17,19 @@ class StartupList extends Component{
    render(){
    const { check } = this.state;
    const { idx, openmenu, menu, img, cate, date,
-        ftitle, publish, reporter, magazine } = this.props;
+        ftitle, publish, reporter, magazine, selectItem } = this.props;
+        console.log(selectItem)
     if(magazine){
       return (
-        <div className={cx('startupList')} id={idx}>
+        <div className={cx('startupList')}>
           <div className={cx('listCheck')}>
-            <label htmlFor={`startupListCheck${idx}`}>
-              <input type="radio" name="listradio" id={`startupListCheck${idx}`} />
+            <label htmlFor={`startupListCheck${idx}`} data-item={idx}>
+              <input
+                type="radio"
+                name={`startupItem${selectItem}`}
+                id={`startupListCheck${idx}`}
+                onChange={(e) => this.props.getIdx(e)}
+                />
               <span></span>
             </label>
           </div>

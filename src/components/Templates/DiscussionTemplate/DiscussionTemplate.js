@@ -3,6 +3,7 @@ import styles from './DiscussionTemplate.scss';
 import classNames from 'classnames/bind';
 import { putApi, postApi } from '../../../api';
 import update from 'immutability-helper';
+import Cookies from 'js-cookie';
 
 const cx = classNames.bind(styles);
 
@@ -24,29 +25,34 @@ class DiscussionTemplate extends Component{
       file1:undefined,
       file2:undefined,
       imagePreviewUrl1:this.props.discussion? this.props.discussion.img : undefined,
-      imagePreviewUrl2:this.props.discussion? this.props.discussion.img1 : undefined
+      imagePreviewUrl2:this.props.discussion? this.props.discussion.img1 : undefined,
+
+      textImg:[],
+      textImgPrev:[],
     }
-    this.fontSizeUp= this.fontSizeUp.bind(this);
-    this.fontSizeDown= this.fontSizeDown.bind(this);
-    this.fontBold= this.fontBold.bind(this);
+
   }
-  fontSizeUp(){
+
+  fontSizeUp = () => {
     if(this.state.fontsize < 24){
       this.setState((prevState) => ({fontsize: prevState.fontsize + 6, lineheight: prevState.lineheight + 6}));
     }
   }
-  fontSizeDown(){
+
+  fontSizeDown = () => {
     if(this.state.fontsize > 12){
       this.setState((prevState) => ({fontsize: prevState.fontsize - 6, lineheight: prevState.lineheight - 6}));
     }
   }
-  fontBold(){
+
+  fontBold = () => {
     if(this.state.fontweight === "normal"){
       this.setState({ fontweight:"bold" })
     }else{
       this.setState({ fontweight:"normal" })
     }
   }
+
   discussionTitle = (e) => {
     if(this.state.select){
       if(this.state.addEnglish){
@@ -62,6 +68,7 @@ class DiscussionTemplate extends Component{
       }
     }
   }
+
   discussionText = (e) => {
     if(this.state.select){
       if(this.state.addEnglish){
@@ -77,6 +84,7 @@ class DiscussionTemplate extends Component{
       }
     }
   }
+
   discussionSource = (e) => {
     if(this.state.select){
       if(this.state.addEnglish){
@@ -92,6 +100,7 @@ class DiscussionTemplate extends Component{
       }
     }
   }
+
   selectBox = (e) => {
     if(e.target.value === "CONTRE"){
       this.setState({select : true})
@@ -99,8 +108,16 @@ class DiscussionTemplate extends Component{
       this.setState({select : false})
     }
   }
-  //AddEnglish
-  addEnglish = () => { this.setState({ addEnglish: !this.state.addEnglish})}
+
+  addEnglish = () => {
+    if(Cookies.get('lang') === 'fr'){
+      Cookies.set('lang','en')
+    }else{
+      Cookies.set('lang','fr')
+    }
+    this.setState({ addEnglish: !this.state.addEnglish})
+  }
+
   handleImageChange(e) {
     e.preventDefault();
     let reader = new FileReader();
@@ -189,16 +206,34 @@ getdiscussion = () => {
     loading:true
   })
 }
+//여기부분부터는
+//텍스트 에디터로 이미업로드까지 같이 설정되어있다.
+handleChange = (e) => {
+  this.setState({ textarea: e.target.innerText })
+}
+imgupload = (e) => {
+  let reader = new FileReader();
+  let file = e.target.files[0];
+  this.setState({ textImg: this.state.textImg.concat(file) })
+  reader.onloadend = () => {
+     this.setState({ textImgPrev: this.state.textImgPrev.concat(reader.result) });
+  }
+  reader.readAsDataURL(file)
+}
+
   render(){
-    const {loading} = this.state
+    const {loading, fontsize, fontweight, lineheight} = this.state
     if(!loading){
       return null
     }
     const textFontSize = {
-      fontSize: this.state.fontsize,
-      fontWeight: this.state.fontweight,
-      lineHeight: this.state.lineheight + 'px'
+      fontSize: fontsize,
+      fontWeight: fontweight,
+      lineHeight: lineheight + 'px'
     }
+    const img =  this.state.textImgPrev.map((content, i) =>
+          <img key={i} src={this.state.textImgPrev ? content : ""} alt=""/>
+        )
     const templateForm = (f_title, f_text, f_source, e_title, e_text, e_source) => (
       <div className={cx('templateWrapper')}>
         <div className={cx('inputText')}>
@@ -210,16 +245,19 @@ getdiscussion = () => {
             />
         </div>
         <div className={cx('textArea')}>
-          <textarea
-            placeholder="TEXT"
+          <div
+            className={cx('text')}
+            contentEditable='PLAINTEXT-ONLY'
+            suppressContentEditableWarning={true}
+            onInput={(e) => this.handleChange(e)}
             style={textFontSize}
-            onChange={(e) => this.discussionText(e)}
-            value={this.state.addEnglish ? f_text : e_text}
-            >
-          </textarea>
+          >
+            {this.state.addEnglish ? f_text : e_text}
+            {this.state.textImgPrev ? img : null}
+          </div>
           <div className={cx('textUtil')}>
             <div className={cx('utilImg')}>
-              <input type="file"/><span>IMAGE</span>
+              <input type="file" accept='image/*' onChange={(e) => this.imgupload(e)}/><span>IMAGE</span>
             </div>
             <div onClick={this.fontSizeUp}>A+</div>
             <div onClick={this.fontSizeDown}>A-</div>

@@ -21,8 +21,13 @@ class DataList extends Component{
       return (
         <div className={cx('newsList')} id={idx}>
           <div className={cx('listCheck')}>
-            <label htmlFor={`newsListCheck${idx}`}>
-              <input type="radio" name="listradio" id={`newsListCheck${idx}`} />
+            <label htmlFor={`dataListCheck${idx}`} data-item={idx}>
+              <input
+                type="radio"
+                name="dataItem"
+                id={`dataListCheck${idx}`}
+                onChange={(e) => this.props.getIdx(e)}
+                />
               <span></span>
             </label>
           </div>
@@ -42,11 +47,11 @@ class DataList extends Component{
       return (
         <div className={cx('newsList')}>
           <div className={cx('listCheck')}>
-            <label htmlFor={`newsListCheck${idx}`} data-item={idx}>
+            <label htmlFor={`dataListCheck${idx}`} data-item={idx}>
               <input
                 type="checkbox"
                 name="datacheck"
-                id={`newsListCheck${idx}`}
+                id={`dataListCheck${idx}`}
                 checked={ this.props.checkAll ? this.props.checkAll : check }
                 onChange={(e) => this.handleCheck(e)}
                 />
