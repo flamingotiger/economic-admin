@@ -3,6 +3,7 @@ import styles from './AdminList.scss';
 import classNames from 'classnames/bind';
 import { Link } from 'react-router-dom';
 import moment from 'moment';
+import { ImageApi, UserApi, SectorApi } from '../../../api';
 
 const cx = classNames.bind(styles);
 class AdminList extends Component{
@@ -10,7 +11,9 @@ class AdminList extends Component{
     super(props);
     this.state={
       check:false,
-      publishDate:""
+      publishDate:"",
+      image:"",
+      sector:""
     }
   }
 
@@ -20,50 +23,54 @@ class AdminList extends Component{
 
   componentDidMount(){
     let day = moment(this.props.date, "YYYY-MM-DD").fromNow();
-    let publish = day.replace(" year", "년").replace(" months", "개월").replace(" day", "일").replace(" ago", "전");
-    let number = publish.replace(/\d+(?= 일)/,"");
+    let publish = day.replace(" year", "년").replace(" months", "개월").replace(" days", "일").replace(" ago", "").replace("in ", "");
+    let number = publish.replace(/\d+[개]+[월]/g,"").replace(/\d+[년]/g,"");
+    let days = number.replace(/[일]/g,"")
     //기준이 되는 날짜
-    if(number <= 7){
-      this.setState({ publishDate: publish })
+    if(days <= 27 && days > 0 ){
+      days += "일전"
+      this.setState({ publishDate: days })
     }
+    ImageApi.viewThumbnailImage(this.props.image, 256).then(res => this.setState({ image: res.config.url }))
+    UserApi.getUser(this.props.reporter).then(res => this.setState({firstName: res.data.user.firstName, lastName:res.data.user.lastName}))
+    SectorApi.getSector(this.props.sector).then(res => this.setState({sector: res.data.sector.name}))
   }
 
   render(){
-    const { check, publishDate } = this.state;
-    const { idx, openmenu, menu, img, cate, date,
-       ftitle, publish, reporter, magazine, selectItem } = this.props;
+    const { check, publishDate, image, firstName, lastName, sector } = this.state;
+    const { id, openmenu, date, title, magazine, selectItem } = this.props;
     if(magazine){
       return (
         <div className={cx('newsList')} >
           <div className={cx('listCheck')}>
-            <label htmlFor={`newsListCheck${idx}`} data-item={idx}>
+            <label htmlFor={`newsListCheck${id}`} data-item={id}>
               <input
                 type="radio"
                 name={`newsItem${selectItem}`}
-                id={`newsListCheck${idx}`}
+                id={`newsListCheck${id}`}
                 onChange={(e) => this.props.getIdx(e)}
               />
               <span></span>
             </label>
           </div>
           <div className={cx('listImg')}>
-            <img src={img} alt="img"/>
+            <img src={image} alt=""/>
           </div>
           <div className={cx('listText')}>
             <dl>
               <dt>
                 <span className={cx('listTitle')}>
-                  {cate}
+                  {sector}
                 </span>
                 <span>
                   {date}
                 </span>
               </dt>
-              <dd>{ftitle}</dd>
+              <dd>{title}</dd>
             </dl>
             <div className={cx('listReport')}>
               <span className={cx('first')}>{publishDate}</span>
-              <span className={cx('last')}>{reporter}</span>
+              <span className={cx('last')}>{firstName} {lastName}</span>
             </div>
           </div>
         </div>
@@ -72,36 +79,36 @@ class AdminList extends Component{
       return (
         <div className={cx('newsList')}>
           <div className={cx('listCheck')}>
-            <label htmlFor={`newsListCheck${idx}`} data-item={idx}>
+            <label htmlFor={`newsListCheck${id}`} data-item={id}>
               <input
                 type="checkbox"
                 name="newscheck"
-                id={`newsListCheck${idx}`}
+                id={`newsListCheck${id}`}
                 checked={ this.props.checkAll ? this.props.checkAll : check }
                 onChange={(e) => this.handleCheck(e)}
               />
               <span onClick={openmenu}></span>
             </label>
           </div>
-          <Link to={`/admin/add=${menu}/${idx}`}>
+          <Link to={`/admin/add=news/${id}`}>
             <div className={cx('listImg')}>
-              <img src={img} alt="img"/>
+              <img src={image} alt=""/>
             </div>
             <div className={cx('listText')}>
               <dl>
                 <dt>
                   <span className={cx('listTitle')}>
-                    {cate}
+                    {sector}
                   </span>
                   <span>
                     {date}
                   </span>
                 </dt>
-                <dd>{ftitle}</dd>
+                <dd>{title}</dd>
               </dl>
               <div className={cx('listReport')}>
                 <span className={cx('first')}>{publishDate}</span>
-                <span className={cx('last')}>{reporter}</span>
+                <span className={cx('last')}>{firstName} {lastName}</span>
               </div>
             </div>
           </Link>
@@ -109,14 +116,6 @@ class AdminList extends Component{
       );
     }
   }
-}
-AdminList.defaultProps={
-  img:"undefined",
-  cate:"undefined",
-  date:"undefined",
-  ftitle:"undefined",
-  publish:"undefined",
-  reporter:"undefined"
 }
 
 export default AdminList;
