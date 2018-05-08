@@ -150,9 +150,9 @@
       "publish2":"MODIFIÉ  3j",
       "reporter2":"Redigé par KIM",
       "source1":"test texttexttexttexttexttexttext",
-      "text1":"test texttexttexttexttexttexttext",
+      "content1":"test texttexttexttexttexttexttext",
       "source2":"test texttexttexttexttexttexttex22222t",
-      "text2":"test texttexttexttexttexttexttext"
+      "content2":"test texttexttexttexttexttexttext"
     },
     {
       "idx":1,
@@ -170,9 +170,9 @@
       "publish2":"MODIFIÉ  3j",
       "reporter2":"Redigé par KIM",
       "source1":"test texttexttexttexttexttexttext",
-      "text1":"test texttexttexttexttexttexttext",
+      "content1":"test texttexttexttexttexttexttext",
       "source2":"test texttexttexttexttexttexttex22222t",
-      "text2":"test texttexttexttexttexttexttext"
+      "content2":"test texttexttexttexttexttexttext"
     },
     {
       "idx":2,
@@ -190,9 +190,9 @@
       "publish2":"MODIFIÉ  3j",
       "reporter2":"Redigé par KIM",
       "source1":"test texttexttexttexttexttexttext",
-      "text1":"test texttexttexttexttexttexttext",
+      "content1":"test texttexttexttexttexttexttext",
       "source2":"test texttexttexttexttexttexttex22222t",
-      "text2":"test texttexttexttexttexttexttext"  
+      "content2":"test texttexttexttexttexttexttext"  
     },
     {
       "idx":3,
@@ -210,9 +210,9 @@
       "publish2":"MODIFIÉ  3j",
       "reporter2":"Redigé par KIM",
       "source1":"test texttexttexttexttexttexttext",
-      "text1":"test texttexttexttexttexttexttext",
+      "content1":"test texttexttexttexttexttexttext",
       "source2":"test texttexttexttexttexttexttex22222t",
-      "text2":"test texttexttexttexttexttexttext"
+      "content2":"test texttexttexttexttexttexttext"
     }
   ],
    "startup":[
