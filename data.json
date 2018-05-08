@@ -149,18 +149,10 @@
       "reporter1":"Redigé par KIM",
       "publish2":"MODIFIÉ  3j",
       "reporter2":"Redigé par KIM",
-      "f_source1":"test texttexttexttexttexttexttext",
-      "f_title1":"PSA forcé d'importer de plus en plus de moteurs made in China",  
-      "f_text1":"test texttexttexttexttexttexttext",
-      "e_source1":"test texttexttexttexttexttextte11xt",
-      "e_title1":"PSA forcé d'importer de plus en plus11 de moteurs made in China",  
-      "e_text1":"test texttexttexttexttexttexttex11111t",
-      "f_source2":"test texttexttexttexttexttexttex22222t",
-      "f_title2":"PSA forcé d'importer de plus en plus de moteurs made in China2222",  
-      "f_text2":"test texttexttexttexttexttexttext",
-      "e_source2":"test texttexttexttexttexttexttext",
-      "e_title2":"PSA forcé d'importer de plus en plus de moteurs made in Chin2a22222",  
-      "e_text2":"test texttexttexttexttexttexttex2t"  
+      "source1":"test texttexttexttexttexttexttext",
+      "text1":"test texttexttexttexttexttexttext",
+      "source2":"test texttexttexttexttexttexttex22222t",
+      "text2":"test texttexttexttexttexttexttext"
     },
     {
       "idx":1,
@@ -177,18 +169,10 @@
       "reporter1":"Redigé par KIM",
       "publish2":"MODIFIÉ  3j",
       "reporter2":"Redigé par KIM",
-      "f_source":"test texttexttexttexttexttexttext",
-      "f_title1":"PSA forcé d'importer de plus en plus de moteurs made in China",  
-      "f_text1":"test texttexttexttexttexttexttext",
-      "e_source":"test texttexttexttexttexttexttext",
-      "e_title1":"PSA forcé d'importer de plus en plus de moteurs made in China",  
-      "e_text1":"test texttexttexttexttexttexttext",
-      "f_source2":"test texttexttexttexttexttexttex22222t",
-      "f_title2":"PSA forcé d'importer de plus en plus de moteurs made in China2222",  
-      "f_text2":"test texttexttexttexttexttexttext",
-      "e_source2":"test texttexttexttexttexttexttext",
-      "e_title2":"PSA forcé d'importer de plus en plus de moteurs made in Chin2a22222",  
-      "e_text2":"test texttexttexttexttexttexttex2t"    
+      "source1":"test texttexttexttexttexttexttext",
+      "text1":"test texttexttexttexttexttexttext",
+      "source2":"test texttexttexttexttexttexttex22222t",
+      "text2":"test texttexttexttexttexttexttext"
     },
     {
       "idx":2,
@@ -205,18 +189,10 @@
       "reporter1":"Redigé par KIM",
       "publish2":"MODIFIÉ  3j",
       "reporter2":"Redigé par KIM",
-      "f_source":"test texttexttexttexttexttexttext",
-      "f_title1":"PSA forcé d'importer de plus en plus de moteurs made in China",  
-      "f_text1":"test texttexttexttexttexttexttext",
-      "e_source":"test texttexttexttexttexttexttext",
-      "e_title1":"PSA forcé d'importer de plus en plus de moteurs made in China",  
-      "e_text1":"test texttexttexttexttexttexttext",
-      "f_source2":"test texttexttexttexttexttexttex22222t",
-      "f_title2":"PSA forcé d'importer de plus en plus de moteurs made in China2222",  
-      "f_text2":"test texttexttexttexttexttexttext",
-      "e_source2":"test texttexttexttexttexttexttext",
-      "e_title2":"PSA forcé d'importer de plus en plus de moteurs made in Chin2a22222",  
-      "e_text2":"test texttexttexttexttexttexttex2t"    
+      "source1":"test texttexttexttexttexttexttext",
+      "text1":"test texttexttexttexttexttexttext",
+      "source2":"test texttexttexttexttexttexttex22222t",
+      "text2":"test texttexttexttexttexttexttext"  
     },
     {
       "idx":3,
@@ -233,12 +209,10 @@
       "reporter1":"Redigé par KIM",
       "publish2":"MODIFIÉ  3j",
       "reporter2":"Redigé par KIM",
-      "f_source":"test texttexttexttexttexttexttext",
-      "f_title1":"PSA forcé d'importer de plus en plus de moteurs made in China",  
-      "f_text1":"test texttexttexttexttexttexttext",
-      "e_source":"test texttexttexttexttexttexttext",
-      "e_title1":"PSA forcé d'importer de plus en plus de moteurs made in China",  
-      "e_text1":"test texttexttexttexttexttexttext"
+      "source1":"test texttexttexttexttexttexttext",
+      "text1":"test texttexttexttexttexttexttext",
+      "source2":"test texttexttexttexttexttexttex22222t",
+      "text2":"test texttexttexttexttexttexttext"
     }
   ],
    "startup":[
