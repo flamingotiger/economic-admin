@@ -1,5 +1,5 @@
 import axios from 'axios';
-
+//임시 테스트 데이터
 const getApi = () => {
   return axios.get('https://honghakbum.github.io/economic-admin/data.json');
 }
@@ -14,128 +14,107 @@ const deleteApi = ( id ) =>{
 }
 
 const endpoint = "http://35.189.137.54:8300"
-const GET = (url, token, id) => {
-  if(id){
-    return axios.get(endpoint + url + id, {
-      headers:{ Cookie:'token=' + token },
-      withCredentials: true
-    })
-  }else{
-    return axios.get(endpoint + url, {
-      headers:{ Cookie:'token=' + token },
-      withCredentials: true
-    })
+const config = { withCredentials: true }
+const GET = (url, mapped ) => {
+  if(mapped === undefined)
+    return axios.get(endpoint + url , config)
+  else{
+    return axios.get(endpoint + url + mapped, config)
   }
 }
-const POST = (url, token, body) => {
-  return axios.post(endpoint + url, body, {
-    headers:{ Cookie:'token=' + token },
-    withCredentials: true
-  })
+const POST = (url, body) => {
+  return axios.post(endpoint + url, body, config)
 }
-const DELETE = (url, token, id) => {
+const DELETE = (url, id) => {
   if(id){
-    return axios.delete(endpoint + url + id, {
-      headers:{ Cookie:'token=' + token },
-      withCredentials: true
-    })
+    return axios.delete(endpoint + url + id, config)
   }else{
-    return axios.delete(endpoint + url, {
-      headers:{ Cookie:'token=' + token },
-      withCredentials: true
-    })
+    return axios.delete(endpoint + url, config)
   }
 }
-const PUT = (url, id, token, body) => {
+const PUT = (url, id, body) => {
   if(id){
-    return axios.put(endpoint + url + id, body, {
-      headers:{ Cookie:'token=' + token },
-      withCredentials: true
-    })
+    return axios.put(endpoint + url + id, body, config)
   }else{
-    return axios.put(endpoint + url, body, {
-      headers:{ Cookie:'token=' + token },
-      withCredentials: true
-    })
+    return axios.put(endpoint + url, body, config)
   }
 }
 const AuthApi = {
-  createAuth: (body) => axios.post(endpoint + '/api/auth/', body, {withCredentials: true}),
-  destroyAuth: (token) => DELETE('/api/auth/', token),
+  createAuth: (body) => POST('/api/auth/', body),
+  destroyAuth: () => DELETE('/api/auth/'),
 };
 const ChapterApi = {
-  addChapter: (token, body) => POST('/api/chapter/', token, body),
-  deleteChapter: (token, id) => DELETE('/api/chapter/', token, id),
-  getChapter: (token, id) => GET('/api/chapter/', token, id),
-  listChapters: (token) => GET('/api/chapter/', token),
-  updateChapter: (token, id, body) => PUT('/api/chapter/', token, id, body)
+  addChapter: (body) => POST('/api/chapter/', body),
+  deleteChapter: (id) => DELETE('/api/chapter/', id),
+  getChapter: (id) => GET('/api/chapter/', id),
+  listChapters: (params) => GET('/api/chapter/', params),
+  updateChapter: (id, body) => PUT('/api/chapter/', id, body)
 }
 const DataApi = {
-  addData: (token, body) => POST('/api/data/', token, body),
-  deleteData: (token, id) => DELETE('/api/data/', token, id),
-  getData: (token, id) => GET('/api/data/', token, id),
-  listData: (token) => GET('/api/data/', token),
-  updateData: (token, id, body) => PUT('/api/data/', token, id, body)
+  addData: (body) => POST('/api/data/', body),
+  deleteData: (id) => DELETE('/api/data/', id),
+  getData: (id) => GET('/api/data/', id),
+  listData: (params) => GET('/api/data/', params),
+  updateData: (id, body) => PUT('/api/data/', id, body)
 }
 const DiscussionApi = {
-  addDiscussion: (token, body) => POST('/api/discussion/', token, body),
-  deleteDiscussion: (token, id) => DELETE('/api/discussion/', token, id),
-  getDiscussion: (token, id) => GET('/api/discussion/', token, id),
-  listDiscussion: (token) => GET('/api/discussion/', token),
-  updateDiscussion: (token, id, body) => PUT('/api/discussion/', token, id , body)
+  addDiscussion: (body) => POST('/api/discussion/', body),
+  deleteDiscussion: (id) => DELETE('/api/discussion/', id),
+  getDiscussion: (id) => GET('/api/discussion/', id),
+  listDiscussion: (params) => GET('/api/discussion/', params),
+  updateDiscussion: (id, body) => PUT('/api/discussion/',id , body)
 }
 const FileApi = {
-  addFile: (token, body) => POST('/api/file/', token, body),
-  deleteFile: (token, id) => DELETE('/api/file/', token, id),
-  getFile: (token, id) => GET('/api/file/', token, id),
+  addFile:  (body) => POST('/api/file/', body),
+  deleteFile: (id) => DELETE('/api/file/', id),
+  getFile: (id) => GET('/api/file/', id),
 }
 const ImageApi = {
-  addImage: (token, body) => POST('/api/image/', token, body),
-  deleteImage: (token, id) => DELETE('/api/image/', token, id),
-  viewOriginalImage: (token, id) => axios.get(endpoint + '/api/image/'+ id + '/original', {
-    headers:{ Cookie:'token=' + token },
-    withCredentials: true }),
-  viewThumbnailImage: (token, id, size) => axios.get(endpoint + '/api/image/'+ id + '/thumbnail/' + size, {
-    headers:{ Cookie:'token=' + token },
-    withCredentials: true })
+  addImage: (body) => axios.post(endpoint + '/api/image/', body, {
+    headers: { 'Content-type': 'multipart/form-data'} , withCredentials: true
+  }),
+  deleteImage: (id) => DELETE('/api/image/', id),
+  viewOriginalImage: (id) => axios.get(endpoint + '/api/image/'+ id + '/original',
+    config),
+  viewThumbnailImage: (id, size) => axios.get(endpoint + '/api/image/'+ id + '/thumbnail/' + size,
+    config)
 }
 const MagazineApi = {
-  addMagazine : (token, body) => POST('/api/magazine/', token, body),
-  deleteMagazine : (token, id) => DELETE('/api/magazine/', token, id),
-  getMagazine : (token, id) => GET('/api/magazine/', token, id),
-  listMagazines : (token) => GET('/api/magazine/', token),
-  updateMagazine : (token, id, body) => PUT('/api/magazine/', token, id, body)
+  addMagazine : (body) => POST('/api/magazine/', body),
+  deleteMagazine : (id) => DELETE('/api/magazine/', id),
+  getMagazine : (id) => GET('/api/magazine/', id),
+  listMagazines : (params) => GET('/api/magazine/', params),
+  updateMagazine : (id, body) => PUT('/api/magazine/', id, body)
 }
 
 const NewsApi = {
-  addNews : (token, body) => POST('/api/news/', token, body),
-  deleteNews : (token, id) => DELETE('/api/news/', token, id),
-  getNews : (token, id) => GET('/api/news/', token, id),
-  listNews : (token) => GET('/api/news/', token),
-  updateNews : (token, id, body) => PUT('/api/news/', token, id, body)
+  addNews : (body) => POST('/api/news/', body),
+  deleteNews : (id) => DELETE('/api/news/', id),
+  getNews : (id) => GET('/api/news/', id),
+  listNews : (params) => GET('/api/news/', params),
+  updateNews : (id, body) => PUT('/api/news/', id, body)
 }
 const SectorApi = {
-  addSector : (token, body) => POST('/api/sector/', token, body),
-  deleteSector : (token, id) => DELETE('/api/sector/', token, id),
-  getSector : (token, id) => GET('/api/sector/', token, id),
-  listSector : (token) => GET('/api/sector/', token),
-  updateSector : (token, id, body) => PUT('/api/sector/', token, id, body)
+  addSector : (body) => POST('/api/sector/', body),
+  deleteSector : (id) => DELETE('/api/sector/', id),
+  getSector : (id) => GET('/api/sector/',id),
+  listSector : (params) => GET('/api/sector/', params),
+  updateSector : (id, body) => PUT('/api/sector/', id, body)
 }
 const StartupApi = {
-  addStartup : (token, body) => POST('/api/startup/', token, body),
-  deleteStartup : (token, id) => DELETE('/api/startup/', token, id),
-  getStartup : (token, id) => GET('/api/startup/', token, id),
-  listStartup : (token) => GET('/api/startup/', token),
-  updateStartup : (token, id, body) => PUT('/api/startup/', token, id, body)
+  addStartup : (body) => POST('/api/startup/', body),
+  deleteStartup : (id) => DELETE('/api/startup/', id),
+  getStartup : (id) => GET('/api/startup/', id),
+  listStartup : (params) => GET('/api/startup/', params),
+  updateStartup : (id, body) => PUT('/api/startup/', id, body)
 }
 const UserApi = {
-  addUser : (token, body) => POST('/api/user/', token, body),
-  deleteUser : (token, id) => DELETE('/api/user/', token, id),
-  getUser: (token, id) => GET('/api/user/', token, id),
-  listUser : (token) => GET('/api/user/', token),
-  updateUser : (token, id, body) => PUT('/api/user/', token, id, body)
+  addUser : (body) => POST('/api/user/', body),
+  deleteUser : (id) => DELETE('/api/user/', id),
+  getUser: (id) => GET('/api/user/', id),
+  listUser : (params) => GET('/api/user/', params),
+  updateUser : (id, body) => PUT('/api/user/', id, body),
 }
-
 
 
 export {
