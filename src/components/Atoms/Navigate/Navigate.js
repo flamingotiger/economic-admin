@@ -15,15 +15,7 @@ class Navigate extends Component{
     AuthApi.destroyAuth();
     Cookies.remove('token');
     this.props.onLogout();
-    //window.location.href = '/admin';
   }
-  /*
-  Object(user).magazineManager
-  Object(user).newsManager
-  Object(user).discussionManager
-  Object(user).startupManager
-  Object(user).dataManager
-  */
   render(){
     const { magazine, news, startup, discussion, data } = this.props;
     const { user } = this.props.user;

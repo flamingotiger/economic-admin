@@ -23,11 +23,13 @@ class LoginPage extends Component{
  handleSubmit = async (e) => {
     e.preventDefault();
     const { password, email } = this.state;
-    const body = {"email": email, "password": password}
+    const body = { "email": email, "password": password }
     await AuthApi.createAuth(body)
     .then(res => {
         if(res.statusText === "OK"){
           this.setState({ token: res.data.auth.token });
+          //Cookies.set('token', this.state.token, { domain: "35.189.137.54" });
+          //수동으로 설정하지않으면 브라우저에서 가져오기불가능
           Cookies.set('token', this.state.token);
         }
       }

@@ -19,14 +19,14 @@ class StartUpAdminPage extends Component{
       startup:[],
       checkAll:false
     }
-    this.closeBtnMenu = this.closeBtnMenu.bind(this);
-    this.menuToggle = this.menuToggle.bind(this);
+
   }
-  closeBtnMenu(){ this.setState({ openMenu:false })}
+
+  closeBtnMenu = () => { this.setState({ openMenu:false })}
 
   handleChange = (e) => {this.setState({keyword: e.target.value, checkIdx:[] })}
 
-  menuToggle(){ this.setState({ openMenu:!this.state.openMenu })}
+  menuToggle = () => { this.setState({ openMenu:!this.state.openMenu })}
 
   listCheckAll = (e) => {
     const {startup, checkAll, keyword } = this.state
@@ -152,7 +152,7 @@ class StartUpAdminPage extends Component{
               <div className={cx('searchBox')}><Search handleChange={(e) => this.handleChange(e)}/></div>
             </div>
             <ListUtil menuToggle={this.menuToggle} listCheckAll={this.listCheckAll}/>
-            {mapToComponents(startup)}
+            { mapToComponents(startup) }
             <BtnMenu
               openMenu={openMenu}
               closeBtnMenu={this.closeBtnMenu}

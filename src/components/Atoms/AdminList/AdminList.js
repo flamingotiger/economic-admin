@@ -22,14 +22,20 @@ class AdminList extends Component{
   }
 
   componentDidMount(){
-    let day = moment(this.props.date, "YYYY-MM-DD").fromNow();
-    let publish = day.replace(" year", "년").replace(" months", "개월").replace(" days", "일").replace(" ago", "").replace("in ", "");
+    let update = this.props.updatedAt.substring(0,10);
+    let day = moment(update, "YYYY-MM-DD").fromNow();
+    let publish = day.replace(" year", "년").replace(" months", "개월").replace(" days", "일").replace(' hours',"시간").replace(" ago", "").replace("in ", "");
     let number = publish.replace(/\d+[개]+[월]/g,"").replace(/\d+[년]/g,"");
     let days = number.replace(/[일]/g,"")
+    let hours = number.replace(/[시간]/g,"")
     //기준이 되는 날짜
-    if(days <= 27 && days > 0 ){
+    console.log(number)
+    if(days <= 30 && days > 0 ){
       days += "일전"
       this.setState({ publishDate: days })
+    }else if(hours <= 24 && hours > 0){
+      hours += "시간전"
+      this.setState({ publishDate: hours })
     }
     ImageApi.viewThumbnailImage(this.props.image, 256).then(res => this.setState({ image: res.config.url }))
     UserApi.getUser(this.props.reporter).then(res => this.setState({firstName: res.data.user.firstName, lastName:res.data.user.lastName}))

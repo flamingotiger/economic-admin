@@ -137,9 +137,11 @@ class StartUpTemplate extends Component{
   }
   //AddEnglish
   addEnglish = () => { this.setState({ addEnglish: !this.state.addEnglish})}
+
   startupChange = (e) => {
       this.setState({ [e.target.name]: e.target.value});
     }
+
   render(){
     const textFontSize = {
       fontSize: this.state.fontsize,
@@ -185,7 +187,7 @@ class StartUpTemplate extends Component{
       )
     }
     const chapterForm = (lang) => {
-      const { chapterfilter, selectChapter }= this.state;
+      const { chapterfilter, selectChapter } = this.state;
       const { startup }= this.props;
       if(!startup){
         return chapterfilter.map( ( value , i) => chapterItem(value , i, lang) )

@@ -3,8 +3,7 @@ import styles from './NewsAdminPage.scss';
 import classNames from 'classnames/bind';
 import { AddListBtn, Navigate, Search, AdminList, ListUtil, BtnMenu, SelectBtn} from '../../Atoms';
 import { connect } from 'react-redux';
-import { Redirect, Link } from 'react-router-dom';
-import { getApi, deleteApi } from '../../../api';
+import { Redirect } from 'react-router-dom';
 import { NewsApi } from '../../../api';
 
 const cx = classNames.bind(styles);
@@ -15,76 +14,80 @@ class NewsAdminPage extends Component{
     this.state={
       keyword:'',
       openMenu:false,
-      checkIdx:[],
-      news:[],
+      checkId:[],
       checkAll:false,
 
       newses:[]
     }
 
   }
+
   closeBtnMenu = () => { this.setState({ openMenu:false })}
 
-  handleChange = (e) => {this.setState({keyword: e.target.value, checkIdx:[] })}
+  handleChange = (e) => {this.setState({keyword: e.target.value, checkId:[] })}
 
   menuToggle = () => { this.setState({ openMenu:!this.state.openMenu })}
 
   listCheckAll = (e) => {
-    const {news, checkAll, keyword } = this.state
+    const { newses, checkAll, keyword } = this.state
     this.setState((prevState) => ({checkAll: !prevState.checkAll}))
       if(!checkAll){
-        const srch = news.filter((contact) => {
-          return contact.subTitle.toLowerCase().indexOf(keyword) > -1
+        const srch = newses.filter((contact) => {
+          return contact.title.toLowerCase().indexOf(keyword) > -1
         });
         if(keyword === ""){
-          this.setState({checkIdx:news.map(content => content.idx), openMenu:true})
+          this.setState({checkId:newses.map(content => content._id), openMenu:true})
         }else{
-          this.setState({checkIdx:srch.map(content => content.idx), openMenu:true})
+          this.setState({checkId:srch.map(content => content._id), openMenu:true})
         }
       }else{
-        this.setState({checkIdx:[], openMenu:false })
+        this.setState({checkId:[], openMenu:false })
       }
     }
+
   //버튼 클릭시 check된것가져오고 삭제 메뉴열기
   openMenu = (e) => {
-    const check = Number(e.target.parentNode.getAttribute('data-item'))
+    const check = e.target.parentNode.getAttribute('data-item')
     const checked = e.target.previousSibling.checked
+    const checkId = this.state.checkId.concat(check)
+    const delcheckId = this.state.checkId.filter(value => value !== check)
 
-    const checkIdx = this.state.checkIdx.concat(check)
-    const delCheckIdx = this.state.checkIdx.filter(value => value !== check)
 
     if(!checked){
       this.setState({
         openMenu:true,
-        checkIdx:checkIdx
+        checkId:checkId
       })
     }else{
       this.setState({
         openMenu:false,
-        checkIdx:delCheckIdx
+        checkId:delcheckId
        })
     }
   }
 
   removeBtn = () => {
-    //체크한 리스트 인덱스 값들 ${checkIdx} ex) [0,2,4,5,6,7]
-    const checkIdx = this.state.checkIdx;
-    checkIdx.map((remove) => (
-      deleteApi(remove)
+    //체크한 리스트 인덱스 값들 ${checkId} ex) [0,2,4,5,6,7]
+    const checkId = this.state.checkId;
+    console.log(checkId)
+    /*checkId.map((remove) => (
+      NewsApi.deleteNews(remove).then(res => console.log(res))
     ))
+    */
   }
 
   renderAdminList = () => {
-    const news = this.state.news.map((content,i) => {
+    const news = this.state.newses.map((content,i) => {
       return <AdminList
         key={i}
-        idx={content.idx}
-        img={content.img}
-        cate={content.cate}
+        id={content._id}
+        image={content.images[0]}
+        sector={content.sector}
         publish={content.publish}
         date={content.date}
-        subTitle={content.subTitle}
-        reporter={content.reporter}
+        updatedAt={content.updatedAt}
+        title={content.title}
+        reporter={content.authors[0]}
         openmenu={this.openMenu}
         menu={content.menu}
         checkAll={this.state.checkAll}
@@ -94,12 +97,11 @@ class NewsAdminPage extends Component{
   }
 
   sortDate = (date) => {
-    NewsApi.listNews(`?date=${date}`).then(res => console.log(res)).then(console.log(date))
+    NewsApi.listNews(`?date=${date}`).then(res => this.setState({ newses: res.data.newses }))
   }
 
   componentDidMount(){
-    getApi().then(res => this.setState({news: res.data.news}))
-    NewsApi.listNews().then(res => this.setState({newses: res.data.newses}))
+    NewsApi.listNews(`?sort=-updatedAt`).then(res => this.setState({ newses: res.data.newses }))
   }
 
   render(){
@@ -110,47 +112,39 @@ class NewsAdminPage extends Component{
         <Redirect to="/admin"/>
       );
     }
-
     if(!auth.newsManager){
       return (
         <Redirect to="/admin/notallow"/>
       );
     }
 
-    const mapToComponents = (news) => {
+    const mapToComponents = (newses) => {
       if(this.state.keyword === ''){
         //검색하지 않았을때 전부보이기
         this.renderAdminList()
       }
-       news = news.filter((contact) => {
-         return contact.subTitle.toLowerCase().indexOf(this.state.keyword) > -1
+       newses = newses.filter((contact) => {
+         return contact.title.toLowerCase().indexOf(this.state.keyword) > -1
        });
-       return news.map((content,i) => {
+       return newses.map((content,i) => {
             return <AdminList
               key={i}
-              idx={content.idx}
-              img={content.img}
-              cate={content.cate}
+              id={content._id}
+              image={content.images[0]}
+              sector={content.sector}
               publish={content.publish}
               date={content.date}
-              ftitle={content.f_title}
-              reporter={content.reporter}
+              updatedAt={content.updatedAt}
+              title={content.title}
+              reporter={content.authors[0]}
               openmenu={this.openMenu}
               menu={content.menu}
               checkAll={this.state.checkAll}
               />
         });
     };
-    const { openMenu, news } = this.state;
-    const map = this.state.newses.map((content,i) => {
-      return <div key={i}>
-        <Link to ={`/admin/add=news/${content._id}`}>
-        <div>{content.title}</div>
-        <div>{content.content}</div>
-        <div>{content.date}</div>
-        </Link>
-      </div>
-    })
+
+    const { openMenu, newses } = this.state;
     return (
       <div className={cx('newsAdminPage')}>
         <AddListBtn menu="news"/>
@@ -161,14 +155,13 @@ class NewsAdminPage extends Component{
               <div className={cx('searchBox')}><Search handleChange={(e) => this.handleChange(e)}/></div>
             </div>
             <ListUtil menuToggle={this.menuToggle} listCheckAll={this.listCheckAll}/>
-            {mapToComponents(news)}
+            { mapToComponents(newses) }
             <BtnMenu
               openMenu={openMenu}
               closeBtnMenu={this.closeBtnMenu}
               removeBtn={this.removeBtn}
             />
           </div>
-          {map}
       </div>
     )
   }

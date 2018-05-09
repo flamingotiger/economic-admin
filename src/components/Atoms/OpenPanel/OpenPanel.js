@@ -92,7 +92,7 @@ class OpenPanel extends Component{
 
   render(){
     const { openPanel } = this.props;
-    const { image, email, password, lastName, firstName, memo, imagePreviewUrl } = this.state;
+    const { email, password, lastName, firstName, memo, imagePreviewUrl } = this.state;
     return (
       <div className={openPanel ? cx('addPanel','open') : cx('addPanel')}>
         <form onSubmit={e => this.handleSubmit(e) }>

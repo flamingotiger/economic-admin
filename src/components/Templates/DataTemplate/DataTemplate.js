@@ -22,27 +22,9 @@ class DataTemplate extends Component{
       file:'',
       imagePreviewUrl:""
     }
-    this.fontSizeUp= this.fontSizeUp.bind(this);
-    this.fontSizeDown= this.fontSizeDown.bind(this);
-    this.fontBold= this.fontBold.bind(this);
+
   }
-  fontSizeUp(){
-    if(this.state.fontsize < 30){
-      this.setState((prevState) => ({fontsize: prevState.fontsize + 2, lineheight: prevState.lineheight + 2}));
-    }
-  }
-  fontSizeDown(){
-    if(this.state.fontsize > 10){
-      this.setState((prevState) => ({fontsize: prevState.fontsize - 2, lineheight: prevState.lineheight - 2}));
-    }
-  }
-  fontBold(){
-    if(this.state.fontweight === "normal"){
-      this.setState({ fontweight:"bold" })
-    }else{
-      this.setState({ fontweight:"normal" })
-    }
-  }
+
   //AddEnglish
   addEnglish = () => { this.setState({ addEnglish: !this.state.addEnglish})}
   //Getapi
@@ -111,11 +93,6 @@ class DataTemplate extends Component{
     const {loading} = this.state
     if(!loading){
       return null
-    }
-    const textFontSize = {
-      fontSize: this.state.fontsize,
-      fontWeight: this.state.fontweight,
-      lineHeight: this.state.lineheight + 'px'
     }
     const defaultBackgroundImg = {
       backgroundImage:"url(/assets/icon-excel.svg)",

@@ -94,12 +94,17 @@
       margin-top:11px; width:800px; height:340px; border:1px solid #000000;
       box-sizing: border-box; text-align: center; background:#f7f7f7;
       .text{
+        //사파리 셀렉트 보류
+        /*
+        -webkit-user-select: text;
+        user-select: text;
+        */
         display: block; margin: auto;
         width:768px; height: 282px; padding: 12px;
         text-align: justify; background: none; border: 0 none;
         font:14px/18px "IBM Plex Sans","sans-serif";
         resize:none;
-        overflow-y:scroll;
+        overflow-y:auto;
         img{
           display: block;
           margin:auto;
